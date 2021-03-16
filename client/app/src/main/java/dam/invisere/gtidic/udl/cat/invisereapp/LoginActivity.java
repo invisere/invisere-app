@@ -5,27 +5,31 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
 
+    private Button cancel_login;
     private Button login;
-    private Button register;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setTheme(R.style.Theme_InvisereApp);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        login = findViewById(R.id.Button_to_login_activity);
-        register = findViewById(R.id.Button_to_register_activity);
+        setContentView(R.layout.activity_login);
+        cancel_login = findViewById(R.id.Button_cancel_login);
+        login = findViewById(R.id.Button_login);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+
+        cancel_login.setOnClickListener(v -> {
+            startActivity(intent);
+        });
+
         login.setOnClickListener(v -> {
-            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
             startActivity(intent);
         });
     }
