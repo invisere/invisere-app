@@ -1,10 +1,15 @@
 package dam.invisere.gtidic.udl.cat.invisereapp.models;
 
+import android.util.Patterns;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class LoginUtils {
 
     public static void checkPassword(String password){
 
-        if(password.matches("^(?=.\\d)(?=.([A-Z])\\w+)(?=.*([0-9]+)).{8,20}$")){
+        if(password.matches("^(?=.*[0-9])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{8,}$")){
         }
         else{
             messageErrorPassword(password);
@@ -13,13 +18,13 @@ public class LoginUtils {
 
     public static String messageErrorPassword(String password){
 
-            if(!password.matches("^[A-Z]")){
+            if(!password.matches("(?=.*[A-Z])")){
                 return "Password does not contain capital letters";
             }
-            else if(!password.matches("^[a-z]")){
-                return "Password does not contain lowercase";
+            else if(!password.matches("(?=.*[0-9])")){
+                return "Password does not contain numbers";
             }
-            else if(!password.matches("^[@#$%]")){
+            else if(!password.matches("(?=.*[@#$%^&+=!])")){
                 return "Password does not contain special characters";
             }
 
@@ -28,7 +33,7 @@ public class LoginUtils {
 
     public static void checkName(String name){
 
-        if(name.matches("^(?=.\\d)(?=.([A-Z])\\w+).{2,15}$")){
+        if(name.matches("^[a-z ,.'-]+$")){
         }
         else{
             messageErrorName(name);
@@ -37,7 +42,7 @@ public class LoginUtils {
 
     public static String messageErrorName(String name){
 
-        if(name.matches("^[@#$%]")){
+        if(name.matches("^[@#$%^&+=!]")){
             return "The name cannot contain special characters";
         }
 
@@ -46,7 +51,7 @@ public class LoginUtils {
 
     public static void checkSurname(String surname){
 
-        if(surname.matches("^(?=.\\d)(?=.([A-Z])\\w+).{2,15}$")){
+        if(surname.matches("^[a-z ,.'-]+$")){
         }
         else{
             messageErrorSurname(surname);
@@ -55,13 +60,16 @@ public class LoginUtils {
 
     public static String messageErrorSurname(String surname){
 
-        if(surname.matches("^[@#$%]")){
+        if(surname.matches("^[@#$%^&+=!]")){
             return "The name cannot contain special characters";
         }
 
         return "Surname has an invalid length";
     }
 
-
+    public boolean isValidEmailAddress(String email){
+        String regex = "^[\\w-_.+]*[\\w-_.]@([\\w]+\\.)+[\\w]+[\\w]$";
+        return email.matches(regex);
+    }
 
 }
