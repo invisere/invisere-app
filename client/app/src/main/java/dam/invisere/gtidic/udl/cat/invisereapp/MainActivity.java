@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
-
+  
     private Button login;
     private Button register;
 
