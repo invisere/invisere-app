@@ -6,30 +6,30 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 
-public class MainActivity extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity {
 
-    private Button login;
+    private Button cancel_register;
     private Button register;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setTheme(R.style.Theme_InvisereApp);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        login = findViewById(R.id.Button_to_login_activity);
-        register = findViewById(R.id.Button_to_register_activity);
+        setContentView(R.layout.activity_register);
+
+        cancel_register = findViewById(R.id.Button_cancel_register);
+        register = findViewById(R.id.Button_register);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        login.setOnClickListener(v -> {
-            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+
+        cancel_register.setOnClickListener(v -> {
             startActivity(intent);
         });
+
         register.setOnClickListener(v -> {
-            Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
             startActivity(intent);
         });
     }

@@ -1,7 +1,10 @@
 <resources>
     <string name="app_name">Invisere App</string>
+    <string name="TextField_name_hint">Name</string>
+    <string name="TextField_surname_hint">Surname</string>
     <string name="TextField_email_hint">Email</string>
     <string name="TextField_password_hint">Password</string>
+    <string name="TextField_confirm_password_hint">Confirm password</string>
     <string name="Button_cancel_login_text">Cancel</string>
     <string name="Button_login_text">Login</string>
     <string name="Button_register_text">Register</string>
