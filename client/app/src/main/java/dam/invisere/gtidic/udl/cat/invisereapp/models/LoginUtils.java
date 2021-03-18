@@ -1,75 +1,131 @@
 package dam.invisere.gtidic.udl.cat.invisereapp.models;
 
+import android.content.Context;
+import android.util.Log;
 import android.util.Patterns;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.material.textfield.TextInputLayout;
+
+import org.w3c.dom.Text;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import dam.invisere.gtidic.udl.cat.invisereapp.RegisterActivity;
+
 public class LoginUtils {
 
-    public static void checkPassword(String password){
+    public static boolean checkPassword(String password, String confirmPassword, TextInputLayout textPassword, TextInputLayout textConfirmPassword){
 
         if(password.matches("^(?=.*[0-9])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{8,}$")){
+            textPassword.setErrorEnabled(false);
+            if(!password.equals(confirmPassword)){
+                textConfirmPassword.setError("Las contraseñas no coinciden");
+                return false;
+            }
+            else{
+                textPassword.setErrorEnabled(false);
+                textConfirmPassword.setErrorEnabled(false);
+                return true;
+            }
+
         }
         else{
-            messageErrorPassword(password);
+            textConfirmPassword.setErrorEnabled(false);
+            textPassword.setErrorEnabled(false);
+            messageErrorPassword(password, textPassword);
+
+            return false;
         }
     }
 
-    public static String messageErrorPassword(String password){
+    public static void messageErrorPassword(String password, TextInputLayout TextPassword){
 
-            if(!password.matches("(?=.*[A-Z])")){
-                return "Password does not contain capital letters";
+            if(!password.matches("(?:.*[A-Z]){1}")){
+                TextPassword.setError("Password does not contain capital letters");
             }
             else if(!password.matches("(?=.*[0-9])")){
-                return "Password does not contain numbers";
+                TextPassword.setError("Password does not contain numbers");
             }
             else if(!password.matches("(?=.*[@#$%^&+=!])")){
-                return "Password does not contain special characters";
+                TextPassword.setError("Password does not contain special characters");
             }
-
-            return "Password has an invalid length";
+            else {
+                TextPassword.setError("Password has an invalid length");
+            }
     }
 
-    public static void checkName(String name){
+    public static boolean checkName(String name, TextInputLayout textName){
 
         if(name.matches("^[a-z ,.'-]+$")){
+            textName.setErrorEnabled(false);
+            return true;
         }
         else{
-            messageErrorName(name);
+            messageErrorName(name, textName);
+            return false;
         }
     }
 
-    public static String messageErrorName(String name){
+    public static void messageErrorName(String name, TextInputLayout textName){
 
-        if(name.matches("^[@#$%^&+=!]")){
-            return "The name cannot contain special characters";
+        if(name.equals("")){
+            textName.setError("The name no puede estar vacio");
         }
 
-        return "Name has an invalid length";
+        else if(name.matches("^[@#$%^&+=!]")){
+            textName.setError("The name cannot contain special characters");
+        }
+        else {
+            textName.setError("Name has an invalid length");
+        }
     }
 
-    public static void checkSurname(String surname){
+    public static boolean checkSurname(String surname, TextInputLayout textSurname){
 
         if(surname.matches("^[a-z ,.'-]+$")){
+            textSurname.setErrorEnabled(false);
+            return true;
         }
         else{
-            messageErrorSurname(surname);
+            messageErrorSurname(surname, textSurname);
+            return false;
         }
     }
 
-    public static String messageErrorSurname(String surname){
+    public static void messageErrorSurname(String surname, TextInputLayout textSurname){
 
-        if(surname.matches("^[@#$%^&+=!]")){
-            return "The name cannot contain special characters";
+        if(surname.equals("")){
+            textSurname.setError("The surname no puede estar vacio");
         }
 
-        return "Surname has an invalid length";
+        else if(surname.matches("^[@#$%^&+=!]")){
+            textSurname.setError("The name cannot contain special characters");
+        }
+        else {
+            textSurname.setError("Surname has an invalid length");
+        }
     }
 
-    public boolean isValidEmailAddress(String email){
+    public static boolean isValidEmailAddress(String email, TextInputLayout textEmail){
         String regex = "^[\\w-_.+]*[\\w-_.]@([\\w]+\\.)+[\\w]+[\\w]$";
-        return email.matches(regex);
+
+        if(email.equals("")){
+            textEmail.setError("The email no puede estar vacio");
+            return false;
+        }
+
+        else if(!email.matches(regex)){
+            textEmail.setError("Enter a valid email");
+            return false;
+        }
+        else{
+            textEmail.setErrorEnabled(false);
+            return true;
+        }
     }
 
 }
