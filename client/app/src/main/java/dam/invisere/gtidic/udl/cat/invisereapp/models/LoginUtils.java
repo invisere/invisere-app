@@ -1,20 +1,6 @@
 package dam.invisere.gtidic.udl.cat.invisereapp.models;
-
-import android.content.Context;
-import android.util.Log;
-import android.util.Patterns;
-import android.widget.Toast;
-
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.android.material.textfield.TextInputLayout;
 
-import org.w3c.dom.Text;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import dam.invisere.gtidic.udl.cat.invisereapp.RegisterActivity;
 
 public class LoginUtils {
 

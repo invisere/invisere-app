@@ -60,12 +60,12 @@ public class RegisterActivity extends AppCompatActivity {
             String password = textPassword.getEditText().getText().toString();
             String confirmPassword = textConfirmPassword.getEditText().getText().toString();
 
-            LoginUtils.checkName(name, textName);
-            LoginUtils.checkSurname(surname, textSurname);
-            LoginUtils.isValidEmailAddress(email, textEmail);
-            LoginUtils.checkPassword(password,confirmPassword, textPassword,textConfirmPassword);
+            boolean cN = LoginUtils.checkName(name, textName);
+            boolean cS = LoginUtils.checkSurname(surname, textSurname);
+            boolean vE = LoginUtils.isValidEmailAddress(email, textEmail);
+            boolean cP = LoginUtils.checkPassword(password,confirmPassword, textPassword,textConfirmPassword);
 
-            if (LoginUtils.checkName(name, textName) && LoginUtils.checkSurname(surname, textSurname) && LoginUtils.isValidEmailAddress(email, textEmail) && LoginUtils.checkPassword(password,confirmPassword, textPassword,textConfirmPassword)){
+            if (cN && cP && cS && vE){
 
                 startActivity(intent);
             }
