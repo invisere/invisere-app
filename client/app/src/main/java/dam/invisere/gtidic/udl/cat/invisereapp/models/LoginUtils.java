@@ -12,7 +12,7 @@ public class LoginUtils extends RegisterActivity {
 
     static String NameUsernameRegex = "(^([a-zñáéíóúA-ZÁÉÍÓÚ]+){2,15})(\\s[A-ZÁÉÍÓÚ]{1}([a-zñáéíóú]+){2,15})?$";
 
-    static String PasswordRegex = "^(?=.*[0-9])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{8,}$";
+    static String PasswordRegex = "^(?=.*[0-9])(?=.*[A-Z])(?=.*[$%&|<>#!@?¿=()/ºª#+-.-_,;])(?=\\S+$).{8,}$";
 
     static String SpecialCharactersRegex = "^(?=.*[$%&|<>#!@?¿=()/ºª#+-.-_,;]).*$";
 
