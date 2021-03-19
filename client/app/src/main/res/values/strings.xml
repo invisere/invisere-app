@@ -8,4 +8,24 @@
     <string name="Button_cancel_login_text">Cancel</string>
     <string name="Button_login_text">Login</string>
     <string name="Button_register_text">Register</string>
+
+    <string name="Message_error_passwords_not_equals">The password does not match</string>
+    <string name="Message_error_password_does_not_contain_capital_letters">The password does not contain capital letters</string>
+    <string name="Message_error_password_does_not_contain_number">The password does not contain numbers</string>
+    <string name="Message_error_password_does_not_contain_special_characters">The password does not contain special characters</string>
+    <string name="Message_error_password_has_invalid_length">The Password has an invalid length</string>
+
+    <string name="Message_error_name_empty">The name cannot be empty</string>
+    <string name="Message_error_name_cannot_contain_special_characters">The name cannot contain special characters</string>
+    <string name="Message_error_name_has_invalid_length">The name has an invalid length</string>
+    <string name="Message_error_name_cannot_contain_number">The name cannot contain numbers</string>
+
+    <string name="Message_error_surname_empty">The surname cannot be empty</string>
+    <string name="Message_error_surname_cannot_contain_special_characters">The surname cannot contain special characters</string>
+    <string name="Message_error_surname_has_invalid_length">The surname has an invalid length</string>
+    <string name="Message_error_surname_cannot_contain_number">The surname cannot contain numbers</string>
+
+    <string name="Message_error_email_empty">The email cannot be empty</string>
+    <string name="Message_error_email_invalid">Enter a valid email</string>
+
 </resources>

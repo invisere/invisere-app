@@ -2,6 +2,7 @@ package dam.invisere.gtidic.udl.cat.invisereapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,12 +27,14 @@ public class RegisterActivity extends AppCompatActivity {
     public TextInputLayout textPassword;
     public TextInputLayout textConfirmPassword;
 
-    String TAG = this.getClass().getName();
+    public static Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
+        mContext = this;
 
         cancel_register = findViewById(R.id.Button_cancel_register);
         register = findViewById(R.id.Button_register);
@@ -42,6 +45,10 @@ public class RegisterActivity extends AppCompatActivity {
         textConfirmPassword = findViewById(R.id.TextField_confirm_password_register);
         textEmail = findViewById(R.id.TextField_email_register);
 
+    }
+
+    public static Context getContext(){
+        return mContext;
     }
 
     @Override
@@ -66,7 +73,6 @@ public class RegisterActivity extends AppCompatActivity {
             boolean cP = LoginUtils.checkPassword(password,confirmPassword, textPassword,textConfirmPassword);
 
             if (cN && cP && cS && vE){
-
                 startActivity(intent);
             }
 
