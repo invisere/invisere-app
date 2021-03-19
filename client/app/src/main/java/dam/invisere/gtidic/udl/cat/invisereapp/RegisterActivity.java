@@ -7,13 +7,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
 
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
-import dam.invisere.gtidic.udl.cat.invisereapp.models.AccountUser;
 import dam.invisere.gtidic.udl.cat.invisereapp.models.LoginUtils;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -25,7 +21,6 @@ public class RegisterActivity extends AppCompatActivity {
     public TextInputLayout textSurname;
     public TextInputLayout textEmail;
     public TextInputLayout textPassword;
-    public TextInputLayout textConfirmPassword;
 
     public static Context mContext;
 
@@ -40,9 +35,8 @@ public class RegisterActivity extends AppCompatActivity {
         register = findViewById(R.id.Button_register);
 
         textName = findViewById(R.id.TextField_name_register);
-        textSurname = findViewById(R.id.TextField_surname_register);
+        textSurname = findViewById(R.id.TextField_username_register);
         textPassword = findViewById(R.id.TextField_password_register);
-        textConfirmPassword = findViewById(R.id.TextField_confirm_password_register);
         textEmail = findViewById(R.id.TextField_email_register);
 
     }
@@ -62,17 +56,16 @@ public class RegisterActivity extends AppCompatActivity {
 
         register.setOnClickListener(v -> {
             String name = textName.getEditText().getText().toString();
-            String surname = textSurname.getEditText().getText().toString();
+            String username = textSurname.getEditText().getText().toString();
             String email = textEmail.getEditText().getText().toString();
             String password = textPassword.getEditText().getText().toString();
-            String confirmPassword = textConfirmPassword.getEditText().getText().toString();
 
             boolean cN = LoginUtils.checkName(name, textName);
-            boolean cS = LoginUtils.checkSurname(surname, textSurname);
+            boolean cS = LoginUtils.checkUsername(username, textSurname);
             boolean vE = LoginUtils.isValidEmailAddress(email, textEmail);
-            boolean cP = LoginUtils.checkPassword(password,confirmPassword, textPassword,textConfirmPassword);
+            boolean cP = LoginUtils.checkPassword(password, textPassword);
 
-            if (cN && cP && cS && vE){
+            if (cN && cS && vE && cP){
                 startActivity(intent);
             }
 

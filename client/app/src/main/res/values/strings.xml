@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Invisere App</string>
     <string name="TextField_name_hint">Name</string>
-    <string name="TextField_surname_hint">Surname</string>
+    <string name="TextField_username_hint">Username</string>
     <string name="TextField_email_hint">Email</string>
     <string name="TextField_password_hint">Password</string>
     <string name="TextField_confirm_password_hint">Confirm password</string>
@@ -20,10 +20,10 @@
     <string name="Message_error_name_has_invalid_length">The name has an invalid length</string>
     <string name="Message_error_name_cannot_contain_number">The name cannot contain numbers</string>
 
-    <string name="Message_error_surname_empty">The surname cannot be empty</string>
-    <string name="Message_error_surname_cannot_contain_special_characters">The surname cannot contain special characters</string>
-    <string name="Message_error_surname_has_invalid_length">The surname has an invalid length</string>
-    <string name="Message_error_surname_cannot_contain_number">The surname cannot contain numbers</string>
+    <string name="Message_error_username_empty">The username cannot be empty</string>
+    <string name="Message_error_username_cannot_contain_special_characters">The username cannot contain special characters</string>
+    <string name="Message_error_username_has_invalid_length">The username has an invalid length</string>
+    <string name="Message_error_username_cannot_contain_number">The username cannot contain numbers</string>
 
     <string name="Message_error_email_empty">The email cannot be empty</string>
     <string name="Message_error_email_invalid">Enter a valid email</string>

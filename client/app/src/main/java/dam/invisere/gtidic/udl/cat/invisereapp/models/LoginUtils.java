@@ -1,13 +1,6 @@
 package dam.invisere.gtidic.udl.cat.invisereapp.models;
-import android.content.Context;
-import android.content.res.Resources;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.textfield.TextInputLayout;
-
-import java.util.jar.Attributes;
-import java.util.regex.Pattern;
 
 import dam.invisere.gtidic.udl.cat.invisereapp.R;
 import dam.invisere.gtidic.udl.cat.invisereapp.RegisterActivity;
@@ -17,7 +10,7 @@ public class LoginUtils extends RegisterActivity {
 
     static String EmailRegex = "^[\\w-_.+]*[\\w-_.]@([\\w]+\\.)+[\\w]+[\\w]$";
 
-    static String NameSurnameRegex = "(^([a-zñáéíóúA-ZÁÉÍÓÚ]+){2,15})(\\s[A-ZÁÉÍÓÚ]{1}([a-zñáéíóú]+){2,15})?$";
+    static String NameUsernameRegex = "(^([a-zñáéíóúA-ZÁÉÍÓÚ]+){2,15})(\\s[A-ZÁÉÍÓÚ]{1}([a-zñáéíóú]+){2,15})?$";
 
     static String PasswordRegex = "^(?=.*[0-9])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{8,}$";
 
@@ -25,24 +18,14 @@ public class LoginUtils extends RegisterActivity {
 
     static String NumbersRegex = "^(?=.*[0-9]).*$";
 
-    public static boolean checkPassword(String password, String confirmPassword, TextInputLayout textPassword, TextInputLayout textConfirmPassword){
+    public static boolean checkPassword(String password, TextInputLayout textPassword){
 
         if(password.matches(PasswordRegex)){
             textPassword.setErrorEnabled(false);
-            if(!password.equals(confirmPassword)){
-                textConfirmPassword.setError(getContext().getResources().getString(R.string.Message_error_passwords_not_equals));
-                return false;
-            }
-            else{
-                textPassword.setErrorEnabled(false);
-                textConfirmPassword.setErrorEnabled(false);
-                return true;
-            }
-
+            return true;
         }
         else{
             messageErrorPassword(password, textPassword);
-
             return false;
         }
     }
@@ -65,7 +48,7 @@ public class LoginUtils extends RegisterActivity {
 
     public static boolean checkName(String name, TextInputLayout textName){
 
-        if(name.matches(NameSurnameRegex)){
+        if(name.matches(NameUsernameRegex)){
             textName.setErrorEnabled(false);
             return true;
         }
@@ -93,31 +76,31 @@ public class LoginUtils extends RegisterActivity {
         }
     }
 
-    public static boolean checkSurname(String surname, TextInputLayout textSurname){
+    public static boolean checkUsername(String username, TextInputLayout textusername){
 
-        if(surname.matches(NameSurnameRegex)){
-            textSurname.setErrorEnabled(false);
+        if(username.matches(NameUsernameRegex)){
+            textusername.setErrorEnabled(false);
             return true;
         }
         else{
-            messageErrorSurname(surname, textSurname);
+            messageErrorusername(username, textusername);
             return false;
         }
     }
 
-    public static void messageErrorSurname(String surname, TextInputLayout textSurname){
+    public static void messageErrorusername(String username, TextInputLayout textusername){
 
-        if(surname.equals("")){
-            textSurname.setError(getContext().getResources().getString(R.string.Message_error_surname_empty));
+        if(username.equals("")){
+            textusername.setError(getContext().getResources().getString(R.string.Message_error_username_empty));
         }
-        else if(surname.matches(SpecialCharactersRegex)){
-            textSurname.setError(getContext().getResources().getString(R.string.Message_error_surname_cannot_contain_special_characters));
+        else if(username.matches(SpecialCharactersRegex)){
+            textusername.setError(getContext().getResources().getString(R.string.Message_error_username_cannot_contain_special_characters));
         }
-        else if(surname.matches(NumbersRegex)){
-            textSurname.setError(getContext().getResources().getString(R.string.Message_error_name_cannot_contain_number));
+        else if(username.matches(NumbersRegex)){
+            textusername.setError(getContext().getResources().getString(R.string.Message_error_name_cannot_contain_number));
         }
         else {
-            textSurname.setError(getContext().getResources().getString(R.string.Message_error_surname_has_invalid_length));
+            textusername.setError(getContext().getResources().getString(R.string.Message_error_username_has_invalid_length));
         }
     }
 
