@@ -18,6 +18,7 @@
         app:layout_constraintVertical_bias="0.05" />
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -120,6 +121,23 @@
         </com.google.android.material.textfield.TextInputLayout>
 
     </LinearLayout>
+
+    <CheckBox
+        android:id="@+id/checkbox_eula"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        android:enabled="true"
+        android:text="@string/agreement_terms_and_conditions"
+        app:layout_constraintBottom_toTopOf="@+id/Button_register"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        android:focusableInTouchMode="true"
+        android:focusable="true"/>
 
     <Button
         android:id="@+id/Button_register"

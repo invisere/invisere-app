@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.os.Bundle;
 
+import dam.invisere.gtidic.udl.cat.invisereapp.utils.EULA;
+
 public class EntryActivity extends AppCompatActivity {
 
     public static Context mContext;

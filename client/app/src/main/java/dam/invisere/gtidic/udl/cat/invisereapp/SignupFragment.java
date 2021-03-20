@@ -5,15 +5,19 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputLayout;
 
 import dam.invisere.gtidic.udl.cat.invisereapp.models.LoginUtils;
+import dam.invisere.gtidic.udl.cat.invisereapp.utils.EULA;
 
 public class SignupFragment extends Fragment {
 
@@ -22,6 +26,7 @@ public class SignupFragment extends Fragment {
     private TextInputLayout textUsername;
     private TextInputLayout textEmail;
     private TextInputLayout textPassword;
+    private CheckBox checkBoxEula;
     private Button buttonRegister;
 
     public SignupFragment() {
@@ -48,6 +53,7 @@ public class SignupFragment extends Fragment {
         textUsername = view.findViewById(R.id.TextField_username_register);
         textEmail = view.findViewById(R.id.TextField_email_register);
         textPassword = view.findViewById(R.id.TextField_password_register);
+        checkBoxEula = view.findViewById(R.id.checkbox_eula);
         buttonRegister = view.findViewById(R.id.Button_register);
 
         textName.setErrorEnabled(true);
@@ -57,6 +63,13 @@ public class SignupFragment extends Fragment {
 
         buttonLogin.setOnClickListener(v -> {
             Navigation.findNavController(view).navigate(R.id.action_signupFragment_to_loginFragment);
+        });
+
+        checkBoxEula.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                new EULA(checkBoxEula).show(getChildFragmentManager(), "EULAConfirmationDialog");
+            }
         });
 
         buttonRegister.setOnClickListener(v -> {
@@ -69,8 +82,9 @@ public class SignupFragment extends Fragment {
             boolean cS = LoginUtils.checkUsername(username, textUsername);
             boolean vE = LoginUtils.isValidEmailAddress(email, textEmail);
             boolean cP = LoginUtils.checkPassword(password, textPassword);
+            boolean cE = LoginUtils.checkEULA(checkBoxEula);
 
-            if (cN && cS && vE && cP){
+            if (cN && cS && vE && cP && cE){
                 Toast toast = Toast.makeText(getContext(), "SignUp successfull.", Toast.LENGTH_SHORT);
                 toast.show();
             }

@@ -1,5 +1,7 @@
 package dam.invisere.gtidic.udl.cat.invisereapp.models;
 
+import android.widget.CheckBox;
+
 import com.google.android.material.textfield.TextInputLayout;
 
 import dam.invisere.gtidic.udl.cat.invisereapp.EntryActivity;
@@ -120,6 +122,15 @@ public class LoginUtils extends EntryActivity {
         }
         else {
             TextPassword.setError(getContext().getResources().getString(R.string.Message_error_password_has_invalid_length));
+        }
+    }
+
+    public static boolean checkEULA(CheckBox checkBox){
+        if(checkBox.isChecked())
+            return true;
+        else{
+            checkBox.setError(getContext().getResources().getString(R.string.Message_error_eula));
+            return false;
         }
     }
 
