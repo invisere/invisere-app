@@ -2,11 +2,11 @@ package dam.invisere.gtidic.udl.cat.invisereapp.models;
 
 import com.google.android.material.textfield.TextInputLayout;
 
+import dam.invisere.gtidic.udl.cat.invisereapp.EntryActivity;
 import dam.invisere.gtidic.udl.cat.invisereapp.R;
-import dam.invisere.gtidic.udl.cat.invisereapp.RegisterActivity;
 
 
-public class LoginUtils extends RegisterActivity {
+public class LoginUtils extends EntryActivity {
 
     static String EmailRegex = "^[\\w-_.+]*[\\w-_.]@([\\w]+\\.)+[\\w]+[\\w]$";
 
