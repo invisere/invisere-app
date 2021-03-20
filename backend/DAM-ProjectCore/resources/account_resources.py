@@ -134,13 +134,7 @@ class ResourceAccountUpdate(DAMCoreResource):
         current_user = req.context["auth_user"]
 
         for a in req.media:
-            # afegir try-catch
-            # simplifcar enums amb el type
             value = req.media[a]
-            if a == "genere":
-                value = GenereEnum(value.upper)
-            elif a == "rol":
-                value = RolEnum(value.upper)
             setattr(current_user, a, value)
 
         self.db_session.add(current_user)

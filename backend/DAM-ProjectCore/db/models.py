@@ -163,28 +163,19 @@ class User(SQLAlchemyBase, JSONModel):
 
     id = Column(Integer, primary_key=True)
     created_at = Column(DateTime, default=datetime.datetime.now, nullable=False)
+    name = Column(Unicode(50), nullable=False)
     username = Column(Unicode(50), nullable=False, unique=True)
     password = Column(UnicodeText, nullable=False)
     email = Column(Unicode(255), nullable=False)
     tokens = relationship("UserToken", back_populates="user", cascade="all, delete-orphan")
-    name = Column(Unicode(50), nullable=False)
-    surname = Column(Unicode(50), nullable=False)
-    birthdate = Column(Date)
-    genere = Column(Enum(GenereEnum), nullable=False)
-    phone = Column(Unicode(50))
     photo = Column(Unicode(255))
-    rol = Column(Enum(RolEnum), nullable=False)
-    events_owner = relationship("Event", back_populates="owner", cascade="all, delete-orphan")
-    events_enrolled = relationship("Event", back_populates="registered")
 
     @hybrid_property
     def public_profile(self):
         return {
             "created_at": self.created_at.strftime(settings.DATETIME_DEFAULT_FORMAT),
             "username": self.username,
-            "genere": self.genere.value,
-            "photo": self.photo,
-            "rol": self.rol.value
+            "photo": self.photo
         }
 
     @hybrid_property
@@ -216,14 +207,8 @@ class User(SQLAlchemyBase, JSONModel):
     def json_model(self):
         return {
             "created_at": self.created_at.strftime(settings.DATETIME_DEFAULT_FORMAT),
+            "name": self.name,
             "username": self.username,
             "email": self.email,
-            "name": self.name,
-            "surname": self.surname,
-            "birthdate": self.birthdate.strftime(
-                settings.DATE_DEFAULT_FORMAT) if self.birthdate is not None else self.birthdate,
-            "genere": self.genere.value,
-            "phone": self.phone,
-            "photo": self.photo_url,
-            "rol":self.rol.value
+            "photo": self.photo_url
         }

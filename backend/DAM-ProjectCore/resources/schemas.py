@@ -12,26 +12,20 @@ SchemaUserToken = {
 SchemaRegisterUser = {
     "type": "object",
     "properties": {
+        "name": {"type": "string"},
         "username": {"type": "string"},
         "password": {"type": "string"},
         "email": {"type": "string"},
-        "name": {"type": "string"},
-        "surname": {"type": "string"},
-        "genere": {"type": "string"},
-        "rol": {"type": "string"}
     },
-    "required": ["username", "password", "email", "name", "surname", "genere", "rol"]
+    "required": ["name", "username", "email", "password"]
 }
 
 SchemaUpdateUser = {
     "type": "object",
     "properties": {
+        "name": {"type": "string"},
         "username": {"type": "string"},
         "password": {"type": "string"},
         "email": {"type": "string"},
-        "name": {"type": "string"},
-        "surname": {"type": "string"},
-        "genere": {"type": "string"},
-        "rol": {"type": "string"}
     }
 }

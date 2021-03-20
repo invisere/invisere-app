@@ -50,12 +50,9 @@ if __name__ == "__main__":
     # noinspection PyArgumentList
     user_admin = User(
         created_at=datetime.datetime(2020, 1, 1, 0, 1, 1),
+        name="Administrator",
         username="admin",
         email="admin@damcore.com",
-        name="Administrator",
-        surname="DamCore",
-        genere=GenereEnum.female,
-        rol=RolEnum.premium,
     )
     user_admin.set_password("DAMCore")
 
@@ -66,13 +63,9 @@ if __name__ == "__main__":
     for i in range(1, 20):
         aux_user = User(
             created_at=datetime.datetime.now(),
+            name="user",
             username="user"+str(i),
             email="user"+str(i)+"@gmail.com",
-            name="user",
-            surname=str(i),
-            birthdate=datetime.datetime(random.randint(1920, 2021), random.randint(1, 12), random.randint(1, 28)),
-            genere=random.choice(list(GenereEnum)),
-            rol=random.choice(list(RolEnum))
         )
         aux_user.set_password(randomString(random.randint(4,8)))
         aux_user.tokens.append(UserToken(token=randomString(50)))
