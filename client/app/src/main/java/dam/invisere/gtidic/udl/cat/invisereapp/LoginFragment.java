@@ -10,9 +10,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.google.android.material.textfield.TextInputLayout;
+
 public class LoginFragment extends Fragment {
 
     private Button buttonSignup;
+    private TextInputLayout textUsername;
+    private TextInputLayout textPassword;
+    private Button buttonLogin;
 
     public LoginFragment() {
     }
@@ -34,6 +39,12 @@ public class LoginFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_login, container, false);
 
         buttonSignup = view.findViewById(R.id.button_login_to_signup);
+        textUsername = view.findViewById(R.id.TextField_username_login);
+        textPassword = view.findViewById(R.id.TextField_password_login);
+        buttonLogin = view.findViewById(R.id.button_login);
+
+        textUsername.setErrorEnabled(true);
+        textPassword.setErrorEnabled(true);
 
         buttonSignup.setOnClickListener(v -> {
             Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_signupFragment);

@@ -1,18 +1,15 @@
 package dam.invisere.gtidic.udl.cat.invisereapp.models;
 
-import android.util.Log;
-
 public class AccountUser {
 
     private String name;
-    private String surname;
+    private String username;
     private String mail;
     private String password;
 
-
-    public AccountUser(String name, String surname, String mail, String password){
+    public AccountUser(String name, String username, String mail, String password){
         this.name = name;
-        this.surname = surname;
+        this.username = username;
         this.mail = mail;
         this.password = password;
     }
@@ -25,12 +22,12 @@ public class AccountUser {
         this.name = name;
     }
 
-    public String getSurname() {
-        return surname;
+    public String getUsername() {
+        return username;
     }
 
-    public void setSurname(String surname) {
-        this.surname = surname;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getMail() {

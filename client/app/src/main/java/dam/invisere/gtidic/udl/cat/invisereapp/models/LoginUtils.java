@@ -18,34 +18,6 @@ public class LoginUtils extends EntryActivity {
 
     static String NumbersRegex = "^(?=.*[0-9]).*$";
 
-    public static boolean checkPassword(String password, TextInputLayout textPassword){
-
-        if(password.matches(PasswordRegex)){
-            textPassword.setErrorEnabled(false);
-            return true;
-        }
-        else{
-            messageErrorPassword(password, textPassword);
-            return false;
-        }
-    }
-
-    public static void messageErrorPassword(String password, TextInputLayout TextPassword){
-
-            if(!password.matches("^(?=.*[A-Z]).*$")) {
-                TextPassword.setError(getContext().getResources().getString(R.string.Message_error_password_does_not_contain_capital_letters));
-            }
-            else if(!password.matches(NumbersRegex)){
-                TextPassword.setError(getContext().getResources().getString(R.string.Message_error_password_does_not_contain_number));
-            }
-            else if(!password.matches(SpecialCharactersRegex)){
-                TextPassword.setError(getContext().getResources().getString(R.string.Message_error_password_does_not_contain_special_characters));
-            }
-            else {
-                TextPassword.setError(getContext().getResources().getString(R.string.Message_error_password_has_invalid_length));
-            }
-    }
-
     public static boolean checkName(String name, TextInputLayout textName){
 
         if(name.matches(NameUsernameRegex)){
@@ -118,6 +90,36 @@ public class LoginUtils extends EntryActivity {
         else{
             textEmail.setErrorEnabled(false);
             return true;
+        }
+    }
+
+    public static boolean checkPassword(String password, TextInputLayout textPassword){
+
+        if(password.matches(PasswordRegex)){
+            textPassword.setErrorEnabled(false);
+            return true;
+        }
+        else{
+            messageErrorPassword(password, textPassword);
+            return false;
+        }
+    }
+
+    public static void messageErrorPassword(String password, TextInputLayout TextPassword){
+        if(password.equals("")){
+            TextPassword.setError(getContext().getResources().getString(R.string.Message_error_password_empty));
+        }
+        else if(!password.matches("^(?=.*[A-Z]).*$")) {
+            TextPassword.setError(getContext().getResources().getString(R.string.Message_error_password_does_not_contain_capital_letters));
+        }
+        else if(!password.matches(NumbersRegex)){
+            TextPassword.setError(getContext().getResources().getString(R.string.Message_error_password_does_not_contain_number));
+        }
+        else if(!password.matches(SpecialCharactersRegex)){
+            TextPassword.setError(getContext().getResources().getString(R.string.Message_error_password_does_not_contain_special_characters));
+        }
+        else {
+            TextPassword.setError(getContext().getResources().getString(R.string.Message_error_password_has_invalid_length));
         }
     }
 

@@ -19,7 +19,7 @@ public class SignupFragment extends Fragment {
 
     private Button buttonLogin;
     private TextInputLayout textName;
-    private TextInputLayout textSurname;
+    private TextInputLayout textUsername;
     private TextInputLayout textEmail;
     private TextInputLayout textPassword;
     private Button buttonRegister;
@@ -45,10 +45,15 @@ public class SignupFragment extends Fragment {
 
         buttonLogin = view.findViewById(R.id.button_signup_to_login);
         textName = view.findViewById(R.id.TextField_name_register);
-        textSurname = view.findViewById(R.id.TextField_username_register);
-        textPassword = view.findViewById(R.id.TextField_password_register);
+        textUsername = view.findViewById(R.id.TextField_username_register);
         textEmail = view.findViewById(R.id.TextField_email_register);
+        textPassword = view.findViewById(R.id.TextField_password_register);
         buttonRegister = view.findViewById(R.id.Button_register);
+
+        textName.setErrorEnabled(true);
+        textUsername.setErrorEnabled(true);
+        textEmail.setErrorEnabled(true);
+        textPassword.setErrorEnabled(true);
 
         buttonLogin.setOnClickListener(v -> {
             Navigation.findNavController(view).navigate(R.id.action_signupFragment_to_loginFragment);
@@ -56,12 +61,12 @@ public class SignupFragment extends Fragment {
 
         buttonRegister.setOnClickListener(v -> {
             String name = textName.getEditText().getText().toString();
-            String username = textSurname.getEditText().getText().toString();
+            String username = textUsername.getEditText().getText().toString();
             String email = textEmail.getEditText().getText().toString();
             String password = textPassword.getEditText().getText().toString();
 
             boolean cN = LoginUtils.checkName(name, textName);
-            boolean cS = LoginUtils.checkUsername(username, textSurname);
+            boolean cS = LoginUtils.checkUsername(username, textUsername);
             boolean vE = LoginUtils.isValidEmailAddress(email, textEmail);
             boolean cP = LoginUtils.checkPassword(password, textPassword);
 
