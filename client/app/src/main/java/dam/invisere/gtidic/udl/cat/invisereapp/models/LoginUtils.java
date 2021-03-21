@@ -10,15 +10,16 @@ import dam.invisere.gtidic.udl.cat.invisereapp.R;
 
 public class LoginUtils extends EntryActivity {
 
-    static String EmailRegex = "^[\\w-_.+]*[\\w-_.]@([\\w]+\\.)+[\\w]+[\\w]$";
+    static String EmailRegex = "^[\\w-_.+]*[\\w-_.]@([\\w]+\\.)+[\\w]{1,3}$";
 
-    static String NameUsernameRegex = "(^([a-zñáéíóúA-ZÁÉÍÓÚ]+){2,15})(\\s[A-ZÁÉÍÓÚ]{1}([a-zñáéíóú]+){2,15})?$";
+    static String NameUsernameRegex = "^[a-zñáéíóúñA-ZÁÉÍÓÚÑ]+[\\s|-]?[a-zñáéíóúñA-ZÁÉÍÓÚÑ]+[\\s|-]?[a-zñáéíóúñA-ZÁÉÍÓÚÑ]+$";
 
-    static String PasswordRegex = "^(?=.*[0-9])(?=.*[A-Z])(?=.*[$%&|<>#!@?¿=()/ºª#+-.-_,;])(?=\\S+$).{8,}$";
+    static String PasswordRegex = "^(?=.*[0-9])(?=.*[A-Z])(?=.*[$%&|<>#!@?¿=^()€/ºª#+-.-_,;])(?=\\S+$).{8,}$";
 
-    static String SpecialCharactersRegex = "^(?=.*[$%&|<>#!@?¿=()/ºª#+-.-_,;]).*$";
+    static String SpecialCharactersRegex = "^(?=.*[$%&|<>#!@?¿=^()€/ºª#+-.-_,;]).*$";
 
     static String NumbersRegex = "^(?=.*[0-9]).*$";
+
 
     public static boolean checkName(String name, TextInputLayout textName){
 
