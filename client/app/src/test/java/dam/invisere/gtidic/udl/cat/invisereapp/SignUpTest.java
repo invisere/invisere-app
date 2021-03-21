@@ -40,5 +40,5 @@ public class SignUpTest {
         this.accountUser.setPassword("Asd23$sdfg");
         Assert.assertEquals(true, LoginUtils.checkName(accountUser.getPassword(), null));
     }
-    
+
 }
