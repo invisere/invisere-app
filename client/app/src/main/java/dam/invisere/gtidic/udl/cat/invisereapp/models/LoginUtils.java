@@ -24,11 +24,13 @@ public class LoginUtils extends EntryActivity {
     public static boolean checkName(String name, TextInputLayout textName){
 
         if(name.matches(NameUsernameRegex)){
-            textName.setErrorEnabled(false);
+            if(textName != null)
+                textName.setErrorEnabled(false);
             return true;
         }
         else{
-            messageErrorName(name, textName);
+            if(textName != null)
+                messageErrorName(name, textName);
             return false;
         }
     }
@@ -54,11 +56,13 @@ public class LoginUtils extends EntryActivity {
     public static boolean checkUsername(String username, TextInputLayout textusername){
 
         if(username.matches(NameUsernameRegex)){
-            textusername.setErrorEnabled(false);
+            if(textusername != null)
+                textusername.setErrorEnabled(false);
             return true;
         }
         else{
-            messageErrorusername(username, textusername);
+            if(textusername != null)
+                messageErrorusername(username, textusername);
             return false;
         }
     }
@@ -82,16 +86,19 @@ public class LoginUtils extends EntryActivity {
     public static boolean isValidEmailAddress(String email, TextInputLayout textEmail){
 
         if(email.equals("")){
-            textEmail.setError(getContext().getResources().getString(R.string.Message_error_email_empty));
+            if(textEmail != null)
+                textEmail.setError(getContext().getResources().getString(R.string.Message_error_email_empty));
             return false;
         }
 
         else if(!email.matches(EmailRegex)){
-            textEmail.setError(getContext().getResources().getString(R.string.Message_error_email_invalid));
+            if(textEmail != null)
+                textEmail.setError(getContext().getResources().getString(R.string.Message_error_email_invalid));
             return false;
         }
         else{
-            textEmail.setErrorEnabled(false);
+            if(textEmail != null)
+                textEmail.setErrorEnabled(false);
             return true;
         }
     }
@@ -99,16 +106,19 @@ public class LoginUtils extends EntryActivity {
     public static boolean checkPassword(String password, TextInputLayout textPassword){
 
         if(password.matches(PasswordRegex)){
-            textPassword.setErrorEnabled(false);
+            if(textPassword != null)
+                textPassword.setErrorEnabled(false);
             return true;
         }
         else{
-            messageErrorPassword(password, textPassword);
+            if(textPassword != null)
+                messageErrorPassword(password, textPassword);
             return false;
         }
     }
 
     public static void messageErrorPassword(String password, TextInputLayout TextPassword){
+
         if(password.equals("")){
             TextPassword.setError(getContext().getResources().getString(R.string.Message_error_password_empty));
         }
