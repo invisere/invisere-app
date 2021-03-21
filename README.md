@@ -18,5 +18,5 @@ Per el logotip, hem decidit utilitzar el color blau #00AEFF,  blau #008AFF i neg
 
 Com es pot veure, és un logotip simple amb formes geomètriques bàsiques i que hem creat seguint la nostra paleta de colors. Les diferents tonalitats de blau dónen un efecte molt estètic per al mapa.
 
-En quant a la tipografia, hem decidit utilitzar la Microsoft Yi Baiti, la qual serà sotmesa a un canvi degut a la poca legibilitat quan el logotip es presenta en un tamany petit. També tenim vàries versións amb diferents canvis per millorar la legibilitat depenent del color de fons. Hem fet servir aquest logotip al splashscreen.
+En quant a la tipografia, hem decidit utilitzar la Microsoft Yi Baiti, la qual serà sotmesa a un canvi degut a la poca legibilitat quan el logotip es presenta en un tamany petit. També tenim vàries versions amb diferents canvis per millorar la legibilitat depenent del color de fons. Per exemple, hem fet servir aquest logotip al splashscreen.
 ![TEXT_APP_BLACK](https://user-images.githubusercontent.com/72124673/111907933-9b773200-8a57-11eb-912b-9e2ba638d7fc.png)
