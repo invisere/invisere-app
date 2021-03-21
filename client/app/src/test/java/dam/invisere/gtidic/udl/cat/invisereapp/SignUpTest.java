@@ -19,8 +19,26 @@ public class SignUpTest {
 
     @Test
     public void isValidName() {
-        this.accountUser.setName("Marti");
+        this.accountUser.setName("Juan");
         Assert.assertEquals(true, LoginUtils.checkName(accountUser.getName(), null));
     }
 
+    @Test
+    public void isValidUsername() {
+        this.accountUser.setUsername("JuanHernandez");
+        Assert.assertEquals(true, LoginUtils.checkName(accountUser.getUsername(), null));
+    }
+
+    @Test
+    public void isValidEmail() {
+        this.accountUser.setUsername("mcnejsn@gmail.com");
+        Assert.assertEquals(true, LoginUtils.checkName(accountUser.getMail(), null));
+    }
+
+    @Test
+    public void isValidPassword() {
+        this.accountUser.setPassword("Asd23$sdfg");
+        Assert.assertEquals(true, LoginUtils.checkName(accountUser.getPassword(), null));
+    }
+    
 }
