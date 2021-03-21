@@ -2,7 +2,7 @@
 
 # DESIGN
 
-Per crear la nostra aplicació, dedicarem molta atenció per crear un disseny materialista. Per portar a terme aquest fet, ens centrarem molt en les guíes de disseny d'Android que podem trobar aquí: <https://material.io/>
+Per crear la nostra aplicació, dedicarem molta atenció per crear un disseny materialista. Per portar a terme aquest fet, ens centrarem molt en les guíes de disseny d'Android que podem trobar aquí: <https://material.io/>.
 Hem dedicat molt temps perquè cada un d'aquests aspectes que es presenten a aquesta pàgina es respectin.
 
 # COLOR
