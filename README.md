@@ -14,9 +14,12 @@ Per crear la nostra aplicació, hem hagut de crear una paleta de colors peque es
 
 Per el logotip, hem decidit utilitzar el color blau #00AEFF,  blau #008AFF i negre #000000. Seguint amb l'explicació anterior, hem seguit amb la mateixa mentalitat de transmetre els sentiments descrits anteriorment que, a la mateixa vegada, respecten les guies de disseny i és materialista.
 
-![LOGOTIP_APP_2](https://user-images.githubusercontent.com/72124673/111907538-20614c00-8a56-11eb-9839-88d6a78fe3a5.png)
+
+![LOGOTIP_APP_SIMPLE](https://user-images.githubusercontent.com/72124673/111919324-bc587b00-8a89-11eb-835c-032b1c957ea9.png)
+
+
 
 Com es pot veure, és un logotip simple amb formes geomètriques bàsiques i que hem creat seguint la nostra paleta de colors. Les diferents tonalitats de blau dónen un efecte molt estètic per al mapa.
 
-En quant a la tipografia, hem decidit utilitzar la Microsoft Yi Baiti, la qual serà sotmesa a un canvi degut a la poca legibilitat quan el logotip es presenta en un tamany petit. També tenim vàries versions amb diferents canvis per millorar la legibilitat depenent del color de fons. Per exemple, hem fet servir aquest logotip al splashscreen.
-![TEXT_APP_BLACK](https://user-images.githubusercontent.com/72124673/111907933-9b773200-8a57-11eb-912b-9e2ba638d7fc.png)
+En quant a la tipografia, hem decidit utilitzar la Montserrat. També tenim vàries versions amb diferents canvis per millorar la legibilitat depenent del color de fons. Per exemple, hem fet servir aquest logotip al splashscreen.
+![LOGOTIP_TEXT_BLACK](https://user-images.githubusercontent.com/72124673/111919291-94691780-8a89-11eb-951d-bb082da8e539.png)
