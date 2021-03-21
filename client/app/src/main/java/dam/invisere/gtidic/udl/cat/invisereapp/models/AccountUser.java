@@ -14,6 +14,13 @@ public class AccountUser {
         this.password = password;
     }
 
+    public AccountUser(){
+        this.name = "";
+        this.username = "";
+        this.mail = "";
+        this.password = "";
+    }
+
     public String getName() {
         return name;
     }
