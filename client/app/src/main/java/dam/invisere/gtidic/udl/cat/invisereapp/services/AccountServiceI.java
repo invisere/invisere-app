@@ -9,7 +9,7 @@ import retrofit2.http.POST;
 
 public interface AccountServiceI {
 
-    @POST("users/register")
+    @POST("/users/register")
     Call<ResponseBody> register(@Body Account account);
 
 }

@@ -15,9 +15,9 @@ public class SignUpViewModel extends ViewModel {
     public MutableLiveData<String> Email = new MutableLiveData<>();
     public MutableLiveData<String> Password = new MutableLiveData<>();
 
-//    public SignUpViewModel() {
-//        this.accountRepo = new AccountRepo();
-//    }
+    public SignUpViewModel() {
+        this.accountRepo = new AccountRepo();
+    }
 
     public void onRegister() {
         Account account = new Account();
