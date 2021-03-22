@@ -2,7 +2,9 @@ package dam.invisere.gtidic.udl.cat.invisereapp;
 
 import android.os.Bundle;
 
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
@@ -15,8 +17,10 @@ import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputLayout;
 
+import dam.invisere.gtidic.udl.cat.invisereapp.databinding.FragmentSignupBinding;
 import dam.invisere.gtidic.udl.cat.invisereapp.utils.LoginUtils;
 import dam.invisere.gtidic.udl.cat.invisereapp.utils.EULA;
+import dam.invisere.gtidic.udl.cat.invisereapp.viewmodels.SignUpViewModel;
 
 public class SignupFragment extends Fragment {
 
@@ -27,6 +31,7 @@ public class SignupFragment extends Fragment {
     private TextInputLayout textPassword;
     private CheckBox checkBoxEula;
     private Button buttonRegister;
+    private SignUpViewModel signUpViewModel;
 
     public SignupFragment() {
     }
@@ -45,7 +50,13 @@ public class SignupFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_signup, container, false);
+//        View view = inflater.inflate(R.layout.fragment_signup, container, false);
+
+        signUpViewModel = new ViewModelProvider(this).get(SignUpViewModel.class);
+        FragmentSignupBinding fragmentSignupBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_signup, container, false);
+        View view = fragmentSignupBinding.getRoot();
+        fragmentSignupBinding.setLifecycleOwner(this);
+        fragmentSignupBinding.setViewModel(signUpViewModel);
 
         buttonLogin = view.findViewById(R.id.button_signup_to_login);
         textName = view.findViewById(R.id.TextField_name_register);
