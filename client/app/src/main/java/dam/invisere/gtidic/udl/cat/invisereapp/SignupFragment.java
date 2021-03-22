@@ -1,12 +1,6 @@
 package dam.invisere.gtidic.udl.cat.invisereapp;
 
 import android.os.Bundle;
-
-import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.Navigation;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,11 +9,16 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.Toast;
 
+import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
+
 import com.google.android.material.textfield.TextInputLayout;
 
 import dam.invisere.gtidic.udl.cat.invisereapp.databinding.FragmentSignupBinding;
-import dam.invisere.gtidic.udl.cat.invisereapp.utils.LoginUtils;
 import dam.invisere.gtidic.udl.cat.invisereapp.utils.EULA;
+import dam.invisere.gtidic.udl.cat.invisereapp.utils.LoginUtils;
 import dam.invisere.gtidic.udl.cat.invisereapp.viewmodels.SignUpViewModel;
 
 public class SignupFragment extends Fragment {
