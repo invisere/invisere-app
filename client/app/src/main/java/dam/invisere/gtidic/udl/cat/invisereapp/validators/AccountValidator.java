@@ -20,36 +20,35 @@ public class AccountValidator extends EntryActivity {
 
     static String NumbersRegex = "^(?=.*[0-9]).*$";
 
+    /** @TODO: D'aquesta manera podem testejar de forma unitaria  la lògica,
+     *  eliminem la dependecia del TextInputView. Repetir amb la resta.
+     */
 
-    public static boolean checkName(String name, TextInputLayout textName){
-
-        if(name.matches(NameUsernameRegex)){
-            if(textName != null)
-                textName.setErrorEnabled(false);
-            return true;
+    public static ValidationResultImpl checkName(String name){
+        String msg = "";
+        boolean success = true;
+        if(!name.matches(NameUsernameRegex)){
+            msg = messageErrorName(name);
+            success = false;
         }
-        else{
-            if(textName != null)
-                messageErrorName(name, textName);
-            return false;
-        }
+        return new ValidationResultImpl(msg,success);
     }
 
-    public static void messageErrorName(String name, TextInputLayout textName){
+    public static String messageErrorName(String name){
 
         if(name.equals("")){
-            textName.setError(getContext().getResources().getString(R.string.Message_error_name_empty));
+            return (getContext().getResources().getString(R.string.Message_error_name_empty));
         }
 
         else if(name.matches(SpecialCharactersRegex)){
-            textName.setError(getContext().getResources().getString(R.string.Message_error_name_cannot_contain_special_characters));
+            return (getContext().getResources().getString(R.string.Message_error_name_cannot_contain_special_characters));
         }
 
         else if(name.matches(NumbersRegex)){
-            textName.setError(getContext().getResources().getString(R.string.Message_error_name_cannot_contain_number));
+            return (getContext().getResources().getString(R.string.Message_error_name_cannot_contain_number));
         }
         else {
-            textName.setError(getContext().getResources().getString(R.string.Message_error_name_has_invalid_length));
+            return (getContext().getResources().getString(R.string.Message_error_name_has_invalid_length));
         }
     }
 
@@ -67,6 +66,7 @@ public class AccountValidator extends EntryActivity {
         }
     }
 
+    //@TODO: Aquest codi esta duplicat
     public static void messageErrorusername(String username, TextInputLayout textusername){
 
         if(username.equals("")){

@@ -17,6 +17,7 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import dam.invisere.gtidic.udl.cat.invisereapp.validators.AccountValidator;
 import dam.invisere.gtidic.udl.cat.invisereapp.utils.EULA;
+import dam.invisere.gtidic.udl.cat.invisereapp.validators.ValidationResultI;
 
 public class SignupFragment extends Fragment {
 
@@ -77,13 +78,21 @@ public class SignupFragment extends Fragment {
             String email = textEmail.getEditText().getText().toString();
             String password = textPassword.getEditText().getText().toString();
 
-            boolean cN = AccountValidator.checkName(name, textName);
+
+            //@TODO: Aquesta part haurà d'estar al ViewModel
+            ValidationResultI cN = AccountValidator.checkName(name);
+            if (!cN.isSuccess()){
+                setErrorVisible(textName, cN.getMessage());
+            }else{
+                unsetError(textName);
+            }
+
             boolean cS = AccountValidator.checkUsername(username, textUsername);
             boolean vE = AccountValidator.isValidEmailAddress(email, textEmail);
             boolean cP = AccountValidator.checkPassword(password, textPassword);
             boolean cE = AccountValidator.checkEULA(checkBoxEula);
 
-            if (cN && cS && vE && cP && cE){
+            if (cN.isSuccess() && cS && vE && cP && cE){
                 Toast toast = Toast.makeText(getContext(), "SignUp successfull.", Toast.LENGTH_SHORT);
                 toast.show();
             }
@@ -92,4 +101,13 @@ public class SignupFragment extends Fragment {
 
         return view;
     }
+    private void setErrorVisible(TextInputLayout textInput, String error_msg){
+        textInput.setErrorEnabled(true);
+        textInput.setError(error_msg);
+    }
+
+    private void unsetError(TextInputLayout textInput){
+        textInput.setErrorEnabled(false);
+    }
+
 }
