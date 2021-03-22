@@ -1,4 +1,4 @@
-package dam.invisere.gtidic.udl.cat.invisereapp.models;
+package dam.invisere.gtidic.udl.cat.invisereapp.validators;
 
 import android.widget.CheckBox;
 
@@ -8,7 +8,7 @@ import dam.invisere.gtidic.udl.cat.invisereapp.EntryActivity;
 import dam.invisere.gtidic.udl.cat.invisereapp.R;
 
 
-public class LoginUtils extends EntryActivity {
+public class AccountValidator extends EntryActivity {
 
     static String EmailRegex = "^[\\w-_.+]*[\\w-_.]@([\\w]+\\.)+[\\w]{1,3}$";
 
