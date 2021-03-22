@@ -5,7 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import dam.invisere.gtidic.udl.cat.invisereapp.models.Account;
-import dam.invisere.gtidic.udl.cat.invisereapp.models.LoginUtils;
+import dam.invisere.gtidic.udl.cat.invisereapp.utils.LoginUtils;
 
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.fail;

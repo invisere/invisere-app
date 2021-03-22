@@ -1,4 +1,4 @@
-package dam.invisere.gtidic.udl.cat.invisereapp.models;
+package dam.invisere.gtidic.udl.cat.invisereapp.utils;
 
 import android.widget.CheckBox;
 

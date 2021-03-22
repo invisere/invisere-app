@@ -5,7 +5,6 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +15,7 @@ import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputLayout;
 
-import dam.invisere.gtidic.udl.cat.invisereapp.models.LoginUtils;
+import dam.invisere.gtidic.udl.cat.invisereapp.utils.LoginUtils;
 import dam.invisere.gtidic.udl.cat.invisereapp.utils.EULA;
 
 public class SignupFragment extends Fragment {
