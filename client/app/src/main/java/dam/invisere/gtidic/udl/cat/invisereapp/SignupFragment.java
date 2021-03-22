@@ -5,7 +5,6 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +15,7 @@ import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputLayout;
 
-import dam.invisere.gtidic.udl.cat.invisereapp.models.LoginUtils;
+import dam.invisere.gtidic.udl.cat.invisereapp.validators.AccountValidator;
 import dam.invisere.gtidic.udl.cat.invisereapp.utils.EULA;
 
 public class SignupFragment extends Fragment {
@@ -78,11 +77,11 @@ public class SignupFragment extends Fragment {
             String email = textEmail.getEditText().getText().toString();
             String password = textPassword.getEditText().getText().toString();
 
-            boolean cN = LoginUtils.checkName(name, textName);
-            boolean cS = LoginUtils.checkUsername(username, textUsername);
-            boolean vE = LoginUtils.isValidEmailAddress(email, textEmail);
-            boolean cP = LoginUtils.checkPassword(password, textPassword);
-            boolean cE = LoginUtils.checkEULA(checkBoxEula);
+            boolean cN = AccountValidator.checkName(name, textName);
+            boolean cS = AccountValidator.checkUsername(username, textUsername);
+            boolean vE = AccountValidator.isValidEmailAddress(email, textEmail);
+            boolean cP = AccountValidator.checkPassword(password, textPassword);
+            boolean cE = AccountValidator.checkEULA(checkBoxEula);
 
             if (cN && cS && vE && cP && cE){
                 Toast toast = Toast.makeText(getContext(), "SignUp successfull.", Toast.LENGTH_SHORT);
