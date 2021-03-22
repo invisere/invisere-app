@@ -22,4 +22,5 @@ Per el logotip, hem decidit utilitzar el color blau #00AEFF,  blau #008AFF i neg
 Com es pot veure, és un logotip simple amb formes geomètriques bàsiques i que hem creat seguint la nostra paleta de colors. Les diferents tonalitats de blau dónen un efecte molt estètic per al mapa.
 
 En quant a la tipografia, hem decidit utilitzar la Montserrat. També tenim vàries versions amb diferents canvis per millorar la legibilitat depenent del color de fons. Per exemple, hem fet servir aquest logotip al splashscreen.
+
 ![LOGOTIP_TEXT_BLACK](https://user-images.githubusercontent.com/72124673/111919291-94691780-8a89-11eb-951d-bb082da8e539.png)
