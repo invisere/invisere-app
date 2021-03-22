@@ -34,12 +34,13 @@ public class EULA extends DialogFragment {
         this.checkBox = checkBox;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
 
         return new AlertDialog.Builder(requireContext())
-                .setMessage(getString(R.string.eula_string))
+                .setMessage(Html.fromHtml(getString(R.string.eula_string), Build.VERSION.SDK_INT))
                 .setPositiveButton(R.string.accept,
                         new Dialog.OnClickListener() {
                             @Override
