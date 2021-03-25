@@ -12,7 +12,6 @@ public class RetrofitClientInstance {
             .build();
 
     public static Retrofit getRetrofitInstance() {
-        System.out.println(BuildConfig.API_URL);
         if (retrofit == null) {
             retrofit = new retrofit2.Retrofit.Builder()
                     .baseUrl(BuildConfig.API_URL)
