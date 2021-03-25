@@ -15,4 +15,9 @@ public class AccountServiceImpl implements AccountServiceI {
     public Call<ResponseBody> register(Account account) {
         return retrofit.create(AccountServiceI.class).register(account);
     }
+
+    @Override
+    public Call<ResponseBody> login(String auth){
+        return retrofit.create(AccountServiceI.class).login(auth);
+    }
 }

@@ -19,10 +19,12 @@ public class AccountRepo {
     private AccountServiceI accountService;
 
     private MutableLiveData<String> mResponseRegister;
+    private MutableLiveData<String> mResponseLogin;
 
     public AccountRepo() {
         this.accountService = new AccountServiceImpl();
         this.mResponseRegister = new MutableLiveData<>();
+        this.mResponseLogin = new MutableLiveData<>();
     }
 
     public void registerAccount(Account account) {
@@ -51,4 +53,31 @@ public class AccountRepo {
             }
         });
     }
+    public void createTokenUser(String auth){
+        Log.d(TAG, "createTokenUser() -> he rebut el header: " + auth);
+        accountService.login(auth).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                int return_code = response.code();
+                Log.d(TAG, "createTokenUser() -> ha rebut el codi: " + return_code);
+                switch (return_code) {
+                    case 200:
+                        mResponseLogin.setValue("El login s'ha fet correctament.");
+                        break;
+                    default:
+                        String error_msg = "Error: " + response.errorBody();
+                        mResponseLogin.setValue(error_msg);
+                        break;
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                String error_msg = "Error: " + t.getMessage();
+                mResponseLogin.setValue(error_msg);
+                Log.d(TAG, error_msg);
+            }
+        });
+    }
+
 }
