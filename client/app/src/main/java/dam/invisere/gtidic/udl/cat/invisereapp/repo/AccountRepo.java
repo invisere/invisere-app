@@ -26,6 +26,7 @@ public class AccountRepo {
     }
 
     public void registerAccount(Account account) {
+        Log.d(TAG, "registerAccount() -> he rebut l'account: " + account);
         accountService.register(account).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -46,6 +47,7 @@ public class AccountRepo {
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 String error_msg = "Error: " + t.getMessage();
                 mResponseRegister.setValue(error_msg);
+                Log.d(TAG, error_msg);
             }
         });
     }
