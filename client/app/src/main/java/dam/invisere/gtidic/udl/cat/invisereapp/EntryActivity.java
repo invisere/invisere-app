@@ -1,21 +1,36 @@
 package dam.invisere.gtidic.udl.cat.invisereapp;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 
-import dam.invisere.gtidic.udl.cat.invisereapp.utils.EULA;
+import androidx.appcompat.app.AppCompatActivity;
+
+import dam.invisere.gtidic.udl.cat.invisereapp.preferences.Preferences;
+import dam.invisere.gtidic.udl.cat.invisereapp.viewmodels.MainActivityViewModel;
 
 public class EntryActivity extends AppCompatActivity {
 
+    private static final String TAG = "Entry Activity";
     public static Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.Theme_InvisereApp);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_entry);
+
+        Preferences.init(this);
+
+        MainActivityViewModel mainActivityViewModel = new MainActivityViewModel();
+
+        if(mainActivityViewModel.isLogged()){
+            Log.d(TAG, "onCreate () -> existe un token: ");
+            setContentView(R.layout.activity_main);
+        }
+        else{
+            Log.d(TAG, "Entry Activity() -> No existe token: ");
+            setContentView(R.layout.activity_entry);
+        }
 
         mContext = this;
     }
@@ -23,4 +38,6 @@ public class EntryActivity extends AppCompatActivity {
     public static Context getContext(){
         return mContext;
     }
+
+
 }

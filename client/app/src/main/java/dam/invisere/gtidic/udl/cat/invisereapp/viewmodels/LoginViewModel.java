@@ -35,6 +35,5 @@ public class LoginViewModel extends ViewModel {
         auth = ("Authentication: " + auth).trim();
 
         this.accountRepo.createTokenUser(auth);
-
     }
 }

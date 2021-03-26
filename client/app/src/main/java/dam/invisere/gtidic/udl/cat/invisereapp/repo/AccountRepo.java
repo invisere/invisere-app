@@ -4,7 +4,11 @@ import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 
+import java.io.IOException;
+
+import dam.invisere.gtidic.udl.cat.invisereapp.EntryActivity;
 import dam.invisere.gtidic.udl.cat.invisereapp.models.Account;
+import dam.invisere.gtidic.udl.cat.invisereapp.preferences.Preferences;
 import dam.invisere.gtidic.udl.cat.invisereapp.services.AccountServiceI;
 import dam.invisere.gtidic.udl.cat.invisereapp.services.AccountServiceImpl;
 import okhttp3.ResponseBody;
@@ -12,7 +16,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class AccountRepo {
+public class AccountRepo extends EntryActivity {
 
     private String TAG = "AccountRepo";
 
@@ -20,6 +24,8 @@ public class AccountRepo {
 
     private MutableLiveData<String> mResponseRegister;
     private MutableLiveData<String> mResponseLogin;
+
+    String token = "";
 
     public AccountRepo() {
         this.accountService = new AccountServiceImpl();
@@ -62,11 +68,25 @@ public class AccountRepo {
                 Log.d(TAG, "createTokenUser() -> ha rebut el codi: " + return_code);
                 switch (return_code) {
                     case 200:
-                        mResponseLogin.setValue("El login s'ha fet correctament.");
-                        break;
+                        try {
+                            token = response.body().string().split(":")[1];
+                            token = token.substring(2,token.length()-2);
+
+                            mResponseLogin.setValue("El login s'ha fet correctament.");
+
+                            Log.d(TAG, "Code 200 () -> envio el token: " + token);
+
+                            Preferences.providePreferences().edit().putString("token", token).apply();
+                            break;
+                        }
+                        catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
                     default:
                         String error_msg = "Error: " + response.errorBody();
                         mResponseLogin.setValue(error_msg);
+                        Preferences.providePreferences().edit().remove("token").apply();
                         break;
                 }
             }
@@ -75,6 +95,7 @@ public class AccountRepo {
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 String error_msg = "Error: " + t.getMessage();
                 mResponseLogin.setValue(error_msg);
+                Preferences.providePreferences().edit().remove("token").apply();
                 Log.d(TAG, error_msg);
             }
         });
