@@ -13,6 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.InvisereApp">
+        <activity android:name=".MainActivity"></activity>
         <activity
             android:name=".EntryActivity"
             android:theme="@style/SplashTheme">
