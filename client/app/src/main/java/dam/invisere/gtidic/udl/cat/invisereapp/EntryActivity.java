@@ -1,6 +1,7 @@
 package dam.invisere.gtidic.udl.cat.invisereapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -26,6 +27,9 @@ public class EntryActivity extends AppCompatActivity {
         if(mainActivityViewModel.isLogged()){
             Log.d(TAG, "onCreate () -> existe un token: ");
             setContentView(R.layout.activity_main);
+
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
         }
         else{
             Log.d(TAG, "Entry Activity() -> No existe token: ");
