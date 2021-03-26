@@ -15,6 +15,8 @@ public class EntryActivity extends AppCompatActivity {
     private static final String TAG = "Entry Activity";
     public static Context mContext;
 
+    MainActivityViewModel mainActivityViewModel = new MainActivityViewModel();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.Theme_InvisereApp);
@@ -22,17 +24,14 @@ public class EntryActivity extends AppCompatActivity {
 
         Preferences.init(this);
 
-        MainActivityViewModel mainActivityViewModel = new MainActivityViewModel();
-
         if(mainActivityViewModel.isLogged()){
-            Log.d(TAG, "onCreate () -> existe un token: ");
-            setContentView(R.layout.activity_main);
+            Log.d(TAG, "onCreate () -> existe un token");
 
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
         }
         else{
-            Log.d(TAG, "Entry Activity() -> No existe token: ");
+            Log.d(TAG, "Entry Activity() -> No existe token");
             setContentView(R.layout.activity_entry);
         }
 
