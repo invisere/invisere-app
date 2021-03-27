@@ -9,7 +9,6 @@ import static android.content.ContentValues.TAG;
 public class MainActivityViewModel {
 
     public MainActivityViewModel(){
-
     }
 
     public boolean isLogged(){
