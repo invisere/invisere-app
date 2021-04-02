@@ -144,7 +144,7 @@
         android:layout_marginEnd="171dp"
         android:layout_marginRight="171dp"
         android:layout_marginBottom="60dp"
-        android:text="Button"
+        android:text="Modificar perfil"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
