@@ -11,17 +11,12 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
-import com.google.android.material.textfield.TextInputLayout;
-
 import dam.invisere.gtidic.udl.cat.invisereapp.databinding.FragmentLoginBinding;
 import dam.invisere.gtidic.udl.cat.invisereapp.viewmodels.LoginViewModel;
 
 public class LoginFragment extends Fragment {
 
     private Button buttonSignup;
-    private TextInputLayout textUsername;
-    private TextInputLayout textPassword;
-    private Button buttonLogin;
     private LoginViewModel loginViewModel;
 
     public LoginFragment() {
@@ -42,8 +37,10 @@ public class LoginFragment extends Fragment {
         fragmentLoginBinding.setLifecycleOwner(this);
         fragmentLoginBinding.setViewModel(loginViewModel);
 
-        textUsername.setErrorEnabled(true);
-        textPassword.setErrorEnabled(true);
+        buttonSignup = view.findViewById(R.id.button_login_to_signup);
+
+//        textUsername.setErrorEnabled(true);
+//        textPassword.setErrorEnabled(true);
 
         buttonSignup.setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_signupFragment));
 
