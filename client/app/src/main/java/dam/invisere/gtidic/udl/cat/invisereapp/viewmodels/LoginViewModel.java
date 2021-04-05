@@ -1,8 +1,11 @@
 package dam.invisere.gtidic.udl.cat.invisereapp.viewmodels;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.util.Base64;
 import android.util.Log;
+import android.view.View;
 
 import androidx.annotation.RequiresApi;
 import androidx.lifecycle.MutableLiveData;
@@ -10,6 +13,7 @@ import androidx.lifecycle.ViewModel;
 
 import java.nio.charset.StandardCharsets;
 
+import dam.invisere.gtidic.udl.cat.invisereapp.MainActivity;
 import dam.invisere.gtidic.udl.cat.invisereapp.repo.AccountRepo;
 
 public class LoginViewModel extends ViewModel {
@@ -27,7 +31,7 @@ public class LoginViewModel extends ViewModel {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    public void onLogin() {
+    public void onLogin(View view) {
         Log.d(TAG, "onLogin()");
         String auth = Username.getValue() + ":" + Password.getValue();
         byte[] data = auth.getBytes(StandardCharsets.UTF_8);
@@ -35,5 +39,10 @@ public class LoginViewModel extends ViewModel {
         auth = ("Authentication: " + auth).trim();
 
         this.accountRepo.createTokenUser(auth);
+
+        Context context = view.getContext();
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
     }
 }
