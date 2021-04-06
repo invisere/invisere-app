@@ -56,9 +56,7 @@ public class LoginFragment extends Fragment {
         textUsername.setErrorEnabled(true);
         textPassword.setErrorEnabled(true);
 
-        buttonSignup.setOnClickListener(v -> {
-            Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_signupFragment);
-        });
+        buttonSignup.setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_signupFragment));
 
         return view;
     }

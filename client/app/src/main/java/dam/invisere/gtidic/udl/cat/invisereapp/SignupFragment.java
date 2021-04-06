@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.Toast;
 
 import androidx.databinding.DataBindingUtil;
@@ -49,7 +48,6 @@ public class SignupFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-//        View view = inflater.inflate(R.layout.fragment_signup, container, false);
 
         signUpViewModel = new ViewModelProvider(this).get(SignUpViewModel.class);
         FragmentSignupBinding fragmentSignupBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_signup, container, false);
@@ -70,16 +68,9 @@ public class SignupFragment extends Fragment {
         textEmail.setErrorEnabled(true);
         textPassword.setErrorEnabled(true);
 
-        buttonLogin.setOnClickListener(v -> {
-            Navigation.findNavController(view).navigate(R.id.action_signupFragment_to_loginFragment);
-        });
+        buttonLogin.setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_signupFragment_to_loginFragment));
 
-        checkBoxEula.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                new EULA(checkBoxEula).show(getChildFragmentManager(), "EULAConfirmationDialog");
-            }
-        });
+        checkBoxEula.setOnCheckedChangeListener((buttonView, isChecked) -> new EULA(checkBoxEula).show(getChildFragmentManager(), "EULAConfirmationDialog"));
 
         buttonRegister.setOnClickListener(v -> {
             String name = textName.getEditText().getText().toString();
