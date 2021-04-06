@@ -5,10 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import dam.invisere.gtidic.udl.cat.invisereapp.models.Account;
-import dam.invisere.gtidic.udl.cat.invisereapp.utils.LoginUtils;
-
-import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.fail;
+import dam.invisere.gtidic.udl.cat.invisereapp.validators.AccountValidator;
 
 public class SignUpTest {
 
@@ -22,25 +19,25 @@ public class SignUpTest {
     @Test
     public void isValidName()  {
         this.account.setName("Juan");
-        Assert.assertEquals(true, LoginUtils.checkName(account.getName(), null));
+        Assert.assertEquals(true, AccountValidator.checkName(account.getName()));
     }
 
     @Test
     public void isValidUsername() {
         this.account.setUsername("JuanHernandez");
-        Assert.assertEquals(true, LoginUtils.checkUsername(account.getUsername(), null));
+        Assert.assertEquals(true, AccountValidator.checkUsername(account.getUsername()));
     }
 
     @Test
     public void isValidEmail() {
         this.account.setEmail("juan21@gmail.com");
-        Assert.assertEquals(true, LoginUtils.isValidEmailAddress(account.getEmail(), null));
+        Assert.assertEquals(true, AccountValidator.checkEmail(account.getEmail()));
     }
 
     @Test
     public void isValidPassword() {
         this.account.setPassword("Asd23$sdfg");
-        Assert.assertEquals(true, LoginUtils.checkPassword(account.getPassword(), null));
+        Assert.assertEquals(true, AccountValidator.checkPassword(account.getPassword()));
     }
 
 }
