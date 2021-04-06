@@ -82,22 +82,25 @@ public class ChangeProfileActivity extends AppCompatActivity {
 
         Account account = new Account();
 
-        if(textName.getEditText().getText().toString() == ProfileActivity.name){
+        if(name.compareTo(ProfileActivity.name) == 0){
+            Log.d(TAG, "editName: name = null");
             account.setName(null);
         }
         else{
             account.setName(name);
         }
 
-        if(textUsername.getEditText().getText().toString() == ProfileActivity.username){
+        if(username.compareTo(ProfileActivity.username) == 0){
+            Log.d(TAG, "editName: username = null");
             account.setUsername(null);
         }
         else{
             account.setUsername(username);
         }
 
-        if(textEmail.getEditText().getText().toString() == ProfileActivity.email){
-            account.setName(null);
+        if(email.compareTo(ProfileActivity.email) == 0){
+            Log.d(TAG, "editName: email = null");
+            account.setEmail(null);
         }
         else{
             account.setEmail(email);
@@ -107,10 +110,9 @@ public class ChangeProfileActivity extends AppCompatActivity {
 
 
         String token = Preferences.providePreferences().getString("token", "");
-        Log.d(TAG, "edit Name -> he rebut el token: " + token);
+        Log.d(TAG, "editName -> he rebut el token: " + token);
 
 
         accountRepo.update(account,token);
     }
-
 }
