@@ -22,6 +22,7 @@ public class LoginViewModel extends ViewModel {
     private static final String TAG = "LoginViewModel";
     private AccountRepo accountRepo;
 
+    MainActivityViewModel mainActivityViewModel = new MainActivityViewModel();
 
     public MutableLiveData<String> Username = new MutableLiveData<>();
     public MutableLiveData<String> Password = new MutableLiveData<>();
@@ -40,9 +41,12 @@ public class LoginViewModel extends ViewModel {
 
         this.accountRepo.createTokenUser(auth);
 
-        Context context = view.getContext();
-        Intent intent = new Intent(context, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(intent);
+        if(mainActivityViewModel.isLogged()){
+            Context context = view.getContext();
+            Intent intent = new Intent(context, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent);
+        }
+
     }
 }
