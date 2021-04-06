@@ -1,7 +1,9 @@
 package dam.invisere.gtidic.udl.cat.invisereapp.viewmodels;
 
+import android.os.Build;
 import android.util.Log;
 
+import androidx.annotation.RequiresApi;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -21,6 +23,7 @@ public class SignUpViewModel extends ViewModel {
         this.accountRepo = new AccountRepo();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void onRegister() {
         Account account = new Account();
         account.setName(Name.getValue());
