@@ -2,18 +2,22 @@ package dam.invisere.gtidic.udl.cat.invisereapp.viewmodels;
 
 import android.util.Log;
 
+import androidx.lifecycle.ViewModel;
+
 import dam.invisere.gtidic.udl.cat.invisereapp.preferences.Preferences;
 
-import static android.content.ContentValues.TAG;
 
-public class MainActivityViewModel {
+public class MainActivityViewModel extends ViewModel {
 
-    public MainActivityViewModel(){
+    private static final String TAG = "MainViewModel";
+
+    public MainActivityViewModel() {
     }
 
-    public boolean isLogged(){
-        String token = Preferences.providePreferences().getString("token","");
+    public boolean isLogged() {
+        String token = Preferences.providePreferences().getString("token", "");
         Log.d(TAG, "isLogged() -> he rebut el token: " + token);
         return !token.isEmpty();
     }
+
 }
