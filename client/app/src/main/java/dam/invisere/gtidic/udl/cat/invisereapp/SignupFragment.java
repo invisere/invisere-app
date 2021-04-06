@@ -58,7 +58,7 @@ public class SignupFragment extends Fragment {
 
         signUpViewModel.NameValidaton.observe(getViewLifecycleOwner(), validationResult -> {
             if(!validationResult.isSuccess()){
-                textName.setError(validationResult.getMessage());
+                textName.setError(getContext().getResources().getString(validationResult.getMessage()));
             }else {
                 textName.setErrorEnabled(false);
             }
@@ -66,7 +66,7 @@ public class SignupFragment extends Fragment {
 
         signUpViewModel.UsernameValidaton.observe(getViewLifecycleOwner(), validationResult -> {
             if(!validationResult.isSuccess()){
-                textUsername.setError(validationResult.getMessage());
+                textUsername.setError(getContext().getResources().getString(validationResult.getMessage()));
             }else {
                 textUsername.setErrorEnabled(false);
             }
@@ -74,7 +74,7 @@ public class SignupFragment extends Fragment {
 
         signUpViewModel.EmailValidaton.observe(getViewLifecycleOwner(), validationResult -> {
             if(!validationResult.isSuccess()){
-                textEmail.setError(validationResult.getMessage());
+                textEmail.setError(getContext().getResources().getString(validationResult.getMessage()));
             }else {
                 textEmail.setErrorEnabled(false);
             }
@@ -82,7 +82,7 @@ public class SignupFragment extends Fragment {
 
         signUpViewModel.PassowrdValidaton.observe(getViewLifecycleOwner(), validationResult -> {
             if(!validationResult.isSuccess()){
-                textPassword.setError(validationResult.getMessage());
+                textPassword.setError(getContext().getResources().getString(validationResult.getMessage()));
             }else {
                 textPassword.setErrorEnabled(false);
             }
