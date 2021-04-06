@@ -16,7 +16,7 @@ public class LoginViewModel extends ViewModel {
 
 
     private static final String TAG = "LoginViewModel";
-    private AccountRepo accountRepo;
+    public AccountRepo accountRepo;
 
 
     public MutableLiveData<String> Username = new MutableLiveData<>();

@@ -14,7 +14,7 @@ import dam.invisere.gtidic.udl.cat.invisereapp.validators.ValidationResultImpl;
 
 public class SignUpViewModel extends ViewModel {
 
-    private AccountRepo accountRepo;
+    public AccountRepo accountRepo;
 
     public MutableLiveData<String> Name = new MutableLiveData<>();
     public MutableLiveData<ValidationResultImpl> NameValidaton = new MutableLiveData<>();
@@ -52,5 +52,7 @@ public class SignUpViewModel extends ViewModel {
             return true;
         return false;
     }
+
+
 
 }

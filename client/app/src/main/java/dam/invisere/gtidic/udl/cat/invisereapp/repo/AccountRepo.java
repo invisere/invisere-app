@@ -27,6 +27,7 @@ public class AccountRepo extends EntryActivity {
     private MutableLiveData<String> mResponseLogin;
     private MutableLiveData<String> mResponseGetAccount;
     private MutableLiveData<String> mResponseUpdate;
+    public MutableLiveData<Boolean> mLoggedIn;
 
     String token = "";
     public static String profile = "";
@@ -36,6 +37,7 @@ public class AccountRepo extends EntryActivity {
         this.accountService = new AccountServiceImpl();
         this.mResponseRegister = new MutableLiveData<>();
         this.mResponseLogin = new MutableLiveData<>();
+        this.mLoggedIn = new MutableLiveData<>(false);
     }
 
     public void registerAccount(Account account) {
@@ -48,6 +50,7 @@ public class AccountRepo extends EntryActivity {
                 switch (return_code) {
                     case 200:
                         mResponseRegister.setValue("El registre s'ha fet correctament.");
+                        mLoggedIn.setValue(true);
                         break;
                     default:
                         String error_msg = "Error: " + response.errorBody();
@@ -83,6 +86,7 @@ public class AccountRepo extends EntryActivity {
                             Log.d(TAG, "Code 200 () -> envio el token: " + token);
 
                             Preferences.providePreferences().edit().putString("token", token).apply();
+                            mLoggedIn.setValue(true);
                             break;
                         }
                         catch (IOException e) {
