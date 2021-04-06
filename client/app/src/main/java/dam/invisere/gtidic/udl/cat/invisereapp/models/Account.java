@@ -1,23 +1,29 @@
 package dam.invisere.gtidic.udl.cat.invisereapp.models;
 
-public class AccountUser {
+import com.google.gson.annotations.SerializedName;
 
+public class Account {
+
+    @SerializedName("name")
     private String name;
+    @SerializedName("username")
     private String username;
-    private String mail;
+    @SerializedName("email")
+    private String email;
+    @SerializedName("password")
     private String password;
 
-    public AccountUser(String name, String username, String mail, String password){
+    public Account(String name, String username, String email, String password){
         this.name = name;
         this.username = username;
-        this.mail = mail;
+        this.email = email;
         this.password = password;
     }
 
-    public AccountUser(){
+    public Account(){
         this.name = "";
         this.username = "";
-        this.mail = "";
+        this.email = "";
         this.password = "";
     }
 
@@ -37,12 +43,12 @@ public class AccountUser {
         this.username = username;
     }
 
-    public String getMail() {
-        return mail;
+    public String getEmail() {
+        return email;
     }
 
-    public void setMail(String mail) {
-        this.mail = mail;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {

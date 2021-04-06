@@ -12,15 +12,18 @@ Per crear la nostra aplicació, hem hagut de crear una paleta de colors peque es
 
 # LOGO
 
-Per el logotip, hem decidit utilitzar el color blau #00AEFF,  blau #008AFF i negre #000000. Seguint amb l'explicació anterior, hem seguit amb la mateixa mentalitat de transmetre els sentiments descrits anteriorment que, a la mateixa vegada, respecten les guies de disseny i és materialista.
+Per el logotip, hem decidit utilitzar el color blau <span style="background-color:#00AEFF">#00AEFF</span>, blau <span style="background-color:#008AFF">#008AFF</span>, i negre #000000. Seguint amb l'explicació anterior, hem seguit amb la mateixa mentalitat de transmetre els sentiments descrits anteriorment que, a la mateixa vegada, respecten les guies de disseny i és materialista.
 
 
-![LOGOTIP_APP_SIMPLE](https://user-images.githubusercontent.com/72124673/111919324-bc587b00-8a89-11eb-835c-032b1c957ea9.png)
-
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/72124673/111919324-bc587b00-8a89-11eb-835c-032b1c957ea9.png" alt="Invisere Logo without Letters" />
+</p>
 
 
 Com es pot veure, és un logotip simple amb formes geomètriques bàsiques i que hem creat seguint la nostra paleta de colors. Les diferents tonalitats de blau dónen un efecte molt estètic per al mapa.
 
 En quant a la tipografia, hem decidit utilitzar la Montserrat. També tenim vàries versions amb diferents canvis per millorar la legibilitat depenent del color de fons. Per exemple, hem fet servir aquest logotip al splashscreen.
 
-![LOGOTIP_TEXT_BLACK](https://user-images.githubusercontent.com/72124673/111919291-94691780-8a89-11eb-951d-bb082da8e539.png)
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/72124673/111919291-94691780-8a89-11eb-951d-bb082da8e539.png" alt="Invisere Letters" />
+</p>

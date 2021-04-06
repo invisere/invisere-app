@@ -1,23 +1,24 @@
 package dam.invisere.gtidic.udl.cat.invisereapp;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.Toast;
+
+import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 
 import com.google.android.material.textfield.TextInputLayout;
 
-import dam.invisere.gtidic.udl.cat.invisereapp.validators.AccountValidator;
+import dam.invisere.gtidic.udl.cat.invisereapp.databinding.FragmentSignupBinding;
 import dam.invisere.gtidic.udl.cat.invisereapp.utils.EULA;
-import dam.invisere.gtidic.udl.cat.invisereapp.validators.ValidationResultI;
+import dam.invisere.gtidic.udl.cat.invisereapp.utils.LoginUtils;
+import dam.invisere.gtidic.udl.cat.invisereapp.viewmodels.SignUpViewModel;
 
 public class SignupFragment extends Fragment {
 
@@ -28,13 +29,9 @@ public class SignupFragment extends Fragment {
     private TextInputLayout textPassword;
     private CheckBox checkBoxEula;
     private Button buttonRegister;
+    private SignUpViewModel signUpViewModel;
 
     public SignupFragment() {
-    }
-
-    public static SignupFragment newInstance(String param1, String param2) {
-        SignupFragment fragment = new SignupFragment();
-        return fragment;
     }
 
     @Override
@@ -45,8 +42,12 @@ public class SignupFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_signup, container, false);
+
+        signUpViewModel = new ViewModelProvider(this).get(SignUpViewModel.class);
+        FragmentSignupBinding fragmentSignupBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_signup, container, false);
+        View view = fragmentSignupBinding.getRoot();
+        fragmentSignupBinding.setLifecycleOwner(this);
+        fragmentSignupBinding.setViewModel(signUpViewModel);
 
         buttonLogin = view.findViewById(R.id.button_signup_to_login);
         textName = view.findViewById(R.id.TextField_name_register);
@@ -61,16 +62,9 @@ public class SignupFragment extends Fragment {
         textEmail.setErrorEnabled(true);
         textPassword.setErrorEnabled(true);
 
-        buttonLogin.setOnClickListener(v -> {
-            Navigation.findNavController(view).navigate(R.id.action_signupFragment_to_loginFragment);
-        });
+        buttonLogin.setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_signupFragment_to_loginFragment));
 
-        checkBoxEula.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                new EULA(checkBoxEula).show(getChildFragmentManager(), "EULAConfirmationDialog");
-            }
-        });
+        checkBoxEula.setOnCheckedChangeListener((buttonView, isChecked) -> new EULA(checkBoxEula).show(getChildFragmentManager(), "EULAConfirmationDialog"));
 
         buttonRegister.setOnClickListener(v -> {
             String name = textName.getEditText().getText().toString();
@@ -78,21 +72,13 @@ public class SignupFragment extends Fragment {
             String email = textEmail.getEditText().getText().toString();
             String password = textPassword.getEditText().getText().toString();
 
+            boolean cN = LoginUtils.checkName(name, textName);
+            boolean cS = LoginUtils.checkUsername(username, textUsername);
+            boolean vE = LoginUtils.isValidEmailAddress(email, textEmail);
+            boolean cP = LoginUtils.checkPassword(password, textPassword);
+            boolean cE = LoginUtils.checkEULA(checkBoxEula);
 
-            //@TODO: Aquesta part haurà d'estar al ViewModel
-            ValidationResultI cN = AccountValidator.checkName(name);
-            if (!cN.isSuccess()){
-                setErrorVisible(textName, cN.getMessage());
-            }else{
-                unsetError(textName);
-            }
-
-            boolean cS = AccountValidator.checkUsername(username, textUsername);
-            boolean vE = AccountValidator.isValidEmailAddress(email, textEmail);
-            boolean cP = AccountValidator.checkPassword(password, textPassword);
-            boolean cE = AccountValidator.checkEULA(checkBoxEula);
-
-            if (cN.isSuccess() && cS && vE && cP && cE){
+            if (cN && cS && vE && cP && cE){
                 Toast toast = Toast.makeText(getContext(), "SignUp successfull.", Toast.LENGTH_SHORT);
                 toast.show();
             }
@@ -101,13 +87,4 @@ public class SignupFragment extends Fragment {
 
         return view;
     }
-    private void setErrorVisible(TextInputLayout textInput, String error_msg){
-        textInput.setErrorEnabled(true);
-        textInput.setError(error_msg);
-    }
-
-    private void unsetError(TextInputLayout textInput){
-        textInput.setErrorEnabled(false);
-    }
-
 }

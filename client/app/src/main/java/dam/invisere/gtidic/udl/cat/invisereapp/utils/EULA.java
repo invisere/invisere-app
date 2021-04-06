@@ -2,7 +2,6 @@ package dam.invisere.gtidic.udl.cat.invisereapp.utils;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
@@ -25,7 +24,7 @@ public class EULA extends DialogFragment {
      * so next time this will not show, until next upgrade.
      */
 
-    private final CheckBox checkBox;
+    private CheckBox checkBox;
 
     public EULA(CheckBox checkBox) {
         this.checkBox = checkBox;
@@ -42,7 +41,6 @@ public class EULA extends DialogFragment {
                         (dialogInterface, i) -> {
                             dialogInterface.dismiss();
                             checkBox.setChecked(true);
-
                         })
                 .setNegativeButton(android.R.string.cancel,
                         (dialog, which) -> checkBox.setChecked(false))

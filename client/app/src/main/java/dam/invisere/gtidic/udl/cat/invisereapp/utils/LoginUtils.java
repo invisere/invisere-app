@@ -1,4 +1,4 @@
-package dam.invisere.gtidic.udl.cat.invisereapp.validators;
+package dam.invisere.gtidic.udl.cat.invisereapp.utils;
 
 import android.widget.CheckBox;
 
@@ -8,7 +8,7 @@ import dam.invisere.gtidic.udl.cat.invisereapp.EntryActivity;
 import dam.invisere.gtidic.udl.cat.invisereapp.R;
 
 
-public class AccountValidator extends EntryActivity {
+public class LoginUtils extends EntryActivity {
 
     static String EmailRegex = "^[\\w-_.+]*[\\w-_.]@([\\w]+\\.)+[\\w]{1,3}$";
 
@@ -20,35 +20,36 @@ public class AccountValidator extends EntryActivity {
 
     static String NumbersRegex = "^(?=.*[0-9]).*$";
 
-    /** @TODO: D'aquesta manera podem testejar de forma unitaria  la lògica,
-     *  eliminem la dependecia del TextInputView. Repetir amb la resta.
-     */
 
-    public static ValidationResultImpl checkName(String name){
-        String msg = "";
-        boolean success = true;
-        if(!name.matches(NameUsernameRegex)){
-            msg = messageErrorName(name);
-            success = false;
+    public static boolean checkName(String name, TextInputLayout textName){
+
+        if(name.matches(NameUsernameRegex)){
+            if(textName != null)
+                textName.setErrorEnabled(false);
+            return true;
         }
-        return new ValidationResultImpl(msg,success);
+        else{
+            if(textName != null)
+                messageErrorName(name, textName);
+            return false;
+        }
     }
 
-    public static String messageErrorName(String name){
+    public static void messageErrorName(String name, TextInputLayout textName){
 
         if(name.equals("")){
-            return (getContext().getResources().getString(R.string.Message_error_name_empty));
+            textName.setError(getContext().getResources().getString(R.string.Message_error_name_empty));
         }
 
         else if(name.matches(SpecialCharactersRegex)){
-            return (getContext().getResources().getString(R.string.Message_error_name_cannot_contain_special_characters));
+            textName.setError(getContext().getResources().getString(R.string.Message_error_name_cannot_contain_special_characters));
         }
 
         else if(name.matches(NumbersRegex)){
-            return (getContext().getResources().getString(R.string.Message_error_name_cannot_contain_number));
+            textName.setError(getContext().getResources().getString(R.string.Message_error_name_cannot_contain_number));
         }
         else {
-            return (getContext().getResources().getString(R.string.Message_error_name_has_invalid_length));
+            textName.setError(getContext().getResources().getString(R.string.Message_error_name_has_invalid_length));
         }
     }
 
@@ -66,7 +67,6 @@ public class AccountValidator extends EntryActivity {
         }
     }
 
-    //@TODO: Aquest codi esta duplicat
     public static void messageErrorusername(String username, TextInputLayout textusername){
 
         if(username.equals("")){
