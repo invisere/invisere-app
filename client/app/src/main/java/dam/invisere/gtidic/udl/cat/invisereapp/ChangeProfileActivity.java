@@ -20,10 +20,12 @@ public class ChangeProfileActivity extends AppCompatActivity {
     public static TextInputLayout textName;
     public static TextInputLayout textUsername;
     public static TextInputLayout textEmail;
+    public static TextInputLayout textPassword;
 
     public String name;
     public String username;
     public String email;
+    public String password;
 
     private Button btnCancel;
     private Button btnSave;
@@ -44,6 +46,7 @@ public class ChangeProfileActivity extends AppCompatActivity {
         textEmail = findViewById(R.id.txtChangeEmail);
         textName = findViewById(R.id.txtChangeName);
         textUsername = findViewById(R.id.txtChangeUsername);
+        textPassword = findViewById(R.id.txtChangePassword);
 
         btnCancel = findViewById(R.id.btnCancel);
         btnSave = findViewById(R.id.btnSave);
@@ -51,6 +54,7 @@ public class ChangeProfileActivity extends AppCompatActivity {
         textName.getEditText().setText(ProfileActivity.name);
         textUsername.getEditText().setText(ProfileActivity.username);
         textEmail.getEditText().setText(ProfileActivity.email);
+        textPassword.getEditText().setText("");
     }
 
 
@@ -79,6 +83,7 @@ public class ChangeProfileActivity extends AppCompatActivity {
         name = textName.getEditText().getText().toString();
         username = textUsername.getEditText().getText().toString();
         email = textEmail.getEditText().getText().toString();
+        password = textPassword.getEditText().getText().toString();
 
         Account account = new Account();
 
@@ -106,7 +111,13 @@ public class ChangeProfileActivity extends AppCompatActivity {
             account.setEmail(email);
         }
 
-        account.setPassword(null);
+        if(password.compareTo("") == 0){
+            Log.d(TAG, "editName: password = null");
+            account.setPassword(null);
+        }
+        else{
+            account.setPassword(password);
+        }
 
 
         String token = Preferences.providePreferences().getString("token", "");

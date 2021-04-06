@@ -1,8 +1,8 @@
 package dam.invisere.gtidic.udl.cat.invisereapp.services;
 
 import dam.invisere.gtidic.udl.cat.invisereapp.models.Account;
-
 import dam.invisere.gtidic.udl.cat.invisereapp.network.RetrofitClientInstance;
+import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Retrofit;
@@ -30,5 +30,11 @@ public class AccountServiceImpl implements AccountServiceI {
     public Call<ResponseBody> update(Account account, String token){
         return retrofit.create(AccountServiceI.class).update(account,token);
     }
+
+    @Override
+    public Call<ResponseBody> updatePhoto(MultipartBody.Part image_file, String token){
+        return retrofit.create(AccountServiceI.class).updatePhoto(image_file,token);
+    }
+
 
 }

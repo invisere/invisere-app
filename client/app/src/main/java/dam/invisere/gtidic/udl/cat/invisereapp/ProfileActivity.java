@@ -4,9 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.squareup.picasso.Picasso;
+
+import java.io.IOException;
 
 import dam.invisere.gtidic.udl.cat.invisereapp.preferences.Preferences;
 import dam.invisere.gtidic.udl.cat.invisereapp.repo.AccountRepo;
@@ -20,10 +25,16 @@ public class ProfileActivity extends AppCompatActivity {
     public static TextView textUsername;
     public static TextView textEmail;
 
+
+    public static ImageView photoImage;
+
     public static String createdAt;
     public static String name;
     public static String username;
     public static String email;
+    public static String UrlPhoto;
+
+    public static String nullPhoto;
 
     static String[] arrSplit;
     private Button btn;
@@ -31,12 +42,14 @@ public class ProfileActivity extends AppCompatActivity {
 
     private AccountRepo accountRepo;
 
+
     String token = Preferences.providePreferences().getString("token", "");
 
 
     public ProfileActivity() {
         this.accountRepo = new AccountRepo();
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +63,10 @@ public class ProfileActivity extends AppCompatActivity {
         btn = findViewById(R.id.button3);
         btnChangeProfile = findViewById(R.id.btnChangeProfile);
 
+        photoImage = findViewById(R.id.photoProfile);
+
         accountRepo.get_account(token);
+
     }
 
     protected void onStart() {
@@ -70,11 +86,13 @@ public class ProfileActivity extends AppCompatActivity {
 
     }
 
-    public static void updateFields(){
+    public static void updateFields() throws IOException {
 
         arrSplit = AccountRepo.profile.split("\"");
 
-        for (int i = 0; i < arrSplit.length; i ++)    {
+        nullPhoto = ": null}";
+
+        for (int i = 0; i < arrSplit.length; i++) {
             Log.d(TAG, "ArraySplit: " + arrSplit[i]);
         }
 
@@ -97,5 +115,19 @@ public class ProfileActivity extends AppCompatActivity {
         Log.d(TAG, "Email: " + email);
 
         textEmail.setText(email);
+
+
+        if (arrSplit[18].compareTo(nullPhoto) == 0) {
+            UrlPhoto = null;
+            Log.d(TAG, "UrlPhoto: " + UrlPhoto);
+        } 
+        else {
+            UrlPhoto = arrSplit[19];
+            Log.d(TAG, "UrlPhoto: " + UrlPhoto);
+
+            Picasso.get().load(UrlPhoto).error(R.drawable.ic_launcher_background).into(photoImage);
+        }
     }
+
 }
+

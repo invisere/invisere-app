@@ -12,6 +12,7 @@ import dam.invisere.gtidic.udl.cat.invisereapp.models.Account;
 import dam.invisere.gtidic.udl.cat.invisereapp.preferences.Preferences;
 import dam.invisere.gtidic.udl.cat.invisereapp.services.AccountServiceI;
 import dam.invisere.gtidic.udl.cat.invisereapp.services.AccountServiceImpl;
+import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -162,6 +163,41 @@ public class AccountRepo extends EntryActivity {
 
                 int return_code = response.code();
                 Log.d(TAG, "Update() -> ha rebut el codi: " + return_code);
+
+                switch (return_code) {
+                    case 200:
+                        Log.d(TAG, "Code 200 () -> Updated: ");
+
+                        //mResponseUpdate.setValue("Profile updated successfully.");
+                        break;
+
+                    default:
+                        String error_msg = "Error: " + response.errorBody();
+                        //mResponseUpdate.setValue(error_msg);
+                        break;
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                String error_msg = "Error: " + t.getMessage();
+                //mResponseUpdate.setValue(error_msg);
+                Log.d(TAG, error_msg);
+            }
+        });
+    }
+
+
+
+    public void updatePhoto(MultipartBody.Part image_file, String token){
+        Log.d(TAG, "updatePhoto() -> he rebut el header: " + token);
+
+        accountService.updatePhoto(image_file,token).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+
+                int return_code = response.code();
+                Log.d(TAG, "updatePhoto() -> ha rebut el codi: " + return_code);
 
                 switch (return_code) {
                     case 200:
