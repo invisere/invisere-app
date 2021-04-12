@@ -9,9 +9,11 @@ import java.io.IOException;
 import dam.invisere.gtidic.udl.cat.invisereapp.EntryActivity;
 import dam.invisere.gtidic.udl.cat.invisereapp.ProfileActivity;
 import dam.invisere.gtidic.udl.cat.invisereapp.models.Account;
+import dam.invisere.gtidic.udl.cat.invisereapp.models.AccountProfile;
 import dam.invisere.gtidic.udl.cat.invisereapp.preferences.Preferences;
 import dam.invisere.gtidic.udl.cat.invisereapp.services.AccountServiceI;
 import dam.invisere.gtidic.udl.cat.invisereapp.services.AccountServiceImpl;
+import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -31,6 +33,7 @@ public class AccountRepo extends EntryActivity {
 
     String token = "";
     public static String profile = "";
+    public static AccountProfile profile2;
 
 
     public AccountRepo() {
@@ -115,27 +118,21 @@ public class AccountRepo extends EntryActivity {
     public void get_account(String token){
         Log.d(TAG, "get_account() -> he rebut el header: " + token);
 
-        accountService.get_account(token).enqueue(new Callback<ResponseBody>() {
+        accountService.get_account(token).enqueue(new Callback<AccountProfile>() {
 
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            public void onResponse(Call<AccountProfile> call, Response<AccountProfile> response) {
 
                 int return_code = response.code();
                 Log.d(TAG, "get_account() -> ha rebut el codi: " + return_code);
 
                 switch (return_code) {
                     case 200:
-                        Log.d(TAG, "Code 200 () -> get_account: " + profile);
-                        try {
-                            profile = response.body().string();
-                            Log.d(TAG, " -> Profile: " + profile);
+                        Log.d(TAG, "Code 200 () -> get_account: " + profile2);
+                            profile2 = response.body();
 
-                            ProfileActivity.updateFields();
+                            ProfileActivity.updateFields(profile2);
 
-                        }
-                        catch (IOException e) {
-                            e.printStackTrace();
-                        }
 
                         //mResponseGetAccount.setValue("Profile loaded successfully.");
                         break;
@@ -148,7 +145,7 @@ public class AccountRepo extends EntryActivity {
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            public void onFailure(Call<AccountProfile> call, Throwable t) {
                 String error_msg = "Error: " + t.getMessage();
                 //mResponseGetAccount.setValue(error_msg);
                 Log.d(TAG, error_msg);
@@ -179,6 +176,41 @@ public class AccountRepo extends EntryActivity {
                         //mResponseUpdate.setValue(error_msg);
                         break;
                 }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                String error_msg = "Error: " + t.getMessage();
+                //mResponseUpdate.setValue(error_msg);
+                Log.d(TAG, error_msg);
+            }
+        });
+    }
+
+
+
+    public void updatePhoto(MultipartBody.Part photo, String token){
+        Log.d(TAG, "AccountRepo -> updatePhoto() -> he rebut el header: " + token);
+
+        accountService.updatePhoto(photo,token).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+
+                int return_code = response.code();
+                Log.d(TAG, "updatePhoto() -> ha rebut el codi: " + return_code);
+
+                switch (return_code) {
+                    case 200:
+                        Log.d(TAG, "Code 200 () -> Updated: ");
+                        //mResponseUpdate.setValue("Profile updated successfully.");
+                        break;
+
+                    default:
+                        String error_msg = "Error: " + response.errorBody();
+                        //mResponseUpdate.setValue(error_msg);
+                        break;
+                }
+
             }
 
             @Override
