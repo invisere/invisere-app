@@ -24,13 +24,12 @@ public class EntryActivity extends AppCompatActivity {
 
         Preferences.init(this);
 
-        if(mainActivityViewModel.isLogged()){
+        if (mainActivityViewModel.isLogged()) {
             Log.d(TAG, "onCreate () -> existe un token");
 
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
-        }
-        else{
+        } else {
             Log.d(TAG, "Entry Activity() -> No existe token");
             setContentView(R.layout.activity_entry);
         }
@@ -38,9 +37,9 @@ public class EntryActivity extends AppCompatActivity {
         mContext = this;
     }
 
-    public static Context getContext(){
+    public static Context getContext() {
         return mContext;
     }
 
-
 }
+

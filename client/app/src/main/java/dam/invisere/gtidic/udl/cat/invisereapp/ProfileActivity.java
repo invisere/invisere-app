@@ -11,8 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.squareup.picasso.Picasso;
 
-import java.io.IOException;
-
+import dam.invisere.gtidic.udl.cat.invisereapp.models.AccountProfile;
 import dam.invisere.gtidic.udl.cat.invisereapp.preferences.Preferences;
 import dam.invisere.gtidic.udl.cat.invisereapp.repo.AccountRepo;
 
@@ -25,7 +24,6 @@ public class ProfileActivity extends AppCompatActivity {
     public static TextView textUsername;
     public static TextView textEmail;
 
-
     public static ImageView photoImage;
 
     public static String createdAt;
@@ -34,14 +32,10 @@ public class ProfileActivity extends AppCompatActivity {
     public static String email;
     public static String UrlPhoto;
 
-    public static String nullPhoto;
-
-    static String[] arrSplit;
     private Button btn;
     private Button btnChangeProfile;
 
     private AccountRepo accountRepo;
-
 
     String token = Preferences.providePreferences().getString("token", "");
 
@@ -49,6 +43,7 @@ public class ProfileActivity extends AppCompatActivity {
     public ProfileActivity() {
         this.accountRepo = new AccountRepo();
     }
+
 
 
     @Override
@@ -86,48 +81,37 @@ public class ProfileActivity extends AppCompatActivity {
 
     }
 
-    public static void updateFields() throws IOException {
+    public static void updateFields(AccountProfile accountProfile){
 
-        arrSplit = AccountRepo.profile.split("\"");
+        createdAt = accountProfile.getCreated_at();
+        name = accountProfile.getName();
+        username = accountProfile.getUsername();
+        email = accountProfile.getEmail();
+        UrlPhoto = accountProfile.getPhoto();
 
-        nullPhoto = ": null}";
-
-        for (int i = 0; i < arrSplit.length; i++) {
-            Log.d(TAG, "ArraySplit: " + arrSplit[i]);
-        }
-
-        createdAt = arrSplit[3];
         Log.d(TAG, "CreatedAt: " + createdAt);
+        Log.d(TAG, "Name: " + name);
+        Log.d(TAG, "Username: " + username);
+        Log.d(TAG, "Email: " + email);
+        Log.d(TAG, "UrlPhoto: " + UrlPhoto);
 
         textCreatedAt.setText(createdAt);
-
-        name = arrSplit[7];
-        Log.d(TAG, "Name: " + name);
-
         textName.setText(name);
-
-        username = arrSplit[11];
-        Log.d(TAG, "Username: " + username);
-
         textUsername.setText(username);
-
-        email = arrSplit[15];
-        Log.d(TAG, "Email: " + email);
-
         textEmail.setText(email);
 
+        if(UrlPhoto != null){
+            UrlPhoto = UrlPhoto.replace("http://127.0.0.1:8001","http://192.168.43.206:8001");
+            //UrlPhoto = UrlPhoto.replace("http://127.0.0.1:8001","http://192.168.1.101:8001");
+            Log.d(TAG, "UrlPhoto2: " + UrlPhoto);
 
-        if (arrSplit[18].compareTo(nullPhoto) == 0) {
-            UrlPhoto = null;
-            Log.d(TAG, "UrlPhoto: " + UrlPhoto);
-        } 
+            Picasso.get().load(UrlPhoto).error(R.drawable.ic_launcher_background).resize(350, 350).into(photoImage);
+        }
         else {
-            UrlPhoto = arrSplit[19];
-            Log.d(TAG, "UrlPhoto: " + UrlPhoto);
-
-            Picasso.get().load(UrlPhoto).error(R.drawable.ic_launcher_background).into(photoImage);
+            Picasso.get().load("https://previews.123rf.com/images/boxerx/boxerx1611/boxerx161100006/68882648-descargar-signo-en-fondo-blanco-cargar-icono-barra-de-carga-de-datos-ilustraci%C3%B3n-de-stock-vector.jpg").error(R.drawable.ic_launcher_background).resize(350, 350).into(photoImage);
         }
     }
+
 
 }
 

@@ -52,6 +52,9 @@ dependencies {
     implementation 'org.bouncycastle:bcpkix-jdk15on:1.56'
     implementation "androidx.multidex:multidex:2.0.1"
 
+    implementation "androidx.activity:activity:1.2.0"
+
     implementation 'com.squareup.picasso:picasso:2.71828'
 
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.3.1'
 }
