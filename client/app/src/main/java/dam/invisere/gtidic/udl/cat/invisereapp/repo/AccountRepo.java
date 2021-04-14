@@ -24,10 +24,12 @@ public class AccountRepo extends EntryActivity {
     private AccountServiceI accountService;
 
     private MutableLiveData<String> mResponseRegister;
+    public MutableLiveData<Integer> mReturnCodeRegister;
+    public MutableLiveData<Integer> mReturnCode;
     private MutableLiveData<String> mResponseLogin;
+    public MutableLiveData<Integer> mReturnCodeLogin;
     private MutableLiveData<String> mResponseGetAccount;
     private MutableLiveData<String> mResponseUpdate;
-    public MutableLiveData<Boolean> mLoggedIn;
 
     String token = "";
     public static String profile = "";
@@ -36,8 +38,10 @@ public class AccountRepo extends EntryActivity {
     public AccountRepo() {
         this.accountService = new AccountServiceImpl();
         this.mResponseRegister = new MutableLiveData<>();
+        this.mReturnCodeRegister = new MutableLiveData<>();
         this.mResponseLogin = new MutableLiveData<>();
-        this.mLoggedIn = new MutableLiveData<>(false);
+        this.mReturnCodeLogin = new MutableLiveData<>();
+        this.mReturnCode = new MutableLiveData<>();
     }
 
     public void registerAccount(Account account) {
@@ -46,11 +50,11 @@ public class AccountRepo extends EntryActivity {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 int return_code = response.code();
+                mReturnCodeRegister.setValue(return_code);
                 Log.d(TAG, "registerAccount() -> ha rebut el codi: " + return_code);
                 switch (return_code) {
                     case 200:
                         mResponseRegister.setValue("El registre s'ha fet correctament.");
-                        mLoggedIn.setValue(true);
                         break;
                     default:
                         String error_msg = "Error: " + response.errorBody();
@@ -74,6 +78,7 @@ public class AccountRepo extends EntryActivity {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 int return_code = response.code();
+                mReturnCodeLogin.setValue(return_code);
                 Log.d(TAG, "createTokenUser() -> ha rebut el codi: " + return_code);
                 switch (return_code) {
                     case 200:
@@ -86,7 +91,6 @@ public class AccountRepo extends EntryActivity {
                             Log.d(TAG, "Code 200 () -> envio el token: " + token);
 
                             Preferences.providePreferences().edit().putString("token", token).apply();
-                            mLoggedIn.setValue(true);
                             break;
                         }
                         catch (IOException e) {
@@ -121,8 +125,8 @@ public class AccountRepo extends EntryActivity {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
 
                 int return_code = response.code();
+                mReturnCode.setValue(return_code);
                 Log.d(TAG, "get_account() -> ha rebut el codi: " + return_code);
-
                 switch (return_code) {
                     case 200:
                         Log.d(TAG, "Code 200 () -> get_account: " + profile);
@@ -137,12 +141,12 @@ public class AccountRepo extends EntryActivity {
                             e.printStackTrace();
                         }
 
-                        //mResponseGetAccount.setValue("Profile loaded successfully.");
+                        mResponseGetAccount.setValue("Profile loaded successfully.");
                         break;
 
                     default:
                         String error_msg = "Error: " + response.errorBody();
-                        //mResponseGetAccount.setValue(error_msg);
+                        mResponseGetAccount.setValue(error_msg);
                         break;
                 }
             }
@@ -150,7 +154,7 @@ public class AccountRepo extends EntryActivity {
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 String error_msg = "Error: " + t.getMessage();
-                //mResponseGetAccount.setValue(error_msg);
+                mResponseGetAccount.setValue(error_msg);
                 Log.d(TAG, error_msg);
             }
         });
@@ -165,18 +169,17 @@ public class AccountRepo extends EntryActivity {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
 
                 int return_code = response.code();
+                mReturnCode.setValue(return_code);
                 Log.d(TAG, "Update() -> ha rebut el codi: " + return_code);
-
                 switch (return_code) {
                     case 200:
                         Log.d(TAG, "Code 200 () -> Updated: ");
-
-                        //mResponseUpdate.setValue("Profile updated successfully.");
+                        mResponseUpdate.setValue("Profile updated successfully.");
                         break;
 
                     default:
                         String error_msg = "Error: " + response.errorBody();
-                        //mResponseUpdate.setValue(error_msg);
+                        mResponseUpdate.setValue(error_msg);
                         break;
                 }
             }
@@ -184,7 +187,7 @@ public class AccountRepo extends EntryActivity {
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 String error_msg = "Error: " + t.getMessage();
-                //mResponseUpdate.setValue(error_msg);
+                mResponseUpdate.setValue(error_msg);
                 Log.d(TAG, error_msg);
             }
         });

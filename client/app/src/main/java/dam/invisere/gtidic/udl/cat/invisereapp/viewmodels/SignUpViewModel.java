@@ -40,8 +40,6 @@ public class SignUpViewModel extends ViewModel {
             account.setPassword(Password.getValue());
             Log.d("signUpVM", account.toString());
             this.accountRepo.registerAccount(account);
-            String auth = Utils.createAuth(account.getUsername(), Password.getValue());
-            this.accountRepo.createTokenUser(auth);
         }
     }
 
@@ -56,6 +54,10 @@ public class SignUpViewModel extends ViewModel {
         return false;
     }
 
-
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    public void createToken(){
+        String auth = Utils.createAuth(Username.getValue(), Password.getValue());
+        this.accountRepo.createTokenUser(auth);
+    }
 
 }

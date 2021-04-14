@@ -42,8 +42,9 @@ public class LoginFragment extends Fragment {
 
 //        textUsername.setErrorEnabled(true);
 //        textPassword.setErrorEnabled(true);
-        loginViewModel.accountRepo.mLoggedIn.observe(getViewLifecycleOwner(), aBoolean -> {
-            if(aBoolean){
+
+        loginViewModel.accountRepo.mReturnCodeLogin.observe(getViewLifecycleOwner(), integer -> {
+            if(integer == 200){
                 Intent intent = new Intent(getContext(), MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                 getContext().startActivity(intent);
