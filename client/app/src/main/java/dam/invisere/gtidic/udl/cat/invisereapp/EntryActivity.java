@@ -8,14 +8,14 @@ import android.util.Log;
 import androidx.appcompat.app.AppCompatActivity;
 
 import dam.invisere.gtidic.udl.cat.invisereapp.preferences.Preferences;
-import dam.invisere.gtidic.udl.cat.invisereapp.viewmodels.MainActivityViewModel;
+import dam.invisere.gtidic.udl.cat.invisereapp.viewmodels.EntryActivityViewModel;
 
 public class EntryActivity extends AppCompatActivity {
 
     private static final String TAG = "Entry Activity";
     public static Context mContext;
 
-    MainActivityViewModel mainActivityViewModel = new MainActivityViewModel();
+    EntryActivityViewModel entryActivityViewModel = new EntryActivityViewModel();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,10 +24,11 @@ public class EntryActivity extends AppCompatActivity {
 
         Preferences.init(this);
 
-        if(mainActivityViewModel.isLogged()){
+        if(entryActivityViewModel.isLogged()){
             Log.d(TAG, "onCreate () -> existe un token");
 
             Intent intent = new Intent(this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         }
         else{

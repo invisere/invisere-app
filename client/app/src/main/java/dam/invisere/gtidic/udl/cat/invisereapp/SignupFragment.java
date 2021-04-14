@@ -1,12 +1,12 @@
 package dam.invisere.gtidic.udl.cat.invisereapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.Toast;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
@@ -17,7 +17,6 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import dam.invisere.gtidic.udl.cat.invisereapp.databinding.FragmentSignupBinding;
 import dam.invisere.gtidic.udl.cat.invisereapp.utils.EULA;
-import dam.invisere.gtidic.udl.cat.invisereapp.utils.LoginUtils;
 import dam.invisere.gtidic.udl.cat.invisereapp.viewmodels.SignUpViewModel;
 
 public class SignupFragment extends Fragment {
@@ -57,6 +56,46 @@ public class SignupFragment extends Fragment {
         checkBoxEula = view.findViewById(R.id.checkbox_eula);
         buttonRegister = view.findViewById(R.id.Button_register);
 
+        signUpViewModel.NameValidaton.observe(getViewLifecycleOwner(), validationResult -> {
+            if(!validationResult.isSuccess()){
+                textName.setError(validationResult.getMessage());
+            }else {
+                textName.setErrorEnabled(false);
+            }
+        });
+
+        signUpViewModel.UsernameValidaton.observe(getViewLifecycleOwner(), validationResult -> {
+            if(!validationResult.isSuccess()){
+                textUsername.setError(validationResult.getMessage());
+            }else {
+                textUsername.setErrorEnabled(false);
+            }
+        });
+
+        signUpViewModel.EmailValidaton.observe(getViewLifecycleOwner(), validationResult -> {
+            if(!validationResult.isSuccess()){
+                textEmail.setError(validationResult.getMessage());
+            }else {
+                textEmail.setErrorEnabled(false);
+            }
+        });
+
+        signUpViewModel.PassowrdValidaton.observe(getViewLifecycleOwner(), validationResult -> {
+            if(!validationResult.isSuccess()){
+                textPassword.setError(validationResult.getMessage());
+            }else {
+                textPassword.setErrorEnabled(false);
+            }
+        });
+
+        signUpViewModel.accountRepo.mLoggedIn.observe(getViewLifecycleOwner(), aBoolean -> {
+            if(aBoolean){
+                Intent intent = new Intent(getContext(), MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                getContext().startActivity(intent);
+            }
+        });
+
         textName.setErrorEnabled(true);
         textUsername.setErrorEnabled(true);
         textEmail.setErrorEnabled(true);
@@ -65,25 +104,6 @@ public class SignupFragment extends Fragment {
         buttonLogin.setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_signupFragment_to_loginFragment));
 
         checkBoxEula.setOnCheckedChangeListener((buttonView, isChecked) -> new EULA(checkBoxEula).show(getChildFragmentManager(), "EULAConfirmationDialog"));
-
-        buttonRegister.setOnClickListener(v -> {
-            String name = textName.getEditText().getText().toString();
-            String username = textUsername.getEditText().getText().toString();
-            String email = textEmail.getEditText().getText().toString();
-            String password = textPassword.getEditText().getText().toString();
-
-            boolean cN = LoginUtils.checkName(name, textName);
-            boolean cS = LoginUtils.checkUsername(username, textUsername);
-            boolean vE = LoginUtils.isValidEmailAddress(email, textEmail);
-            boolean cP = LoginUtils.checkPassword(password, textPassword);
-            boolean cE = LoginUtils.checkEULA(checkBoxEula);
-
-            if (cN && cS && vE && cP && cE){
-                Toast toast = Toast.makeText(getContext(), "SignUp successfull.", Toast.LENGTH_SHORT);
-                toast.show();
-            }
-
-        });
 
         return view;
     }

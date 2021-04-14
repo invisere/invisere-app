@@ -2,21 +2,22 @@ package dam.invisere.gtidic.udl.cat.invisereapp.validators;
 
 public class ValidationResultImpl implements ValidationResultI {
 
-    private final String message;
     private final boolean success;
+    private final String message;
 
-    public ValidationResultImpl(String message, boolean success) {
-        this.message = message;
+    public ValidationResultImpl(boolean success, String message) {
         this.success = success;
-    }
-
-    @Override
-    public String getMessage() {
-        return this.message;
+        this.message = message;
     }
 
     @Override
     public boolean isSuccess() {
         return this.success;
     }
+
+    @Override
+    public String getMessage() {
+        return this.message;
+    }
+    
 }

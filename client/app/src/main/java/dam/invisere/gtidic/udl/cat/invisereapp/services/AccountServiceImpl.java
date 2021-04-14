@@ -20,4 +20,15 @@ public class AccountServiceImpl implements AccountServiceI {
     public Call<ResponseBody> login(String auth){
         return retrofit.create(AccountServiceI.class).login(auth);
     }
+
+    @Override
+    public Call<ResponseBody> get_account(String token){
+        return retrofit.create(AccountServiceI.class).get_account(token);
+    }
+
+    @Override
+    public Call<ResponseBody> update(Account account, String token){
+        return retrofit.create(AccountServiceI.class).update(account,token);
+    }
+
 }
