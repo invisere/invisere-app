@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel;
 
 import dam.invisere.gtidic.udl.cat.invisereapp.models.Account;
 import dam.invisere.gtidic.udl.cat.invisereapp.repo.AccountRepo;
+import dam.invisere.gtidic.udl.cat.invisereapp.utils.Utils;
 import dam.invisere.gtidic.udl.cat.invisereapp.validators.AccountValidator;
 import dam.invisere.gtidic.udl.cat.invisereapp.validators.ValidationResultImpl;
 
@@ -39,6 +40,8 @@ public class SignUpViewModel extends ViewModel {
             account.setPassword(Password.getValue());
             Log.d("signUpVM", account.toString());
             this.accountRepo.registerAccount(account);
+            String auth = Utils.createAuth(account.getUsername(), Password.getValue());
+            this.accountRepo.createTokenUser(auth);
         }
     }
 
