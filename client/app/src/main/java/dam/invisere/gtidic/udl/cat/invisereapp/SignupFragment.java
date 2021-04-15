@@ -91,7 +91,7 @@ public class SignupFragment extends Fragment {
             }
         });
 
-        signUpViewModel.accountRepo.mReturnCodeRegister.observe(getViewLifecycleOwner(), integer -> {
+        signUpViewModel.accountRepo.mReturnCode.observe(getViewLifecycleOwner(), integer -> {
             if(integer == 200) {
                 signUpViewModel.createToken();
                 Intent intent = new Intent(getContext(), MainActivity.class);

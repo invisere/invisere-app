@@ -12,6 +12,7 @@ import dam.invisere.gtidic.udl.cat.invisereapp.models.Account;
 import dam.invisere.gtidic.udl.cat.invisereapp.preferences.Preferences;
 import dam.invisere.gtidic.udl.cat.invisereapp.services.AccountServiceI;
 import dam.invisere.gtidic.udl.cat.invisereapp.services.AccountServiceImpl;
+import dam.invisere.gtidic.udl.cat.invisereapp.validators.ReturnCodeImpl;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -24,12 +25,11 @@ public class AccountRepo extends EntryActivity {
     private AccountServiceI accountService;
 
     private MutableLiveData<String> mResponseRegister;
-    public MutableLiveData<Integer> mReturnCodeRegister;
-    public MutableLiveData<Integer> mReturnCode;
     private MutableLiveData<String> mResponseLogin;
-    public MutableLiveData<Integer> mReturnCodeLogin;
     private MutableLiveData<String> mResponseGetAccount;
     private MutableLiveData<String> mResponseUpdate;
+    public MutableLiveData<ReturnCodeImpl> mReturnCode;
+
 
     String token = "";
     public static String profile = "";
@@ -38,9 +38,7 @@ public class AccountRepo extends EntryActivity {
     public AccountRepo() {
         this.accountService = new AccountServiceImpl();
         this.mResponseRegister = new MutableLiveData<>();
-        this.mReturnCodeRegister = new MutableLiveData<>();
         this.mResponseLogin = new MutableLiveData<>();
-        this.mReturnCodeLogin = new MutableLiveData<>();
         this.mReturnCode = new MutableLiveData<>();
     }
 
@@ -50,7 +48,7 @@ public class AccountRepo extends EntryActivity {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 int return_code = response.code();
-                mReturnCodeRegister.setValue(return_code);
+                mReturnCode.setValue();
                 Log.d(TAG, "registerAccount() -> ha rebut el codi: " + return_code);
                 switch (return_code) {
                     case 200:
@@ -78,7 +76,6 @@ public class AccountRepo extends EntryActivity {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 int return_code = response.code();
-                mReturnCodeLogin.setValue(return_code);
                 Log.d(TAG, "createTokenUser() -> ha rebut el codi: " + return_code);
                 switch (return_code) {
                     case 200:
@@ -125,7 +122,6 @@ public class AccountRepo extends EntryActivity {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
 
                 int return_code = response.code();
-                mReturnCode.setValue(return_code);
                 Log.d(TAG, "get_account() -> ha rebut el codi: " + return_code);
                 switch (return_code) {
                     case 200:
@@ -169,7 +165,6 @@ public class AccountRepo extends EntryActivity {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
 
                 int return_code = response.code();
-                mReturnCode.setValue(return_code);
                 Log.d(TAG, "Update() -> ha rebut el codi: " + return_code);
                 switch (return_code) {
                     case 200:
