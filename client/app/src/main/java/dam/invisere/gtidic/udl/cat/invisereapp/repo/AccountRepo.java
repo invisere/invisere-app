@@ -48,7 +48,7 @@ public class AccountRepo extends EntryActivity {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 int return_code = response.code();
-                mReturnCode.setValue();
+                mReturnCode.setValue(new ReturnCodeImpl(true, return_code));
                 Log.d(TAG, "registerAccount() -> ha rebut el codi: " + return_code);
                 switch (return_code) {
                     case 200:
@@ -63,6 +63,7 @@ public class AccountRepo extends EntryActivity {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
+                mReturnCode.setValue(new ReturnCodeImpl(false));
                 String error_msg = "Error: " + t.getMessage();
                 mResponseRegister.setValue(error_msg);
                 Log.d(TAG, error_msg);
@@ -85,8 +86,7 @@ public class AccountRepo extends EntryActivity {
 
                             mResponseLogin.setValue("El login s'ha fet correctament.");
 
-                            Log.d(TAG, "Code 200 () -> envio el token: " + token);
-
+                            Log.d(TAG, "onResponse () -> envio el token: " + token);
                             Preferences.providePreferences().edit().putString("token", token).apply();
                             break;
                         }

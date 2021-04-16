@@ -3,7 +3,11 @@ package dam.invisere.gtidic.udl.cat.invisereapp.validators;
 public class ReturnCodeImpl implements ReturnCodeI {
 
     public final boolean registerAccountSuccess;
-    public final int registerAccountReturnCode;
+    public int registerAccountReturnCode;
+
+    public ReturnCodeImpl(boolean registerAccountSuccess) {
+        this.registerAccountSuccess = registerAccountSuccess;
+    }
 
     public ReturnCodeImpl(boolean registerAccountSuccess, int registerAccountReturnCode) {
         this.registerAccountSuccess = registerAccountSuccess;
