@@ -18,6 +18,11 @@ from resources.base_resources import DAMCoreResource
 from resources.schemas import SchemaUserToken, SchemaUpdateUser
 from settings import STATIC_DIRECTORY
 
+import random
+import string
+import smtplib
+from email.mime.multipart import MIMEMultipart
+
 mylogger = logging.getLogger(__name__)
 
 
@@ -87,6 +92,60 @@ class ResourceAccountUserProfile(DAMCoreResource):
 
         resp.media = current_user.json_model
         resp.status = falcon.HTTP_200
+
+class ResourceAccountRecovery(DAMCoreResource):
+    def on_post(self, req, resp, *args, **kwargs):
+        super().on_post(req, resp, *args, **kwargs)
+
+        email = req.media["email"]
+        code = ''.join(random.choices(string.ascii_uppercase + string.digits), k=6)
+        
+        try:
+            aux_user = self.db_session.query(User).filter(User.mail == email).one()
+            aux_user.recovery_code = code
+            self.db_session.add(aux_user)
+            self.db_session.commit
+
+            # Sending mail
+            smtp_server = "smtp.gmail.com"
+            sender_email = "invisere@gmail.com"
+            password = "bawiivofhqytijxn"
+
+            html = """\
+            <html>
+            <head></head>
+            <body>
+                <p>Hi """ +str(aux_user.name)+"""!<br>
+                Your requested code to recover your account is:<br>
+                """ +str(code)+ """
+                </p>
+            </body>
+            </html>
+            """
+
+            message = MIMEMultipart('alternative')
+            message["Subject"]:"Invisere Recovery account instructions"
+            message["From"]:sender_email
+            message["To"]:email
+
+            message.attach(MIMEText(html, "html"))
+
+
+            try:
+                server = smtplib.SMTP_SSL(smtp_server, 465)
+                server.login(sender_email, password)
+                server.sendmail(sender_email, email, message.as_string())
+                server.quit()
+
+            except Exception as e:
+                print(e)
+
+        except NoResultFound:
+            resp.status = falcon.HTTP_200
+
+        resp.status = falcon.HTTP_200
+
+
 
 @falcon.before(requires_auth)
 class ResourceAccountUpdateProfileImage(DAMCoreResource):
