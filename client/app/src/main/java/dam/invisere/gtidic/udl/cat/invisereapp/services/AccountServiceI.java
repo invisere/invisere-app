@@ -20,6 +20,9 @@ public interface AccountServiceI {
     @POST("/account/create_token")
     Call<ResponseBody> login(@Header("Authorization") String auth);
 
+    @POST("/account/delete_token")
+    Call<ResponseBody> delete_token(@Body String deleteToken, @Header("Authorization") String token);
+
     @GET("/account/profile")
     Call<AccountProfile> get_account(@Header("Authorization") String token);
 

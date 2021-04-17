@@ -23,6 +23,11 @@ public class AccountServiceImpl implements AccountServiceI {
     }
 
     @Override
+    public Call<ResponseBody> delete_token(String deleteToken, String token) {
+        return retrofit.create(AccountServiceI.class).delete_token(deleteToken, token);
+    }
+
+    @Override
     public Call<AccountProfile> get_account(String token){
         return retrofit.create(AccountServiceI.class).get_account(token);
     }

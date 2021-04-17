@@ -8,6 +8,7 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 
 import dam.invisere.gtidic.udl.cat.invisereapp.preferences.Preferences;
+import dam.invisere.gtidic.udl.cat.invisereapp.repo.AccountRepo;
 
 import static android.content.ContentValues.TAG;
 
@@ -15,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Button btn;
     private Button btn2;
+    private AccountRepo accountRepo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
         btn = findViewById(R.id.button);
         btn2 = findViewById(R.id.button2);
+        accountRepo = new AccountRepo();
 
     }
 
@@ -33,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         btn.setOnClickListener(v -> {
 
                 String token = Preferences.providePreferences().getString("token","");
+                accountRepo.deleteTokenUser(token);
                 Log.d(TAG, "Logout() -> he rebut el token: " + token);
 
                 Preferences.providePreferences().edit().clear().apply();
