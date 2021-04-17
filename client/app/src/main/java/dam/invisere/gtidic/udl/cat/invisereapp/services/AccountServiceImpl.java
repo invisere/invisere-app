@@ -2,6 +2,7 @@ package dam.invisere.gtidic.udl.cat.invisereapp.services;
 
 import dam.invisere.gtidic.udl.cat.invisereapp.models.Account;
 import dam.invisere.gtidic.udl.cat.invisereapp.models.AccountProfile;
+import dam.invisere.gtidic.udl.cat.invisereapp.models.Token;
 import dam.invisere.gtidic.udl.cat.invisereapp.network.RetrofitClientInstance;
 import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
@@ -20,6 +21,11 @@ public class AccountServiceImpl implements AccountServiceI {
     @Override
     public Call<ResponseBody> login(String auth){
         return retrofit.create(AccountServiceI.class).login(auth);
+    }
+
+    @Override
+    public Call<ResponseBody> delete_token(Token deleteToken, String token) {
+        return retrofit.create(AccountServiceI.class).delete_token(deleteToken, token);
     }
 
     @Override

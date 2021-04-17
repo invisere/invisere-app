@@ -33,9 +33,9 @@ import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 
-import static android.content.ContentValues.TAG;
-
 public class ChangeProfileActivity extends AppCompatActivity {
+
+    private static final String TAG = "ChangeProfileActivity";
 
     public static TextInputLayout textName;
     public static TextInputLayout textUsername;
