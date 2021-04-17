@@ -14,6 +14,7 @@ import dam.invisere.gtidic.udl.cat.invisereapp.preferences.Preferences;
 import dam.invisere.gtidic.udl.cat.invisereapp.services.AccountServiceI;
 import dam.invisere.gtidic.udl.cat.invisereapp.services.AccountServiceImpl;
 import dam.invisere.gtidic.udl.cat.invisereapp.validators.ReturnCodeImpl;
+import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
