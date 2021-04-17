@@ -42,6 +42,8 @@ public class AccountRepo extends EntryActivity {
         this.accountService = new AccountServiceImpl();
         this.mResponseRegister = new MutableLiveData<>();
         this.mResponseLogin = new MutableLiveData<>();
+        this.mResponseGetAccount = new MutableLiveData<>();
+        this.mResponseUpdate = new MutableLiveData<>();
         this.mReturnCode = new MutableLiveData<>();
     }
 
@@ -200,12 +202,12 @@ public class AccountRepo extends EntryActivity {
                 switch (return_code) {
                     case 200:
                         Log.d(TAG, "Code 200 () -> Updated: ");
-                        //mResponseUpdate.setValue("Profile updated successfully.");
+                        mResponseUpdate.setValue("Profile updated successfully.");
                         break;
 
                     default:
                         String error_msg = "Error: " + response.errorBody();
-                        //mResponseUpdate.setValue(error_msg);
+                        mResponseUpdate.setValue(error_msg);
                         break;
                 }
 

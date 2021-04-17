@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -15,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -95,6 +97,7 @@ public class ChangeProfileActivity extends AppCompatActivity {
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void onStart() {
         super.onStart();
 
@@ -119,6 +122,7 @@ public class ChangeProfileActivity extends AppCompatActivity {
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void updateProfile() {
 
         Log.d(TAG, "updateProfile");
@@ -162,7 +166,7 @@ public class ChangeProfileActivity extends AppCompatActivity {
         Log.d(TAG, "updateProfile -> he rebut el token: " + token);
 
 
-        if(photoChanged == true){
+        if(photoChanged){
             File file = new File(getRealPathFromURI(imageUri,this));
 
             RequestBody requestFile = RequestBody.create(file,MediaType.parse("image/*"));
