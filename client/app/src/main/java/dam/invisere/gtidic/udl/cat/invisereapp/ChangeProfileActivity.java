@@ -161,9 +161,7 @@ public class ChangeProfileActivity extends AppCompatActivity {
             account.setPassword(password);
         }
 
-
         Log.d(TAG, "updateProfile -> he rebut el token: " + token);
-
 
         if(photoChanged){
             File file = new File(getRealPathFromURI(imageUri,this));
@@ -171,8 +169,8 @@ public class ChangeProfileActivity extends AppCompatActivity {
             RequestBody requestFile = RequestBody.create(file,MediaType.parse("image/*"));
             MultipartBody.Part body2 = MultipartBody.Part.createFormData("image_file", file.getName(), requestFile);
 
-            Log.d(TAG, "updatePhoto -> he rebut el urL: " + imageUri.toString());
-            Log.d(TAG, "updatePhoto -> he rebut el token: " + ProfileActivity.UrlPhoto);
+            Log.d(TAG, "updatePhoto -> he rebut la uri: " + imageUri.toString());
+            Log.d(TAG, "updatePhoto -> he rebut la url: " + ProfileActivity.UrlPhoto);
 
             accountRepo.updatePhoto(body2,token);
         }
