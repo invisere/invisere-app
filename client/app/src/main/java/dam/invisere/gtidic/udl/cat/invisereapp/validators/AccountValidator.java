@@ -28,7 +28,6 @@ public class AccountValidator extends EntryActivity {
         return new ValidationResultImpl(success, msg);
     }
 
-    //public static int messageErrorName(String name){
     public static int messageErrorName(String name){
 
         if(name == null){
