@@ -36,4 +36,13 @@ public class Utils {
         return String.format(Locale.ENGLISH,
                 "$%s$%d$%s$%s", algorithm, iterations, salt_hash, hash);
     }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    public static String createAuth(String username, String password) {
+        String auth = username + ":" + password;
+        byte[] data = auth.getBytes(StandardCharsets.UTF_8);
+        auth = Base64.encodeToString(data, Base64.DEFAULT);
+        auth = ("Authentication: " + auth).trim();
+        return auth;
+    }
 }

@@ -13,7 +13,7 @@ import dam.invisere.gtidic.udl.cat.invisereapp.models.AccountProfile;
 import dam.invisere.gtidic.udl.cat.invisereapp.preferences.Preferences;
 import dam.invisere.gtidic.udl.cat.invisereapp.services.AccountServiceI;
 import dam.invisere.gtidic.udl.cat.invisereapp.services.AccountServiceImpl;
-import okhttp3.MultipartBody;
+import dam.invisere.gtidic.udl.cat.invisereapp.validators.ReturnCodeImpl;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -29,7 +29,8 @@ public class AccountRepo extends EntryActivity {
     private MutableLiveData<String> mResponseLogin;
     private MutableLiveData<String> mResponseGetAccount;
     private MutableLiveData<String> mResponseUpdate;
-    public MutableLiveData<Boolean> mLoggedIn;
+    public MutableLiveData<ReturnCodeImpl> mReturnCode;
+
 
     String token = "";
     public static String profile = "";
@@ -40,7 +41,7 @@ public class AccountRepo extends EntryActivity {
         this.accountService = new AccountServiceImpl();
         this.mResponseRegister = new MutableLiveData<>();
         this.mResponseLogin = new MutableLiveData<>();
-        this.mLoggedIn = new MutableLiveData<>(false);
+        this.mReturnCode = new MutableLiveData<>();
     }
 
     public void registerAccount(Account account) {
@@ -49,11 +50,11 @@ public class AccountRepo extends EntryActivity {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 int return_code = response.code();
+                mReturnCode.setValue(new ReturnCodeImpl(true, return_code));
                 Log.d(TAG, "registerAccount() -> ha rebut el codi: " + return_code);
                 switch (return_code) {
                     case 200:
                         mResponseRegister.setValue("El registre s'ha fet correctament.");
-                        mLoggedIn.setValue(true);
                         break;
                     default:
                         String error_msg = "Error: " + response.errorBody();
@@ -64,6 +65,7 @@ public class AccountRepo extends EntryActivity {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
+                mReturnCode.setValue(new ReturnCodeImpl(false));
                 String error_msg = "Error: " + t.getMessage();
                 mResponseRegister.setValue(error_msg);
                 Log.d(TAG, error_msg);
@@ -86,10 +88,8 @@ public class AccountRepo extends EntryActivity {
 
                             mResponseLogin.setValue("El login s'ha fet correctament.");
 
-                            Log.d(TAG, "Code 200 () -> envio el token: " + token);
-
+                            Log.d(TAG, "onResponse () -> envio el token: " + token);
                             Preferences.providePreferences().edit().putString("token", token).apply();
-                            mLoggedIn.setValue(true);
                             break;
                         }
                         catch (IOException e) {
@@ -125,7 +125,6 @@ public class AccountRepo extends EntryActivity {
 
                 int return_code = response.code();
                 Log.d(TAG, "get_account() -> ha rebut el codi: " + return_code);
-
                 switch (return_code) {
                     case 200:
                         Log.d(TAG, "Code 200 () -> get_account: " + profile2);
@@ -134,12 +133,12 @@ public class AccountRepo extends EntryActivity {
                             ProfileActivity.updateFields(profile2);
 
 
-                        //mResponseGetAccount.setValue("Profile loaded successfully.");
+                        mResponseGetAccount.setValue("Profile loaded successfully.");
                         break;
 
                     default:
                         String error_msg = "Error: " + response.errorBody();
-                        //mResponseGetAccount.setValue(error_msg);
+                        mResponseGetAccount.setValue(error_msg);
                         break;
                 }
             }
@@ -147,7 +146,7 @@ public class AccountRepo extends EntryActivity {
             @Override
             public void onFailure(Call<AccountProfile> call, Throwable t) {
                 String error_msg = "Error: " + t.getMessage();
-                //mResponseGetAccount.setValue(error_msg);
+                mResponseGetAccount.setValue(error_msg);
                 Log.d(TAG, error_msg);
             }
         });
@@ -163,17 +162,15 @@ public class AccountRepo extends EntryActivity {
 
                 int return_code = response.code();
                 Log.d(TAG, "Update() -> ha rebut el codi: " + return_code);
-
                 switch (return_code) {
                     case 200:
                         Log.d(TAG, "Code 200 () -> Updated: ");
-
-                        //mResponseUpdate.setValue("Profile updated successfully.");
+                        mResponseUpdate.setValue("Profile updated successfully.");
                         break;
 
                     default:
                         String error_msg = "Error: " + response.errorBody();
-                        //mResponseUpdate.setValue(error_msg);
+                        mResponseUpdate.setValue(error_msg);
                         break;
                 }
             }
@@ -181,7 +178,7 @@ public class AccountRepo extends EntryActivity {
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 String error_msg = "Error: " + t.getMessage();
-                //mResponseUpdate.setValue(error_msg);
+                mResponseUpdate.setValue(error_msg);
                 Log.d(TAG, error_msg);
             }
         });
