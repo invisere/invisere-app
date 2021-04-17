@@ -2,6 +2,7 @@ package dam.invisere.gtidic.udl.cat.invisereapp.services;
 
 import dam.invisere.gtidic.udl.cat.invisereapp.models.Account;
 import dam.invisere.gtidic.udl.cat.invisereapp.models.AccountProfile;
+import dam.invisere.gtidic.udl.cat.invisereapp.models.Token;
 import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -21,7 +22,7 @@ public interface AccountServiceI {
     Call<ResponseBody> login(@Header("Authorization") String auth);
 
     @POST("/account/delete_token")
-    Call<ResponseBody> delete_token(@Body String deleteToken, @Header("Authorization") String token);
+    Call<ResponseBody> delete_token(@Body Token deleteToken, @Header("Authorization") String token);
 
     @GET("/account/profile")
     Call<AccountProfile> get_account(@Header("Authorization") String token);

@@ -10,6 +10,7 @@ import dam.invisere.gtidic.udl.cat.invisereapp.EntryActivity;
 import dam.invisere.gtidic.udl.cat.invisereapp.ProfileActivity;
 import dam.invisere.gtidic.udl.cat.invisereapp.models.Account;
 import dam.invisere.gtidic.udl.cat.invisereapp.models.AccountProfile;
+import dam.invisere.gtidic.udl.cat.invisereapp.models.Token;
 import dam.invisere.gtidic.udl.cat.invisereapp.preferences.Preferences;
 import dam.invisere.gtidic.udl.cat.invisereapp.services.AccountServiceI;
 import dam.invisere.gtidic.udl.cat.invisereapp.services.AccountServiceImpl;
@@ -119,9 +120,9 @@ public class AccountRepo extends EntryActivity {
         });
     }
 
-    public void deleteTokenUser(String token){
+    public void deleteTokenUser(Token deleteToken, String token){
         Log.d(TAG, "deleteTokenUser() -> he rebut el header: " + token);
-        accountService.delete_token(token, token).enqueue(new Callback<ResponseBody>() {
+        accountService.delete_token(deleteToken, token).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 int return_code = response.code();
