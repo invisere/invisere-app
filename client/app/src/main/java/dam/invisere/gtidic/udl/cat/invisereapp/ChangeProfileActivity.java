@@ -103,8 +103,7 @@ public class ChangeProfileActivity extends AppCompatActivity {
 
         btnSave.setOnClickListener(v -> {
             updateProfile();
-            Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
-            startActivity(intent);
+            finish();
         });
 
         btnCancel.setOnClickListener(v -> {
