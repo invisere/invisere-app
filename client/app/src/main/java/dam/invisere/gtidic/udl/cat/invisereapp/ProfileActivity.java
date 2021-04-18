@@ -75,6 +75,7 @@ public class ProfileActivity extends AppCompatActivity {
         btnChangeProfile.setOnClickListener(v -> {
             Intent intent = new Intent(getApplicationContext(), ChangeProfileActivity.class);
             startActivity(intent);
+            finish();
         });
 
     }
@@ -99,7 +100,7 @@ public class ProfileActivity extends AppCompatActivity {
         textEmail.setText(email);
 
         if(UrlPhoto != null){
-            UrlPhoto = UrlPhoto.replace("http://127.0.0.1:8001","http://192.168.101.88:8001");
+            UrlPhoto = UrlPhoto.replace("http://127.0.0.1:8001","http://192.168.1.101:8001");
             Log.d(TAG, "UrlPhoto2: " + UrlPhoto);
 
             Picasso.get().load(UrlPhoto).error(R.drawable.ic_launcher_background).resize(350, 350).into(photoImage);

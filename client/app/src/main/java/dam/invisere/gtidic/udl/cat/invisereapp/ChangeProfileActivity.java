@@ -40,12 +40,10 @@ public class ChangeProfileActivity extends AppCompatActivity {
     public static TextInputLayout textName;
     public static TextInputLayout textUsername;
     public static TextInputLayout textEmail;
-    public static TextInputLayout textPassword;
 
     public String name;
     public String username;
     public String email;
-    public String password;
 
     private boolean photoChanged = false;
 
@@ -54,7 +52,6 @@ public class ChangeProfileActivity extends AppCompatActivity {
     private Button btnCancel;
     private Button btnSave;
     private Button btnChangePhoto;
-    private Button btnDeletePhoto;
 
     private static final int PICK_IMAGE = 100;
     public Uri imageUri;
@@ -80,12 +77,10 @@ public class ChangeProfileActivity extends AppCompatActivity {
         textEmail = findViewById(R.id.txtChangeEmail);
         textName = findViewById(R.id.txtChangeName);
         textUsername = findViewById(R.id.txtChangeUsername);
-        textPassword = findViewById(R.id.txtChangePassword);
 
         btnCancel = findViewById(R.id.btnCancel);
         btnSave = findViewById(R.id.btnSave);
         btnChangePhoto = findViewById(R.id.button4);
-        btnDeletePhoto = findViewById(R.id.button5);
 
         profileImage = findViewById(R.id.imageView);
 
@@ -93,7 +88,6 @@ public class ChangeProfileActivity extends AppCompatActivity {
         textName.getEditText().setText(ProfileActivity.name);
         textUsername.getEditText().setText(ProfileActivity.username);
         textEmail.getEditText().setText(ProfileActivity.email);
-        textPassword.getEditText().setText("");
     }
 
 
@@ -103,19 +97,19 @@ public class ChangeProfileActivity extends AppCompatActivity {
 
         btnSave.setOnClickListener(v -> {
             updateProfile();
+            Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+            startActivity(intent);
             finish();
         });
 
         btnCancel.setOnClickListener(v -> {
+            Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+            startActivity(intent);
             finish();
         });
 
         btnChangePhoto.setOnClickListener(v -> {
             checkPermitExternalMemory();
-        });
-
-        btnDeletePhoto.setOnClickListener(v -> {
-
         });
 
     }
@@ -129,7 +123,6 @@ public class ChangeProfileActivity extends AppCompatActivity {
         name = textName.getEditText().getText().toString();
         username = textUsername.getEditText().getText().toString();
         email = textEmail.getEditText().getText().toString();
-        password = textPassword.getEditText().getText().toString();
 
         Account account = new Account();
 
@@ -154,12 +147,6 @@ public class ChangeProfileActivity extends AppCompatActivity {
             account.setEmail(email);
         }
 
-        if (password.compareTo("") == 0) {
-            Log.d(TAG, "updateProfile: password = null");
-            account.setPassword(null);
-        } else {
-            account.setPassword(password);
-        }
 
         Log.d(TAG, "updateProfile -> he rebut el token: " + token);
 
@@ -175,11 +162,8 @@ public class ChangeProfileActivity extends AppCompatActivity {
             accountRepo.updatePhoto(body2,token);
         }
 
-        if(account.getEmail() == null && account.getUsername() == null && account.getName() == null && account.getPassword() == null){
-
-        }
-        else{
-            accountRepo.update(account, token);
+        if(account.getEmail() != null || account.getUsername() != null || account.getName() != null){
+            accountRepo.updateAccount(account, token);
         }
     }
 

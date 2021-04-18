@@ -30,7 +30,7 @@ public interface AccountServiceI {
     Call<AccountProfile> get_account(@Header("Authorization") String token);
 
     @POST("/account/update")
-    Call<ResponseBody> update(@Body Account account, @Header("Authorization") String token);
+    Call<ResponseBody> updateAccount(@Body Account account, @Header("Authorization") String token);
 
     @Multipart
     @POST("/account/profile/update_profile_image")
