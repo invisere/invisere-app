@@ -74,17 +74,21 @@ public class ChangeProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_profile);
 
-        textEmail = findViewById(R.id.txtChangeEmail);
-        textName = findViewById(R.id.txtChangeName);
-        textUsername = findViewById(R.id.txtChangeUsername);
+        textName = findViewById(R.id.TextField_name_changeProfile);
+        textEmail = findViewById(R.id.TextField_email_changeProfile);
+        textUsername = findViewById(R.id.TextField_username_changeProfile);
 
         btnCancel = findViewById(R.id.btnCancel);
         btnSave = findViewById(R.id.btnSave);
-        btnChangePhoto = findViewById(R.id.button4);
+        btnChangePhoto = findViewById(R.id.buttonChangePhoto);
 
-        profileImage = findViewById(R.id.imageView);
+        profileImage = findViewById(R.id.photoChangeProfile);
 
-        Picasso.get().load(ProfileActivity.UrlPhoto).error(R.drawable.ic_launcher_background).resize(350, 350).into(profileImage);
+        if(ProfileActivity.UrlPhoto == null){
+            Picasso.get().load("https://previews.123rf.com/images/boxerx/boxerx1611/boxerx161100006/68882648-descargar-signo-en-fondo-blanco-cargar-icono-barra-de-carga-de-datos-ilustraci%C3%B3n-de-stock-vector.jpg").error(R.drawable.ic_launcher_background).resize(350, 350).into(profileImage);
+        } else {
+            Picasso.get().load(ProfileActivity.UrlPhoto).error(R.drawable.ic_launcher_background).resize(350, 350).into(profileImage);
+        }
         textName.getEditText().setText(ProfileActivity.name);
         textUsername.getEditText().setText(ProfileActivity.username);
         textEmail.getEditText().setText(ProfileActivity.email);

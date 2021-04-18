@@ -5,10 +5,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.textfield.TextInputLayout;
 import com.squareup.picasso.Picasso;
 
 import dam.invisere.gtidic.udl.cat.invisereapp.models.AccountProfile;
@@ -19,14 +19,12 @@ import static android.content.ContentValues.TAG;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    public static TextView textCreatedAt;
-    public static TextView textName;
-    public static TextView textUsername;
-    public static TextView textEmail;
+    public static TextInputLayout textName;
+    public static TextInputLayout textUsername;
+    public static TextInputLayout textEmail;
 
     public static ImageView photoImage;
 
-    public static String createdAt;
     public static String name;
     public static String username;
     public static String email;
@@ -39,22 +37,21 @@ public class ProfileActivity extends AppCompatActivity {
 
     String token = Preferences.providePreferences().getString("token", "");
 
-
     public ProfileActivity() {
         this.accountRepo = new AccountRepo();
     }
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        textCreatedAt = findViewById(R.id.txtCreatedAt);
-        textName = findViewById(R.id.txtName);
-        textUsername = findViewById(R.id.txtUsername);
-        textEmail = findViewById(R.id.txtEmail);
+        textName = findViewById(R.id.TextField_name_profile);
+        textName.setEnabled(false);
+        textUsername = findViewById(R.id.TextField_username_profile);
+        textUsername.setEnabled(false);
+        textEmail = findViewById(R.id.TextField_email_profile);
+        textEmail.setEnabled(false);
         btn = findViewById(R.id.button3);
         btnChangeProfile = findViewById(R.id.btnChangeProfile);
 
@@ -71,7 +68,6 @@ public class ProfileActivity extends AppCompatActivity {
             finish();
         });
 
-
         btnChangeProfile.setOnClickListener(v -> {
             Intent intent = new Intent(getApplicationContext(), ChangeProfileActivity.class);
             startActivity(intent);
@@ -82,25 +78,22 @@ public class ProfileActivity extends AppCompatActivity {
 
     public static void updateFields(AccountProfile accountProfile){
 
-        createdAt = accountProfile.getCreated_at();
         name = accountProfile.getName();
         username = accountProfile.getUsername();
         email = accountProfile.getEmail();
         UrlPhoto = accountProfile.getPhoto();
 
-        Log.d(TAG, "CreatedAt: " + createdAt);
         Log.d(TAG, "Name: " + name);
         Log.d(TAG, "Username: " + username);
         Log.d(TAG, "Email: " + email);
         Log.d(TAG, "UrlPhoto: " + UrlPhoto);
 
-        textCreatedAt.setText(createdAt);
-        textName.setText(name);
-        textUsername.setText(username);
-        textEmail.setText(email);
+        textName.getEditText().setText(name);
+        textUsername.getEditText().setText(username);
+        textEmail.getEditText().setText(email);
 
         if(UrlPhoto != null){
-            UrlPhoto = UrlPhoto.replace("http://127.0.0.1:8001","http://192.168.1.101:8001");
+            UrlPhoto = UrlPhoto.replace("http://127.0.0.1:8001","http://192.168.101.88:8001");
             Log.d(TAG, "UrlPhoto2: " + UrlPhoto);
 
             Picasso.get().load(UrlPhoto).error(R.drawable.ic_launcher_background).resize(350, 350).into(photoImage);
