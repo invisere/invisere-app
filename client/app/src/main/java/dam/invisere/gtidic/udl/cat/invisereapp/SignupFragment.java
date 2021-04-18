@@ -83,7 +83,7 @@ public class SignupFragment extends Fragment {
             }
         });
 
-        signUpViewModel.PassowrdValidaton.observe(getViewLifecycleOwner(), validationResult -> {
+        signUpViewModel.PasswordValidaton.observe(getViewLifecycleOwner(), validationResult -> {
             if(!validationResult.isSuccess()){
                 textPassword.setError(getContext().getResources().getString(validationResult.getMessage()));
             }else {

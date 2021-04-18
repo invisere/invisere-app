@@ -10,7 +10,6 @@ import dam.invisere.gtidic.udl.cat.invisereapp.EntryActivity;
 import dam.invisere.gtidic.udl.cat.invisereapp.ProfileActivity;
 import dam.invisere.gtidic.udl.cat.invisereapp.models.Account;
 import dam.invisere.gtidic.udl.cat.invisereapp.models.AccountProfile;
-import dam.invisere.gtidic.udl.cat.invisereapp.models.Token;
 import dam.invisere.gtidic.udl.cat.invisereapp.preferences.Preferences;
 import dam.invisere.gtidic.udl.cat.invisereapp.services.AccountServiceI;
 import dam.invisere.gtidic.udl.cat.invisereapp.services.AccountServiceImpl;
@@ -122,9 +121,9 @@ public class AccountRepo extends EntryActivity {
         });
     }
 
-    public void deleteTokenUser(Token deleteToken, String token){
-        Log.d(TAG, "deleteTokenUser() -> he rebut el header: " + token);
-        accountService.delete_token(deleteToken, token).enqueue(new Callback<ResponseBody>() {
+    public void deleteTokenUser(String token){
+        Log.d(TAG, "deleteTokenUser() -> he rebut el token: " + token);
+        accountService.delete_token(token, token).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 int return_code = response.code();
@@ -256,8 +255,8 @@ public class AccountRepo extends EntryActivity {
         });
     }
 
-    public void recovery(Account account) {
-        accountService.recovery(account).enqueue(new Callback<ResponseBody>() {
+    public void recovery(String email) {
+        accountService.recovery(email).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 int return_code = response.code();
@@ -266,6 +265,34 @@ public class AccountRepo extends EntryActivity {
                     case 200:
                         Log.d(TAG, "Code 200 () -> Recovery: ");
                         mResponseRecovery.setValue("Recovery successfully.");
+                        break;
+
+                    default:
+                        String error_msg = "Error: " + response.errorBody();
+                        mResponseRecovery.setValue(error_msg);
+                        break;
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                String error_msg = "Error: " + t.getMessage();
+                mResponseRecovery.setValue(error_msg);
+                Log.d(TAG, error_msg);
+            }
+        });
+    }
+
+    public void password_update(String email, String password, String code) {
+        accountService.password_update(email, password, code).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                int return_code = response.code();
+                Log.d(TAG, "password_update() -> ha rebut el codi: " + return_code);
+                switch (return_code) {
+                    case 200:
+                        Log.d(TAG, "Code 200 () -> password_update: ");
+                        mResponseRecovery.setValue("password_update successfully.");
                         break;
 
                     default:

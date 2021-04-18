@@ -19,11 +19,6 @@ public class RecoverypasswordEmailFragment extends Fragment {
     public RecoverypasswordEmailFragment() {
     }
 
-    public static RecoverypasswordEmailFragment newInstance(String param1, String param2) {
-        RecoverypasswordEmailFragment fragment = new RecoverypasswordEmailFragment();
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

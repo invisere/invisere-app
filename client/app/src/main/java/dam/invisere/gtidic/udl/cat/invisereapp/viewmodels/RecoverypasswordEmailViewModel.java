@@ -7,8 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.navigation.Navigation;
 
-import dam.invisere.gtidic.udl.cat.invisereapp.R;
-import dam.invisere.gtidic.udl.cat.invisereapp.models.Account;
+import dam.invisere.gtidic.udl.cat.invisereapp.RecoverypasswordEmailFragmentDirections;
 import dam.invisere.gtidic.udl.cat.invisereapp.repo.AccountRepo;
 
 public class RecoverypasswordEmailViewModel extends ViewModel {
@@ -23,10 +22,11 @@ public class RecoverypasswordEmailViewModel extends ViewModel {
     }
 
     public void onConfirm(View view) {
-        Log.d(TAG, "onConfirm()");
-        Account account = new Account();
-        account.setEmail(Email.getValue());
-        accountRepo.recovery(account);
-        Navigation.findNavController(view).navigate(R.id.action_recoverypasswordEmailFragment_to_recoverypasswordCodeFragment);
+        Log.d(TAG, "onConfirm() -> " + Email.getValue());
+        if(Email.getValue() != null) {
+            accountRepo.recovery(Email.getValue());
+            RecoverypasswordEmailFragmentDirections.ActionRecoverypasswordEmailFragmentToRecoverypasswordCodeFragment action = RecoverypasswordEmailFragmentDirections.actionRecoverypasswordEmailFragmentToRecoverypasswordCodeFragment(Email.getValue());
+            Navigation.findNavController(view).navigate(action);
+        }
     }
 }
