@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -15,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -31,9 +33,9 @@ import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 
-import static android.content.ContentValues.TAG;
-
 public class ChangeProfileActivity extends AppCompatActivity {
+
+    private static final String TAG = "ChangeProfileActivity";
 
     public static TextInputLayout textName;
     public static TextInputLayout textUsername;
@@ -95,13 +97,13 @@ public class ChangeProfileActivity extends AppCompatActivity {
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void onStart() {
         super.onStart();
 
         btnSave.setOnClickListener(v -> {
             updateProfile();
-            Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
-            startActivity(intent);
+            finish();
         });
 
         btnCancel.setOnClickListener(v -> {
@@ -119,6 +121,7 @@ public class ChangeProfileActivity extends AppCompatActivity {
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void updateProfile() {
 
         Log.d(TAG, "updateProfile");
@@ -158,18 +161,16 @@ public class ChangeProfileActivity extends AppCompatActivity {
             account.setPassword(password);
         }
 
-
         Log.d(TAG, "updateProfile -> he rebut el token: " + token);
 
-
-        if(photoChanged == true){
+        if(photoChanged){
             File file = new File(getRealPathFromURI(imageUri,this));
 
             RequestBody requestFile = RequestBody.create(file,MediaType.parse("image/*"));
             MultipartBody.Part body2 = MultipartBody.Part.createFormData("image_file", file.getName(), requestFile);
 
-            Log.d(TAG, "updatePhoto -> he rebut el urL: " + imageUri.toString());
-            Log.d(TAG, "updatePhoto -> he rebut el token: " + ProfileActivity.UrlPhoto);
+            Log.d(TAG, "updatePhoto -> he rebut la uri: " + imageUri.toString());
+            Log.d(TAG, "updatePhoto -> he rebut la url: " + ProfileActivity.UrlPhoto);
 
             accountRepo.updatePhoto(body2,token);
         }

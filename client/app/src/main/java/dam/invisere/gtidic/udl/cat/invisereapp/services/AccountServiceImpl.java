@@ -2,6 +2,7 @@ package dam.invisere.gtidic.udl.cat.invisereapp.services;
 
 import dam.invisere.gtidic.udl.cat.invisereapp.models.Account;
 import dam.invisere.gtidic.udl.cat.invisereapp.models.AccountProfile;
+import dam.invisere.gtidic.udl.cat.invisereapp.models.Token;
 import dam.invisere.gtidic.udl.cat.invisereapp.network.RetrofitClientInstance;
 import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
@@ -23,6 +24,11 @@ public class AccountServiceImpl implements AccountServiceI {
     }
 
     @Override
+    public Call<ResponseBody> delete_token(Token deleteToken, String token) {
+        return retrofit.create(AccountServiceI.class).delete_token(deleteToken, token);
+    }
+
+    @Override
     public Call<AccountProfile> get_account(String token){
         return retrofit.create(AccountServiceI.class).get_account(token);
     }
@@ -35,6 +41,11 @@ public class AccountServiceImpl implements AccountServiceI {
     @Override
     public Call<ResponseBody> updatePhoto(MultipartBody.Part photo, String token){
         return retrofit.create(AccountServiceI.class).updatePhoto(photo,token);
+    }
+
+    @Override
+    public Call<ResponseBody> recovery(Account account) {
+        return retrofit.create(AccountServiceI.class).recovery(account);
     }
 
 }

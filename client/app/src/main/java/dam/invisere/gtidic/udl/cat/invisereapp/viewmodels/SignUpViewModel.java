@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel;
 
 import dam.invisere.gtidic.udl.cat.invisereapp.models.Account;
 import dam.invisere.gtidic.udl.cat.invisereapp.repo.AccountRepo;
+import dam.invisere.gtidic.udl.cat.invisereapp.utils.Utils;
 import dam.invisere.gtidic.udl.cat.invisereapp.validators.AccountValidator;
 import dam.invisere.gtidic.udl.cat.invisereapp.validators.ValidationResultImpl;
 
@@ -53,6 +54,10 @@ public class SignUpViewModel extends ViewModel {
         return false;
     }
 
-
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    public void createToken(){
+        String auth = Utils.createAuth(Username.getValue(), Password.getValue());
+        this.accountRepo.createTokenUser(auth);
+    }
 
 }

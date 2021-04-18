@@ -1,6 +1,7 @@
 package dam.invisere.gtidic.udl.cat.invisereapp;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 
+import androidx.annotation.RequiresApi;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -38,6 +40,7 @@ public class SignupFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -88,8 +91,9 @@ public class SignupFragment extends Fragment {
             }
         });
 
-        signUpViewModel.accountRepo.mLoggedIn.observe(getViewLifecycleOwner(), aBoolean -> {
-            if(aBoolean){
+        signUpViewModel.accountRepo.mReturnCode.observe(getViewLifecycleOwner(), returnCode -> {
+            if(returnCode.isAccountRegisterSuccess()) {
+                signUpViewModel.createToken();
                 Intent intent = new Intent(getContext(), MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                 getContext().startActivity(intent);
