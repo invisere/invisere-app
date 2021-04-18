@@ -88,13 +88,25 @@
         android:id="@+id/button_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:onClick="@{ (v) -> viewModel.onLogin(v) }"
         android:text="@string/Button_login_text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.95"
-        android:onClick="@{ (v) -> viewModel.onLogin(v) }"/>
+        app:layout_constraintVertical_bias="0.85" />
+
+    <TextView
+        android:id="@+id/textView_forgotPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/forgot_password"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_login"
+        app:layout_constraintVertical_bias="0.2"
+        android:onClick="@{ (v) -> viewModel.forgotPassowrd(v) }"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

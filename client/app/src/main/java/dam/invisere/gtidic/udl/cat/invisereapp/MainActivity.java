@@ -7,7 +7,6 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import dam.invisere.gtidic.udl.cat.invisereapp.models.Token;
 import dam.invisere.gtidic.udl.cat.invisereapp.preferences.Preferences;
 import dam.invisere.gtidic.udl.cat.invisereapp.repo.AccountRepo;
 
@@ -37,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         btn.setOnClickListener(v -> {
 
                 String token = Preferences.providePreferences().getString("token","");
-                accountRepo.deleteTokenUser(new Token(token), token);
+                accountRepo.deleteTokenUser(token);
                 Log.d(TAG, "Logout() -> he rebut el token: " + token);
 
                 Preferences.providePreferences().edit().clear().apply();
