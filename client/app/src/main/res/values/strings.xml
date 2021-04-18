@@ -8,6 +8,13 @@
     <string name="Button_cancel_login_text">Cancel</string>
     <string name="Button_login_text">Login</string>
     <string name="Button_signup_text">Signup</string>
+    <string name="Button_cancel_text">Cancel</string>
+    <string name="Button_save_text">Save</string>
+    <string name="Button_change_photo_text">Change photo</string>
+    <string name="Button_back_text">Back</string>
+    <string name="Button_modify_profile_text">Modify profile</string>
+    <string name="Button_logout_text">Logout</string>
+    <string name="Button_profile_text">Profile</string>
 
     <string name="Message_error_password_empty">The password cannot be empty</string>
     <string name="Message_error_password_does_not_contain_capital_letters">The password does not contain capital letters</string>
@@ -82,5 +89,7 @@
     <string name="confirm">Confirm</string>
     <string name="code">Code</string>
     <string name="new_password">New Password</string>
+
+    <string name="created_at">Created at</string>
 
 </resources>

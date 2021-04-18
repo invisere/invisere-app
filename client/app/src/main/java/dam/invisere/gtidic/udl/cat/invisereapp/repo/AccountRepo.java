@@ -189,15 +189,15 @@ public class AccountRepo extends EntryActivity {
     }
 
 
-    public void update(Account account, String token){
-        Log.d(TAG, "Update() -> he rebut el header: " + token);
+    public void updateAccount(Account account, String token){
+        Log.d(TAG, "UpdateAccount() -> he rebut el header: " + token);
 
-        accountService.update(account,token).enqueue(new Callback<ResponseBody>() {
+        accountService.updateAccount(account,token).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
 
                 int return_code = response.code();
-                Log.d(TAG, "Update() -> ha rebut el codi: " + return_code);
+                Log.d(TAG, "UpdateAccount() -> ha rebut el codi: " + return_code);
                 switch (return_code) {
                     case 200:
                         Log.d(TAG, "Code 200 () -> Updated: ");

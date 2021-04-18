@@ -33,8 +33,8 @@ public class AccountServiceImpl implements AccountServiceI {
     }
 
     @Override
-    public Call<ResponseBody> update(Account account, String token){
-        return retrofit.create(AccountServiceI.class).update(account,token);
+    public Call<ResponseBody> updateAccount(Account account, String token){
+        return retrofit.create(AccountServiceI.class).updateAccount(account,token);
     }
 
     @Override
