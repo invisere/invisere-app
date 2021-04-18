@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 public class Preferences {
-    private static String shared_preferences = "Preferences";
-
 
     private static SharedPreferences preferences;
 
@@ -14,6 +12,7 @@ public class Preferences {
     }
 
     public static void init(Context context) {
+        String shared_preferences = "Preferences";
         preferences = context.getSharedPreferences(shared_preferences, Context.MODE_PRIVATE);
     }
 }

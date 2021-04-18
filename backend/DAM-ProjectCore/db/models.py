@@ -78,6 +78,7 @@ class User(SQLAlchemyBase, JSONModel):
     email = Column(Unicode(255), nullable=False)
     tokens = relationship("UserToken", back_populates="user", cascade="all, delete-orphan")
     photo = Column(Unicode(255))
+    recovery_code = Column(Unicode(6), nullable=True)
 
     @hybrid_property
     def public_profile(self):

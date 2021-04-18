@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel;
 
 import dam.invisere.gtidic.udl.cat.invisereapp.models.Account;
 import dam.invisere.gtidic.udl.cat.invisereapp.repo.AccountRepo;
+import dam.invisere.gtidic.udl.cat.invisereapp.utils.Utils;
 import dam.invisere.gtidic.udl.cat.invisereapp.validators.AccountValidator;
 import dam.invisere.gtidic.udl.cat.invisereapp.validators.ValidationResultImpl;
 
@@ -23,7 +24,7 @@ public class SignUpViewModel extends ViewModel {
     public MutableLiveData<String> Email = new MutableLiveData<>();
     public MutableLiveData<ValidationResultImpl> EmailValidaton = new MutableLiveData<>();
     public MutableLiveData<String> Password = new MutableLiveData<>();
-    public MutableLiveData<ValidationResultImpl> PassowrdValidaton = new MutableLiveData<>();
+    public MutableLiveData<ValidationResultImpl> PasswordValidaton = new MutableLiveData<>();
 
     public SignUpViewModel() {
         this.accountRepo = new AccountRepo();
@@ -46,13 +47,17 @@ public class SignUpViewModel extends ViewModel {
         NameValidaton.setValue(AccountValidator.checkName(Name.getValue()));
         UsernameValidaton.setValue(AccountValidator.checkUsername(Username.getValue()));
         EmailValidaton.setValue(AccountValidator.checkEmail(Email.getValue()));
-        PassowrdValidaton.setValue(AccountValidator.checkPassword(Password.getValue()));
+        PasswordValidaton.setValue(AccountValidator.checkPassword(Password.getValue()));
 
-        if(NameValidaton.getValue().isSuccess() && UsernameValidaton.getValue().isSuccess() && EmailValidaton.getValue().isSuccess() && PassowrdValidaton.getValue().isSuccess())
+        if(NameValidaton.getValue().isSuccess() && UsernameValidaton.getValue().isSuccess() && EmailValidaton.getValue().isSuccess() && PasswordValidaton.getValue().isSuccess())
             return true;
         return false;
     }
 
-
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    public void createToken(){
+        String auth = Utils.createAuth(Username.getValue(), Password.getValue());
+        this.accountRepo.createTokenUser(auth);
+    }
 
 }

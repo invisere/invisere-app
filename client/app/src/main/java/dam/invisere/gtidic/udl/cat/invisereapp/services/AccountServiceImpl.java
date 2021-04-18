@@ -23,6 +23,11 @@ public class AccountServiceImpl implements AccountServiceI {
     }
 
     @Override
+    public Call<ResponseBody> delete_token(String deleteToken, String token) {
+        return retrofit.create(AccountServiceI.class).delete_token(deleteToken, token);
+    }
+
+    @Override
     public Call<AccountProfile> get_account(String token){
         return retrofit.create(AccountServiceI.class).get_account(token);
     }
@@ -35,6 +40,16 @@ public class AccountServiceImpl implements AccountServiceI {
     @Override
     public Call<ResponseBody> updatePhoto(MultipartBody.Part photo, String token){
         return retrofit.create(AccountServiceI.class).updatePhoto(photo,token);
+    }
+
+    @Override
+    public Call<ResponseBody> recovery(String email) {
+        return retrofit.create(AccountServiceI.class).recovery(email);
+    }
+
+    @Override
+    public Call<ResponseBody> password_update(String email, String password, String code) {
+        return retrofit.create(AccountServiceI.class).password_update(email, password, code);
     }
 
 }

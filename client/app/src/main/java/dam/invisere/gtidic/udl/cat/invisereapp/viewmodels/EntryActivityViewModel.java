@@ -7,11 +7,11 @@ import androidx.lifecycle.ViewModel;
 import dam.invisere.gtidic.udl.cat.invisereapp.preferences.Preferences;
 
 
-public class MainActivityViewModel extends ViewModel {
+public class EntryActivityViewModel extends ViewModel {
 
-    private static final String TAG = "MainViewModel";
+    private static final String TAG = "EntryActivityViewModel";
 
-    public MainActivityViewModel() {
+    public EntryActivityViewModel() {
     }
 
     public boolean isLogged() {
