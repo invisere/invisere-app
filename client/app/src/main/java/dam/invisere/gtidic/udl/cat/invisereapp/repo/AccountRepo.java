@@ -32,6 +32,7 @@ public class AccountRepo extends EntryActivity {
     private MutableLiveData<String> mResponseGetAccount;
     private MutableLiveData<String> mResponseDeleteToken;
     private MutableLiveData<String> mResponseUpdate;
+    private MutableLiveData<String> mResponseRecovery;
     public MutableLiveData<ReturnCodeImpl> mReturnCode;
 
 
@@ -47,6 +48,7 @@ public class AccountRepo extends EntryActivity {
         this.mResponseGetAccount = new MutableLiveData<>();
         this.mResponseDeleteToken = new MutableLiveData<>();
         this.mResponseUpdate = new MutableLiveData<>();
+        this.mResponseRecovery = new MutableLiveData<>();
         this.mReturnCode = new MutableLiveData<>();
     }
 
@@ -249,6 +251,34 @@ public class AccountRepo extends EntryActivity {
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 String error_msg = "Error: " + t.getMessage();
                 mResponseUpdate.setValue(error_msg);
+                Log.d(TAG, error_msg);
+            }
+        });
+    }
+
+    public void recovery(Account account) {
+        accountService.recovery(account).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                int return_code = response.code();
+                Log.d(TAG, "Recovery() -> ha rebut el codi: " + return_code);
+                switch (return_code) {
+                    case 200:
+                        Log.d(TAG, "Code 200 () -> Recovery: ");
+                        mResponseRecovery.setValue("Recovery successfully.");
+                        break;
+
+                    default:
+                        String error_msg = "Error: " + response.errorBody();
+                        mResponseRecovery.setValue(error_msg);
+                        break;
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                String error_msg = "Error: " + t.getMessage();
+                mResponseRecovery.setValue(error_msg);
                 Log.d(TAG, error_msg);
             }
         });

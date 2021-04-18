@@ -43,4 +43,9 @@ public class AccountServiceImpl implements AccountServiceI {
         return retrofit.create(AccountServiceI.class).updatePhoto(photo,token);
     }
 
+    @Override
+    public Call<ResponseBody> recovery(Account account) {
+        return retrofit.create(AccountServiceI.class).recovery(account);
+    }
+
 }

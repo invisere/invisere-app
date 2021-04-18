@@ -34,6 +34,9 @@ public interface AccountServiceI {
     @POST("/account/profile/update_profile_image")
     Call<ResponseBody> updatePhoto(@Part MultipartBody.Part photo, @Header("Authorization") String token);
 
+    @POST("/account/recovery")
+    Call<ResponseBody> recovery(@Body Account account);
+
 
 
 }
