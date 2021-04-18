@@ -86,6 +86,7 @@ public class AccountRepo extends EntryActivity {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 int return_code = response.code();
+                mReturnCode.setValue(new ReturnCodeImpl(true, return_code));
                 Log.d(TAG, "createTokenUser() -> ha rebut el codi: " + return_code);
                 switch (return_code) {
                     case 200:
@@ -113,6 +114,7 @@ public class AccountRepo extends EntryActivity {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
+                mReturnCode.setValue(new ReturnCodeImpl(false));
                 String error_msg = "Error: " + t.getMessage();
                 mResponseLogin.setValue(error_msg);
                 Preferences.providePreferences().edit().remove("token").apply();

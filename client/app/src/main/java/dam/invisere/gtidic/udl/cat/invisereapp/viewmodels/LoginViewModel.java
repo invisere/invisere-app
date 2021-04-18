@@ -9,7 +9,6 @@ import androidx.annotation.RequiresApi;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import dam.invisere.gtidic.udl.cat.invisereapp.MainActivity;
 import dam.invisere.gtidic.udl.cat.invisereapp.RecoveryPasswordActivity;
 import dam.invisere.gtidic.udl.cat.invisereapp.repo.AccountRepo;
 import dam.invisere.gtidic.udl.cat.invisereapp.utils.Utils;
@@ -31,9 +30,9 @@ public class LoginViewModel extends ViewModel {
         Log.d(TAG, "onLogin()");
         String auth = Utils.createAuth(Username.getValue(), Password.getValue());
         this.accountRepo.createTokenUser(auth);
-        Intent intent = new Intent(view.getContext(), MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-        view.getContext().startActivity(intent);
+//        Intent intent = new Intent(view.getContext(), MainActivity.class);
+//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+//        view.getContext().startActivity(intent);
     }
 
     public void forgotPassowrd(View view) {

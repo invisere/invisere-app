@@ -92,7 +92,7 @@ public class SignupFragment extends Fragment {
         });
 
         signUpViewModel.accountRepo.mReturnCode.observe(getViewLifecycleOwner(), returnCode -> {
-            if(returnCode.isAccountRegisterSuccess()) {
+            if(returnCode.getReturnCode() == 200) {
                 signUpViewModel.createToken();
                 Intent intent = new Intent(getContext(), MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);

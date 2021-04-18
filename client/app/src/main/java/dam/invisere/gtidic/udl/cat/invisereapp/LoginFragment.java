@@ -1,5 +1,6 @@
 package dam.invisere.gtidic.udl.cat.invisereapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,6 +41,14 @@ public class LoginFragment extends Fragment {
         buttonSignup = view.findViewById(R.id.button_login_to_signup);
 
         buttonSignup.setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_signupFragment));
+
+        loginViewModel.accountRepo.mReturnCode.observe(getViewLifecycleOwner(), returnCode -> {
+            if(returnCode.getReturnCode() == 200) {
+                Intent intent = new Intent(getContext(), MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                getContext().startActivity(intent);
+            }
+        });
 
         return view;
     }

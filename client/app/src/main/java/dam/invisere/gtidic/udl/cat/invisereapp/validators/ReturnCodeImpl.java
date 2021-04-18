@@ -2,25 +2,25 @@ package dam.invisere.gtidic.udl.cat.invisereapp.validators;
 
 public class ReturnCodeImpl implements ReturnCodeI {
 
-    public final boolean registerAccountSuccess;
-    public int registerAccountReturnCode;
+    public final boolean success;
+    public int returnCode;
 
-    public ReturnCodeImpl(boolean registerAccountSuccess) {
-        this.registerAccountSuccess = registerAccountSuccess;
+    public ReturnCodeImpl(boolean success) {
+        this.success = success;
     }
 
-    public ReturnCodeImpl(boolean registerAccountSuccess, int registerAccountReturnCode) {
-        this.registerAccountSuccess = registerAccountSuccess;
-        this.registerAccountReturnCode = registerAccountReturnCode;
-    }
-
-    @Override
-    public boolean isAccountRegisterSuccess() {
-        return registerAccountSuccess;
+    public ReturnCodeImpl(boolean success, int returnCode) {
+        this.success = success;
+        this.returnCode = returnCode;
     }
 
     @Override
-    public int getAccountRegisterReturnCode() {
-        return registerAccountReturnCode;
+    public boolean isSuccess() {
+        return success;
+    }
+
+    @Override
+    public int getReturnCode() {
+        return returnCode;
     }
 }
