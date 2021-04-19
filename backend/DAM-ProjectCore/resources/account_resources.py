@@ -18,6 +18,19 @@ from resources.base_resources import DAMCoreResource
 from resources.schemas import SchemaUserToken, SchemaUpdateUser
 from settings import STATIC_DIRECTORY
 
+import random
+import string
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from sqlalchemy.orm.exc import NoResultFound
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.mime.image import MIMEImage
+from email.mime.base import MIMEBase
+from email import encoders
+from jinja2 import Environment 
+
 mylogger = logging.getLogger(__name__)
 
 
@@ -88,6 +101,240 @@ class ResourceAccountUserProfile(DAMCoreResource):
         resp.media = current_user.json_model
         resp.status = falcon.HTTP_200
 
+class ResourceAccountRecovery(DAMCoreResource):
+    def on_post(self, req, resp, *args, **kwargs):
+        super().on_post(req, resp, *args, **kwargs)
+
+        email = req.media["email"]
+        code = ''.join(random.choices(string.ascii_uppercase + string.digits, k=6))
+        
+        try:
+            aux_user = self.db_session.query(User).filter(User.email == email).one()
+            aux_user.recovery_code = code
+            self.db_session.add(aux_user)
+            self.db_session.commit()
+
+            # Sending mail
+            smtp_server = "smtp.gmail.com"
+            sender_email = "invisere@gmail.com"
+            password = "bawiivofhqytijxn"
+
+            html = """\
+            <!DOCTYPE html>
+			<html lang="en-US">
+			  <head>
+			    <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+			    <title>Reset Password Email Template</title>
+			    <meta name="description" content="Reset Password Email Template." />
+			    <style type="text/css">
+			      a:hover {
+			        text-decoration: underline !important;
+			      }
+			    </style>
+			  </head>
+
+			  <body
+			    marginheight="0"
+			    topmargin="0"
+			    marginwidth="0"
+			    style="margin: 0px; background-color: #f2f3f8"
+			    leftmargin="0"
+			  >
+			    <!--100% body table-->
+			    <table
+			      cellspacing="0"
+			      border="0"
+			      cellpadding="0"
+			      width="100%"
+			      bgcolor="#f2f3f8"
+			      style="
+			        @import url(https://fonts.googleapis.com/css?family=Rubik:300,400,500,700|Open+Sans:300,400,600,700);
+			        font-family: 'Open Sans', sans-serif;
+			      "
+			    >
+			      <tr>
+			        <td>
+			          <table
+			            style="background-color: #f2f3f8; max-width: 670px; margin: 0 auto"
+			            width="100%"
+			            border="0"
+			            align="center"
+			            cellpadding="0"
+			            cellspacing="0"
+			          >
+			            <tr>
+			              <td style="height: 80px">&nbsp;</td>
+			            </tr>
+			            <tr>
+			              <td style="text-align: center">
+			                <a href="https://invisere.tech" title="logo" target="_blank">
+			                  <img
+			                    width="100"
+			                    src="cid:0"
+			                    title="logo"
+			                    alt="logo"
+			                  />
+			                </a>
+			              </td>
+			            </tr>
+			            <tr>
+			              <td style="height: 20px">&nbsp;</td>
+			            </tr>
+			            <tr>
+			              <td>
+			                <table
+			                  width="95%"
+			                  border="0"
+			                  align="center"
+			                  cellpadding="0"
+			                  cellspacing="0"
+			                  style="
+			                    max-width: 670px;
+			                    background: #fff;
+			                    border-radius: 3px;
+			                    text-align: center;
+			                    -webkit-box-shadow: 0 6px 18px 0 rgba(0, 0, 0, 0.06);
+			                    -moz-box-shadow: 0 6px 18px 0 rgba(0, 0, 0, 0.06);
+			                    box-shadow: 0 6px 18px 0 rgba(0, 0, 0, 0.06);
+			                  "
+			                >
+			                  <tr>
+			                    <td style="height: 40px">&nbsp;</td>
+			                  </tr>
+			                  <tr>
+			                    <td style="padding: 0 35px">
+			                      <h1
+			                        style="
+			                          color: #1e1e2d;
+			                          font-weight: 500;
+			                          margin: 0;
+			                          font-size: 32px;
+			                          font-family: 'Rubik', sans-serif;
+			                        "
+			                      >
+			                        You have requested to reset your password
+			                      </h1>
+			                      <span
+			                        style="
+			                          display: inline-block;
+			                          vertical-align: middle;
+			                          margin: 29px 0 26px;
+			                          border-bottom: 1px solid #cecece;
+			                          width: 100px;
+			                        "
+			                      ></span>
+			                      <p
+			                        style="
+			                          color: #455056;
+			                          font-size: 15px;
+			                          line-height: 24px;
+			                          margin: 0;
+			                        "
+			                      >
+			                        We cannot simply send you your old password. <br />A
+			                        unique code to reset your password has been generated
+			                        for you. <br />To reset your password, enter the code in
+			                        the app.
+			                      </p>
+			                      <a
+			                        style="
+			                          background: #008aff;
+			                          text-decoration: none !important;
+			                          font-weight: bold;
+			                          margin-top: 35px;
+			                          color: #fff;
+			                          text-transform: uppercase;
+			                          font-size: 24px;
+			                          padding: 10px 24px;
+			                          display: inline-block;
+			                          border-radius: 10px;
+			                        "
+			                        >{{code}}</a
+			                      >
+			                    </td>
+			                  </tr>
+			                  <tr>
+			                    <td style="height: 40px">&nbsp;</td>
+			                  </tr>
+			                </table>
+			              </td>
+			            </tr>
+
+			            <tr>
+			              <td style="height: 20px">&nbsp;</td>
+			            </tr>
+			            <tr>
+			              <td style="text-align: center">
+			                <p
+			                  style="
+			                    font-size: 14px;
+			                    color: rgba(69, 80, 86, 0.7411764705882353);
+			                    line-height: 18px;
+			                    margin: 0 0 0;
+			                  "
+			                >
+			                  &copy; <strong>invisere.tech</strong>
+			                </p>
+			              </td>
+			            </tr>
+			            <tr>
+			              <td style="height: 80px">&nbsp;</td>
+			            </tr>
+			          </table>
+			        </td>
+			      </tr>
+			    </table>
+			    <!--/100% body table-->
+			  </body>
+			</html>
+
+            """
+
+            msgRoot = MIMEMultipart('alternative')
+            msgRoot['Subject']='Invisere Recovery account instructions'
+            msgRoot['From']=sender_email
+            msgRoot['To']=email
+
+            msgRoot.preamble = '====================================================='
+            msgAlternative = MIMEMultipart('alternative')
+            msgRoot.attach(msgAlternative)
+            image = "resources/images/logo.png"
+            logo = os.path.join(os.getcwd(), image)
+
+            # to add an attachment is just add a MIMEBase object to read a picture locally.
+
+            with open(logo, 'rb') as f:
+                # set attachment mime and file name, the image type is png
+                mime = MIMEBase('image', 'png', filename='logo')
+                # add required header data:
+                mime.add_header('Content-Disposition', 'attachment', filename='logo')
+                mime.add_header('X-Attachment-Id', '0')
+                mime.add_header('Content-ID', '<0>')
+                # read attachment file content into the MIMEBase object
+                mime.set_payload(f.read())
+                # encode with base64
+                encoders.encode_base64(mime)
+                msgRoot.attach(mime)
+
+            msgRoot.attach(MIMEText(Environment().from_string(html).render(code=code,logo=logo), "html"))
+
+
+            try:
+                server = smtplib.SMTP_SSL(smtp_server, 465)
+                server.login(sender_email, password)
+                server.sendmail(sender_email, email, msgRoot.as_string())
+                server.quit()
+
+            except Exception as e:
+                print(e)
+
+        except NoResultFound:
+            resp.status = falcon.HTTP_200
+
+        resp.status = falcon.HTTP_200
+
+
+
 @falcon.before(requires_auth)
 class ResourceAccountUpdateProfileImage(DAMCoreResource):
     def on_post(self, req, resp, *args, **kwargs):
@@ -139,5 +386,26 @@ class ResourceAccountUpdate(DAMCoreResource):
 
         self.db_session.add(current_user)
         self.db_session.commit()
+
+        resp.status = falcon.HTTP_200
+
+class ResourceAccountPasswordUpdate(DAMCoreResource):
+    def on_post(self, req, resp, *args, **kwargs):
+        super().on_post(req, resp, *args, **kwargs)
+
+        email = req.media['email']
+        password = req.media['password']
+        code = req.media['code']
+
+        try:
+            aux_user = self.db_session.query(User).filter(User.email == email, User.recovery_code == code).one()
+            aux_user.password = password
+            aux_user.recovery_code = None
+            self.db_session.add(aux_user)
+            self.db_session.commit()
+
+
+        except Exception as e:
+            print(e)
 
         resp.status = falcon.HTTP_200

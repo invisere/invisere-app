@@ -9,9 +9,12 @@ import java.io.IOException;
 import dam.invisere.gtidic.udl.cat.invisereapp.EntryActivity;
 import dam.invisere.gtidic.udl.cat.invisereapp.ProfileActivity;
 import dam.invisere.gtidic.udl.cat.invisereapp.models.Account;
+import dam.invisere.gtidic.udl.cat.invisereapp.models.AccountProfile;
 import dam.invisere.gtidic.udl.cat.invisereapp.preferences.Preferences;
 import dam.invisere.gtidic.udl.cat.invisereapp.services.AccountServiceI;
 import dam.invisere.gtidic.udl.cat.invisereapp.services.AccountServiceImpl;
+import dam.invisere.gtidic.udl.cat.invisereapp.validators.ReturnCodeImpl;
+import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -26,18 +29,26 @@ public class AccountRepo extends EntryActivity {
     private MutableLiveData<String> mResponseRegister;
     private MutableLiveData<String> mResponseLogin;
     private MutableLiveData<String> mResponseGetAccount;
+    private MutableLiveData<String> mResponseDeleteToken;
     private MutableLiveData<String> mResponseUpdate;
-    public MutableLiveData<Boolean> mLoggedIn;
+    private MutableLiveData<String> mResponseRecovery;
+    public MutableLiveData<ReturnCodeImpl> mReturnCode;
+
 
     String token = "";
     public static String profile = "";
+    public static AccountProfile profile2;
 
 
     public AccountRepo() {
         this.accountService = new AccountServiceImpl();
         this.mResponseRegister = new MutableLiveData<>();
         this.mResponseLogin = new MutableLiveData<>();
-        this.mLoggedIn = new MutableLiveData<>(false);
+        this.mResponseGetAccount = new MutableLiveData<>();
+        this.mResponseDeleteToken = new MutableLiveData<>();
+        this.mResponseUpdate = new MutableLiveData<>();
+        this.mResponseRecovery = new MutableLiveData<>();
+        this.mReturnCode = new MutableLiveData<>();
     }
 
     public void registerAccount(Account account) {
@@ -46,11 +57,11 @@ public class AccountRepo extends EntryActivity {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 int return_code = response.code();
+                mReturnCode.setValue(new ReturnCodeImpl(true, return_code));
                 Log.d(TAG, "registerAccount() -> ha rebut el codi: " + return_code);
                 switch (return_code) {
                     case 200:
                         mResponseRegister.setValue("El registre s'ha fet correctament.");
-                        mLoggedIn.setValue(true);
                         break;
                     default:
                         String error_msg = "Error: " + response.errorBody();
@@ -61,6 +72,7 @@ public class AccountRepo extends EntryActivity {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
+                mReturnCode.setValue(new ReturnCodeImpl(false));
                 String error_msg = "Error: " + t.getMessage();
                 mResponseRegister.setValue(error_msg);
                 Log.d(TAG, error_msg);
@@ -74,6 +86,7 @@ public class AccountRepo extends EntryActivity {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 int return_code = response.code();
+                mReturnCode.setValue(new ReturnCodeImpl(true, return_code));
                 Log.d(TAG, "createTokenUser() -> ha rebut el codi: " + return_code);
                 switch (return_code) {
                     case 200:
@@ -83,10 +96,8 @@ public class AccountRepo extends EntryActivity {
 
                             mResponseLogin.setValue("El login s'ha fet correctament.");
 
-                            Log.d(TAG, "Code 200 () -> envio el token: " + token);
-
+                            Log.d(TAG, "onResponse () -> envio el token: " + token);
                             Preferences.providePreferences().edit().putString("token", token).apply();
-                            mLoggedIn.setValue(true);
                             break;
                         }
                         catch (IOException e) {
@@ -103,9 +114,39 @@ public class AccountRepo extends EntryActivity {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
+                mReturnCode.setValue(new ReturnCodeImpl(false));
                 String error_msg = "Error: " + t.getMessage();
                 mResponseLogin.setValue(error_msg);
                 Preferences.providePreferences().edit().remove("token").apply();
+                Log.d(TAG, error_msg);
+            }
+        });
+    }
+
+    public void deleteTokenUser(String token){
+        Log.d(TAG, "deleteTokenUser() -> he rebut el token: " + token);
+        accountService.delete_token(token, token).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                int return_code = response.code();
+                Log.d(TAG, "deleteTokenUser() -> ha rebut el codi: " + return_code);
+                switch (return_code) {
+                    case 200:
+                        Log.d(TAG, "Code 200 () -> deleteTokenUser: " + token);
+                        mResponseDeleteToken.setValue("Token deleted successfully.");
+                        break;
+
+                    default:
+                        String error_msg = "Error: " + response.errorBody();
+                        mResponseDeleteToken.setValue(error_msg);
+                        break;
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                String error_msg = "Error: " + t.getMessage();
+                mResponseDeleteToken.setValue(error_msg);
                 Log.d(TAG, error_msg);
             }
         });
@@ -115,68 +156,60 @@ public class AccountRepo extends EntryActivity {
     public void get_account(String token){
         Log.d(TAG, "get_account() -> he rebut el header: " + token);
 
-        accountService.get_account(token).enqueue(new Callback<ResponseBody>() {
+        accountService.get_account(token).enqueue(new Callback<AccountProfile>() {
 
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            public void onResponse(Call<AccountProfile> call, Response<AccountProfile> response) {
 
                 int return_code = response.code();
                 Log.d(TAG, "get_account() -> ha rebut el codi: " + return_code);
-
                 switch (return_code) {
                     case 200:
-                        Log.d(TAG, "Code 200 () -> get_account: " + profile);
-                        try {
-                            profile = response.body().string();
-                            Log.d(TAG, " -> Profile: " + profile);
+                        Log.d(TAG, "Code 200 () -> get_account: " + profile2);
+                            profile2 = response.body();
 
-                            ProfileActivity.updateFields();
+                            ProfileActivity.updateFields(profile2);
 
-                        }
-                        catch (IOException e) {
-                            e.printStackTrace();
-                        }
 
-                        //mResponseGetAccount.setValue("Profile loaded successfully.");
+
+                        mResponseGetAccount.setValue("Profile loaded successfully.");
                         break;
 
                     default:
                         String error_msg = "Error: " + response.errorBody();
-                        //mResponseGetAccount.setValue(error_msg);
+                        mResponseGetAccount.setValue(error_msg);
                         break;
                 }
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            public void onFailure(Call<AccountProfile> call, Throwable t) {
                 String error_msg = "Error: " + t.getMessage();
-                //mResponseGetAccount.setValue(error_msg);
+                mResponseGetAccount.setValue(error_msg);
                 Log.d(TAG, error_msg);
             }
         });
     }
 
 
-    public void update(Account account, String token){
-        Log.d(TAG, "Update() -> he rebut el header: " + token);
+    public void updateAccount(Account account, String token){
+        Log.d(TAG, "UpdateAccount() -> he rebut el header: " + token);
 
-        accountService.update(account,token).enqueue(new Callback<ResponseBody>() {
+        accountService.updateAccount(account,token).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
 
                 int return_code = response.code();
-                Log.d(TAG, "Update() -> ha rebut el codi: " + return_code);
-
+                Log.d(TAG, "UpdateAccount() -> ha rebut el codi: " + return_code);
                 switch (return_code) {
                     case 200:
                         Log.d(TAG, "Code 200 () -> Updated: ");
-
-                        //mResponseUpdate.setValue("Profile updated successfully.");
+                        mResponseUpdate.setValue("Profile updated successfully.");
                         break;
 
                     default:
                         String error_msg = "Error: " + response.errorBody();
-                        //mResponseUpdate.setValue(error_msg);
+                        mResponseUpdate.setValue(error_msg);
                         break;
                 }
             }
@@ -184,7 +217,98 @@ public class AccountRepo extends EntryActivity {
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 String error_msg = "Error: " + t.getMessage();
-                //mResponseUpdate.setValue(error_msg);
+                mResponseUpdate.setValue(error_msg);
+                Log.d(TAG, error_msg);
+            }
+        });
+    }
+
+
+
+    public void updatePhoto(MultipartBody.Part photo, String token){
+        Log.d(TAG, "AccountRepo -> updatePhoto() -> he rebut el header: " + token);
+
+        accountService.updatePhoto(photo,token).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+
+                int return_code = response.code();
+                Log.d(TAG, "updatePhoto() -> ha rebut el codi: " + return_code);
+
+                switch (return_code) {
+                    case 200:
+                        Log.d(TAG, "Code 200 () -> Updated: ");
+                        mResponseUpdate.setValue("Profile updated successfully.");
+                        break;
+
+                    default:
+                        String error_msg = "Error: " + response.errorBody();
+                        mResponseUpdate.setValue(error_msg);
+                        break;
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                String error_msg = "Error: " + t.getMessage();
+                mResponseUpdate.setValue(error_msg);
+                Log.d(TAG, error_msg);
+            }
+        });
+    }
+
+    public void recovery(String email) {
+        accountService.recovery(email).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                int return_code = response.code();
+                Log.d(TAG, "Recovery() -> ha rebut el codi: " + return_code);
+                switch (return_code) {
+                    case 200:
+                        Log.d(TAG, "Code 200 () -> Recovery: ");
+                        mResponseRecovery.setValue("Recovery successfully.");
+                        break;
+
+                    default:
+                        String error_msg = "Error: " + response.errorBody();
+                        mResponseRecovery.setValue(error_msg);
+                        break;
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                String error_msg = "Error: " + t.getMessage();
+                mResponseRecovery.setValue(error_msg);
+                Log.d(TAG, error_msg);
+            }
+        });
+    }
+
+    public void password_update(String email, String password, String code) {
+        accountService.password_update(email, password, code).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                int return_code = response.code();
+                Log.d(TAG, "password_update() -> ha rebut el codi: " + return_code);
+                switch (return_code) {
+                    case 200:
+                        Log.d(TAG, "Code 200 () -> password_update: ");
+                        mResponseRecovery.setValue("password_update successfully.");
+                        break;
+
+                    default:
+                        String error_msg = "Error: " + response.errorBody();
+                        mResponseRecovery.setValue(error_msg);
+                        break;
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                String error_msg = "Error: " + t.getMessage();
+                mResponseRecovery.setValue(error_msg);
                 Log.d(TAG, error_msg);
             }
         });

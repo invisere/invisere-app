@@ -63,7 +63,7 @@ public class Account {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void setPassword(String password) {
-        this.password = Utils.encode(password, "16", 29000);
+        this.password = (password != null) ? Utils.encode(password, "16", 29000) : null;
     }
 
 

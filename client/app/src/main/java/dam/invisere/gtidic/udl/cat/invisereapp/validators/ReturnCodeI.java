@@ -1,8 +1,8 @@
 package dam.invisere.gtidic.udl.cat.invisereapp.validators;
 
-public interface ValidationResultI {
+public interface ReturnCodeI {
 
     boolean isSuccess();
-    int getMessage();
+    int getReturnCode();
 
 }

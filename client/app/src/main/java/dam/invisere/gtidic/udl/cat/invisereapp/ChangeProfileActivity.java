@@ -1,21 +1,41 @@
 package dam.invisere.gtidic.udl.cat.invisereapp;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.material.textfield.TextInputLayout;
+import com.squareup.picasso.Picasso;
+
+import java.io.File;
 
 import dam.invisere.gtidic.udl.cat.invisereapp.models.Account;
 import dam.invisere.gtidic.udl.cat.invisereapp.preferences.Preferences;
 import dam.invisere.gtidic.udl.cat.invisereapp.repo.AccountRepo;
-
-import static android.content.ContentValues.TAG;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
 public class ChangeProfileActivity extends AppCompatActivity {
+
+    private static final String TAG = "ChangeProfileActivity";
 
     public static TextInputLayout textName;
     public static TextInputLayout textUsername;
@@ -25,13 +45,26 @@ public class ChangeProfileActivity extends AppCompatActivity {
     public String username;
     public String email;
 
+    private boolean photoChanged = false;
+
+    public ImageView profileImage;
+
     private Button btnCancel;
     private Button btnSave;
+    private Button btnChangePhoto;
+
+    private static final int PICK_IMAGE = 100;
+    public Uri imageUri;
 
     private AccountRepo accountRepo;
 
+    String token = Preferences.providePreferences().getString("token", "");
 
-    public ChangeProfileActivity(){
+    private static final int CODIGO_PERMISOS_EXTERNAL_STORAGE = 1;
+    public static int checkEstadoPermisoExternalMemory = ContextCompat.checkSelfPermission(EntryActivity.getContext(), Manifest.permission.READ_EXTERNAL_STORAGE);
+
+
+    public ChangeProfileActivity() {
         this.accountRepo = new AccountRepo();
     }
 
@@ -41,39 +74,55 @@ public class ChangeProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_profile);
 
-        textEmail = findViewById(R.id.txtChangeEmail);
-        textName = findViewById(R.id.txtChangeName);
-        textUsername = findViewById(R.id.txtChangeUsername);
+        textName = findViewById(R.id.TextField_name_changeProfile);
+        textEmail = findViewById(R.id.TextField_email_changeProfile);
+        textUsername = findViewById(R.id.TextField_username_changeProfile);
 
         btnCancel = findViewById(R.id.btnCancel);
         btnSave = findViewById(R.id.btnSave);
+        btnChangePhoto = findViewById(R.id.buttonChangePhoto);
 
+        profileImage = findViewById(R.id.photoChangeProfile);
+
+        if(ProfileActivity.UrlPhoto == null){
+            Picasso.get().load("https://previews.123rf.com/images/boxerx/boxerx1611/boxerx161100006/68882648-descargar-signo-en-fondo-blanco-cargar-icono-barra-de-carga-de-datos-ilustraci%C3%B3n-de-stock-vector.jpg").error(R.drawable.ic_launcher_background).resize(350, 350).into(profileImage);
+        } else {
+            Picasso.get().load(ProfileActivity.UrlPhoto).error(R.drawable.ic_launcher_background).resize(350, 350).into(profileImage);
+        }
         textName.getEditText().setText(ProfileActivity.name);
         textUsername.getEditText().setText(ProfileActivity.username);
         textEmail.getEditText().setText(ProfileActivity.email);
     }
 
 
-    public void onStart(){
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void onStart() {
         super.onStart();
 
         btnSave.setOnClickListener(v -> {
-            editName();
+            updateProfile();
             Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
             startActivity(intent);
-        });
-
-        btnCancel.setOnClickListener(v -> {
             finish();
         });
 
+        btnCancel.setOnClickListener(v -> {
+            Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+            startActivity(intent);
+            finish();
+        });
+
+        btnChangePhoto.setOnClickListener(v -> {
+            checkPermitExternalMemory();
+        });
 
     }
 
 
-    public void editName(){
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void updateProfile() {
 
-        Log.d(TAG, "edit Name");
+        Log.d(TAG, "updateProfile");
 
         name = textName.getEditText().getText().toString();
         username = textUsername.getEditText().getText().toString();
@@ -81,37 +130,123 @@ public class ChangeProfileActivity extends AppCompatActivity {
 
         Account account = new Account();
 
-        if(name.compareTo(ProfileActivity.name) == 0){
-            Log.d(TAG, "editName: name = null");
+        if (name.compareTo(ProfileActivity.name) == 0) {
+            Log.d(TAG, "updateProfile: name = null");
             account.setName(null);
-        }
-        else{
+        } else {
             account.setName(name);
         }
 
-        if(username.compareTo(ProfileActivity.username) == 0){
-            Log.d(TAG, "editName: username = null");
+        if (username.compareTo(ProfileActivity.username) == 0) {
+            Log.d(TAG, "updateProfile: username = null");
             account.setUsername(null);
-        }
-        else{
+        } else {
             account.setUsername(username);
         }
 
-        if(email.compareTo(ProfileActivity.email) == 0){
-            Log.d(TAG, "editName: email = null");
+        if (email.compareTo(ProfileActivity.email) == 0) {
+            Log.d(TAG, "updateProfile: email = null");
             account.setEmail(null);
-        }
-        else{
+        } else {
             account.setEmail(email);
         }
 
-        account.setPassword(null);
 
+        Log.d(TAG, "updateProfile -> he rebut el token: " + token);
 
-        String token = Preferences.providePreferences().getString("token", "");
-        Log.d(TAG, "editName -> he rebut el token: " + token);
+        if(photoChanged){
+            File file = new File(getRealPathFromURI(imageUri,this));
 
+            RequestBody requestFile = RequestBody.create(file,MediaType.parse("image/*"));
+            MultipartBody.Part body2 = MultipartBody.Part.createFormData("image_file", file.getName(), requestFile);
 
-        accountRepo.update(account,token);
+            Log.d(TAG, "updatePhoto -> he rebut la uri: " + imageUri.toString());
+            Log.d(TAG, "updatePhoto -> he rebut la url: " + ProfileActivity.UrlPhoto);
+
+            accountRepo.updatePhoto(body2,token);
+        }
+
+        if(account.getEmail() != null || account.getUsername() != null || account.getName() != null){
+            accountRepo.updateAccount(account, token);
+        }
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK && requestCode == PICK_IMAGE) {
+            imageUri = data.getData();
+            Picasso.get().load(imageUri).error(R.drawable.ic_launcher_background).resize(350, 350).into(profileImage);
+            photoChanged = true;
+        }
+        else{
+            photoChanged = false;
+        }
+    }
+
+
+    public String getRealPathFromURI(Uri uri, Activity activity) {
+
+         if (uri == null) {
+             return null;
+         }
+         String[] projection = {MediaStore.Images.Media.DATA};
+         @SuppressLint("Recycle") Cursor cursor = activity.getContentResolver().query(uri, projection, null, null, null);
+
+         if (cursor != null) {
+             int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            return cursor.getString(column_index);
+         }
+         return uri.getPath();
+    }
+
+
+    public void checkPermitExternalMemory(){
+        if(checkEstadoPermisoExternalMemory == PackageManager.PERMISSION_GRANTED){
+            permisoDeAlmacenamientoConcedido();
+            Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+            startActivityForResult(gallery, PICK_IMAGE);
+
+        }
+        else{
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                    CODIGO_PERMISOS_EXTERNAL_STORAGE);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case CODIGO_PERMISOS_EXTERNAL_STORAGE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Log.d(TAG, "onRequestResult Concedido");
+
+                    Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+                    startActivityForResult(gallery, PICK_IMAGE);
+
+                    permisoDeAlmacenamientoConcedido();
+                }
+                else {
+                    Log.d(TAG, "onRequestResult no Concedido");
+                    permisoDeAlmacenamientoNoConcedido();
+                }
+                break;
+        }
+
+    }
+
+    private static void permisoDeAlmacenamientoConcedido() {
+        Toast.makeText(EntryActivity.getContext(), "El permiso para el almacenamiento está concedido", Toast.LENGTH_SHORT).show();
+
+    }
+
+    private static void permisoDeAlmacenamientoNoConcedido() {
+        Toast.makeText(EntryActivity.getContext(), "El permiso para el almacenamiento no está concedido", Toast.LENGTH_SHORT).show();
+    }
+
+
 }
