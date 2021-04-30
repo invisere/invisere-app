@@ -4,5 +4,6 @@ public interface ReturnCodeI {
 
     boolean isSuccess();
     int getReturnCode();
+    int getMsgCode();
 
 }

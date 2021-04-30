@@ -11,6 +11,7 @@ import dam.invisere.gtidic.udl.cat.invisereapp.models.Account;
 import dam.invisere.gtidic.udl.cat.invisereapp.repo.AccountRepo;
 import dam.invisere.gtidic.udl.cat.invisereapp.utils.Utils;
 import dam.invisere.gtidic.udl.cat.invisereapp.validators.AccountValidator;
+import dam.invisere.gtidic.udl.cat.invisereapp.validators.ReturnCodeI;
 import dam.invisere.gtidic.udl.cat.invisereapp.validators.ValidationResultImpl;
 
 public class SignUpViewModel extends ViewModel {
@@ -41,6 +42,15 @@ public class SignUpViewModel extends ViewModel {
             Log.d("signUpVM", account.toString());
             this.accountRepo.registerAccount(account);
         }
+    }
+
+    //Aixo hauria de ser la Interficie.
+    public MutableLiveData<ReturnCodeI> getSignUpResponse(){
+        return accountRepo.mResponseRegister;
+    }
+
+    public MutableLiveData<ReturnCodeI> getCreateTokenResponse(){
+        return accountRepo.mResponseLogin;
     }
 
     public boolean isFormValid(){
