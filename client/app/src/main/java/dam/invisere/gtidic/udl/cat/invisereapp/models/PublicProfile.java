@@ -8,6 +8,13 @@ public class PublicProfile {
     private String photo;
     private int fav;
 
+    public PublicProfile(){
+        this.name = "";
+        this.username = "";
+        this.rutes = 0;
+        this.fav = 0;
+    }
+
     public String getName() {
         return name;
     }

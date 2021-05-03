@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        btn2.setOnClickListener(v -> {
+        btn4.setOnClickListener(v -> {
             Log.d(TAG, "onViewPublicProfile()");
 
             Intent intent = new Intent(getApplicationContext(), PublicProfileActivity.class);

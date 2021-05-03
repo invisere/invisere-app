@@ -8,32 +8,8 @@
         android:layout_height="match_parent"
         tools:context=".ProfileActivity">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/TextField_rutes_profile"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginLeft="32dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="32dp"
-            android:layout_marginRight="32dp"
-            android:hint="@string/TextField_rutes_hint"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/TextField_username_profile"
-            app:startIconDrawable="@android:drawable/ic_dialog_map">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textWebEmailAddress"
-                android:maxLines="1" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/ButtonBack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="23dp"
@@ -47,31 +23,54 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/photoProfile"
+            android:id="@+id/PhotoPublicProfile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="104dp"
+            android:layout_marginTop="33dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.113"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ButtonBack"
             app:shapeAppearanceOverlay="@style/circleImageViewStyle"
             tools:srcCompat="@tools:sample/avatars" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/TextField_name_profile"
+            android:id="@+id/TextField_rutes_profile"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginLeft="32dp"
-            android:layout_marginTop="64dp"
+            android:layout_marginTop="1dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginRight="32dp"
+            android:hint="@string/TextField_rutes_hint"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/TextNamePublicProfile"
+            app:startIconDrawable="@android:drawable/ic_dialog_map">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textWebEmailAddress"
+                android:maxLines="1" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/TextNamePublicProfile"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginLeft="32dp"
             android:layout_marginEnd="32dp"
             android:layout_marginRight="32dp"
             android:hint="@string/TextField_name_hint"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/photoProfile"
+            app:layout_constraintTop_toBottomOf="@+id/TextUsernamePublicProfile"
             app:startIconDrawable="@drawable/ic_baseline_person_24">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -83,19 +82,19 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/TextField_username_profile"
+            android:id="@+id/TextUsernamePublicProfile"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginLeft="32dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="80dp"
             android:layout_marginEnd="32dp"
             android:layout_marginRight="32dp"
             android:hint="@string/TextField_username_hint"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/TextField_name_profile"
+            app:layout_constraintTop_toBottomOf="@+id/PhotoPublicProfile"
             app:startIconDrawable="@drawable/ic_baseline_alternate_email_24">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -115,11 +114,10 @@
             android:layout_marginLeft="32dp"
             android:layout_marginEnd="32dp"
             android:layout_marginRight="32dp"
-            android:layout_marginBottom="150dp"
             android:hint="@string/TextField_favoritos_hint"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/TextField_rutes_profile"
             app:startIconDrawable="@android:drawable/btn_star">
 
             <com.google.android.material.textfield.TextInputEditText

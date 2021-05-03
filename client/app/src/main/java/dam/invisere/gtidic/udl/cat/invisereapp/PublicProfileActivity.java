@@ -35,7 +35,6 @@ public class PublicProfileActivity extends AppCompatActivity {
 
     private Button btn;
 
-
     public PublicProfileActivity() {
 
     }
@@ -45,17 +44,17 @@ public class PublicProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
 
-        textName = findViewById(R.id.TextField_name_profile);
+        textName = findViewById(R.id.TextNamePublicProfile);
         textName.setEnabled(false);
-        textUsername = findViewById(R.id.TextField_username_profile);
+        textUsername = findViewById(R.id.TextUsernamePublicProfile);
         textUsername.setEnabled(false);
         textRutes = findViewById(R.id.TextField_rutes_profile);
         textRutes.setEnabled(false);
         textFav = findViewById(R.id.TextField_fav_profile);
         textFav.setEnabled(false);
-        btn = findViewById(R.id.button3);
+        btn = findViewById(R.id.ButtonBack);
 
-        photoImage = findViewById(R.id.photoProfile);
+        photoImage = findViewById(R.id.PhotoPublicProfile);
 
         putProfile();
     }
@@ -70,6 +69,7 @@ public class PublicProfileActivity extends AppCompatActivity {
 
     public void putProfile(){
         PublicProfile publicProfile = new PublicProfile();
+        publicProfile.setRutes(10);
         publicProfile.setFav(5);
         publicProfile.setName("David");
         publicProfile.setPhoto("https://image.freepik.com/vector-gratis/perfil-avatar-hombre-icono-redondo_24640-14044.jpg");
@@ -84,6 +84,7 @@ public class PublicProfileActivity extends AppCompatActivity {
         username = publicProfile.getUsername();
         rutes = publicProfile.getRutes();
         UrlPhoto = publicProfile.getPhoto();
+        fav = publicProfile.getFav();
 
         Log.d(TAG, "Name: " + name);
         Log.d(TAG, "Username: " + username);
@@ -92,10 +93,11 @@ public class PublicProfileActivity extends AppCompatActivity {
 
         textName.getEditText().setText(name);
         textUsername.getEditText().setText(username);
-        textRutes.getEditText().setText(rutes);
+        textRutes.getEditText().setText("" + rutes);
+        textFav.getEditText().setText("" + fav);
 
         if(UrlPhoto != null){
-            UrlPhoto = UrlPhoto.replace("http://127.0.0.1:8001","http://192.168.101.88:8001");
+            //UrlPhoto = UrlPhoto.replace("http://127.0.0.1:8001","http://192.168.101.88:8001");
             Log.d(TAG, "UrlPhoto2: " + UrlPhoto);
 
             Picasso.get().load(UrlPhoto).error(R.drawable.ic_launcher_background).resize(350, 350).into(photoImage);
