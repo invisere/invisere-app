@@ -13,6 +13,7 @@ import dam.invisere.gtidic.udl.cat.invisereapp.models.AccountProfile;
 import dam.invisere.gtidic.udl.cat.invisereapp.preferences.Preferences;
 import dam.invisere.gtidic.udl.cat.invisereapp.services.AccountServiceI;
 import dam.invisere.gtidic.udl.cat.invisereapp.services.AccountServiceImpl;
+import dam.invisere.gtidic.udl.cat.invisereapp.validators.ReturnCodeI;
 import dam.invisere.gtidic.udl.cat.invisereapp.validators.ReturnCodeImpl;
 import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
@@ -26,14 +27,12 @@ public class AccountRepo extends EntryActivity {
 
     private AccountServiceI accountService;
 
-    private MutableLiveData<String> mResponseRegister;
-    private MutableLiveData<String> mResponseLogin;
+    public MutableLiveData<ReturnCodeI> mResponseRegister;
+    public MutableLiveData<ReturnCodeI> mResponseLogin;
     private MutableLiveData<String> mResponseGetAccount;
     private MutableLiveData<String> mResponseDeleteToken;
     private MutableLiveData<String> mResponseUpdate;
     private MutableLiveData<String> mResponseRecovery;
-    public MutableLiveData<ReturnCodeImpl> mReturnCode;
-
 
     String token = "";
     public static String profile = "";
@@ -48,7 +47,6 @@ public class AccountRepo extends EntryActivity {
         this.mResponseDeleteToken = new MutableLiveData<>();
         this.mResponseUpdate = new MutableLiveData<>();
         this.mResponseRecovery = new MutableLiveData<>();
-        this.mReturnCode = new MutableLiveData<>();
     }
 
     public void registerAccount(Account account) {
@@ -57,24 +55,26 @@ public class AccountRepo extends EntryActivity {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 int return_code = response.code();
-                mReturnCode.setValue(new ReturnCodeImpl(true, return_code));
                 Log.d(TAG, "registerAccount() -> ha rebut el codi: " + return_code);
                 switch (return_code) {
                     case 200:
-                        mResponseRegister.setValue("El registre s'ha fet correctament.");
+                        mResponseRegister.setValue(new ReturnCodeImpl(true, return_code, 0));
+//                        mResponseRegister.setValue("El registre s'ha fet correctament.");
                         break;
                     default:
                         String error_msg = "Error: " + response.errorBody();
-                        mResponseRegister.setValue(error_msg);
+                        mResponseRegister.setValue(new ReturnCodeImpl(true, return_code, 0));
+//                        mResponseRegister.setValue(error_msg);
                         break;
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                mReturnCode.setValue(new ReturnCodeImpl(false));
+                mResponseRegister.setValue(new ReturnCodeImpl(false));
                 String error_msg = "Error: " + t.getMessage();
-                mResponseRegister.setValue(error_msg);
+//                mResponseRegister.setValue(error_msg);
+                mResponseRegister.setValue(new ReturnCodeImpl(false));
                 Log.d(TAG, error_msg);
             }
         });
@@ -86,18 +86,16 @@ public class AccountRepo extends EntryActivity {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 int return_code = response.code();
-                mReturnCode.setValue(new ReturnCodeImpl(true, return_code));
                 Log.d(TAG, "createTokenUser() -> ha rebut el codi: " + return_code);
                 switch (return_code) {
                     case 200:
                         try {
                             token = response.body().string().split(":")[1];
                             token = token.substring(2,token.length()-2);
-
-                            mResponseLogin.setValue("El login s'ha fet correctament.");
-
+//                            mResponseLogin.setValue("El login s'ha fet correctament.");
                             Log.d(TAG, "onResponse () -> envio el token: " + token);
-                            Preferences.providePreferences().edit().putString("token", token).apply();
+                            Preferences.providePreferences().edit().putString("token", token).commit();
+                            mResponseLogin.setValue(new ReturnCodeImpl(true, return_code, 200));
                             break;
                         }
                         catch (IOException e) {
@@ -106,7 +104,8 @@ public class AccountRepo extends EntryActivity {
 
                     default:
                         String error_msg = "Error: " + response.errorBody();
-                        mResponseLogin.setValue(error_msg);
+//                        mResponseLogin.setValue(error_msg);
+                        mResponseLogin.setValue(new ReturnCodeImpl(true, return_code, 0));
                         Preferences.providePreferences().edit().remove("token").apply();
                         break;
                 }
@@ -114,9 +113,9 @@ public class AccountRepo extends EntryActivity {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                mReturnCode.setValue(new ReturnCodeImpl(false));
+                mResponseLogin.setValue(new ReturnCodeImpl(false));
                 String error_msg = "Error: " + t.getMessage();
-                mResponseLogin.setValue(error_msg);
+//                mResponseLogin.setValue(error_msg);
                 Preferences.providePreferences().edit().remove("token").apply();
                 Log.d(TAG, error_msg);
             }

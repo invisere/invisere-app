@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModel;
 import dam.invisere.gtidic.udl.cat.invisereapp.RecoveryPasswordActivity;
 import dam.invisere.gtidic.udl.cat.invisereapp.repo.AccountRepo;
 import dam.invisere.gtidic.udl.cat.invisereapp.utils.Utils;
+import dam.invisere.gtidic.udl.cat.invisereapp.validators.ReturnCodeI;
 
 public class LoginViewModel extends ViewModel {
 
@@ -39,4 +40,9 @@ public class LoginViewModel extends ViewModel {
         Intent intent = new Intent(view.getContext(), RecoveryPasswordActivity.class);
         view.getContext().startActivity(intent);
     }
+
+    public MutableLiveData<ReturnCodeI> getLoginResponse() {
+        return accountRepo.mResponseLogin;
+    }
+
 }
