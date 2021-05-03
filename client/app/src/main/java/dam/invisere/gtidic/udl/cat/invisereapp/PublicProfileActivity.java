@@ -56,7 +56,7 @@ public class PublicProfileActivity extends AppCompatActivity {
 
         photoImage = findViewById(R.id.PhotoPublicProfile);
 
-        putProfile();
+        
     }
 
     protected void onStart() {
