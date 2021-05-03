@@ -96,9 +96,14 @@ public class SignupFragment extends Fragment {
             }
         });
 
-        signUpViewModel.accountRepo.mReturnCode.observe(getViewLifecycleOwner(), returnCode -> {
-            if(returnCode.getReturnCode() == 200) {
+        signUpViewModel.getSignUpResponse().observe(getViewLifecycleOwner(), returnCodeI -> {
+            if(returnCodeI.getReturnCode() == 200) {
                 signUpViewModel.createToken();
+            }
+        });
+
+        signUpViewModel.getCreateTokenResponse().observe(getViewLifecycleOwner(), returnCodeI -> {
+            if(returnCodeI.getReturnCode() == 200) {
                 Intent intent = new Intent(getContext(), MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                 getContext().startActivity(intent);
