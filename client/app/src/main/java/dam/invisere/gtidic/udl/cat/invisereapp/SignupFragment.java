@@ -18,7 +18,6 @@ import androidx.navigation.Navigation;
 import com.google.android.material.textfield.TextInputLayout;
 
 import dam.invisere.gtidic.udl.cat.invisereapp.databinding.FragmentSignupBinding;
-import dam.invisere.gtidic.udl.cat.invisereapp.utils.EULA;
 import dam.invisere.gtidic.udl.cat.invisereapp.viewmodels.SignUpViewModel;
 
 public class SignupFragment extends Fragment {
@@ -29,7 +28,6 @@ public class SignupFragment extends Fragment {
     private TextInputLayout textEmail;
     private TextInputLayout textPassword;
     private CheckBox checkBoxEula;
-    private Button buttonRegister;
     private SignUpViewModel signUpViewModel;
 
     public SignupFragment() {
@@ -57,9 +55,8 @@ public class SignupFragment extends Fragment {
         textEmail = view.findViewById(R.id.TextField_email_register);
         textPassword = view.findViewById(R.id.TextField_password_register);
         checkBoxEula = view.findViewById(R.id.checkbox_eula);
-        buttonRegister = view.findViewById(R.id.Button_register);
 
-        signUpViewModel.NameValidaton.observe(getViewLifecycleOwner(), validationResult -> {
+        signUpViewModel.NameValidation.observe(getViewLifecycleOwner(), validationResult -> {
             if(!validationResult.isSuccess()){
                 textName.setError(getContext().getResources().getString(validationResult.getMessage()));
             }else {
@@ -67,7 +64,7 @@ public class SignupFragment extends Fragment {
             }
         });
 
-        signUpViewModel.UsernameValidaton.observe(getViewLifecycleOwner(), validationResult -> {
+        signUpViewModel.UsernameValidation.observe(getViewLifecycleOwner(), validationResult -> {
             if(!validationResult.isSuccess()){
                 textUsername.setError(getContext().getResources().getString(validationResult.getMessage()));
             }else {
@@ -75,7 +72,7 @@ public class SignupFragment extends Fragment {
             }
         });
 
-        signUpViewModel.EmailValidaton.observe(getViewLifecycleOwner(), validationResult -> {
+        signUpViewModel.EmailValidation.observe(getViewLifecycleOwner(), validationResult -> {
             if(!validationResult.isSuccess()){
                 textEmail.setError(getContext().getResources().getString(validationResult.getMessage()));
             }else {
@@ -83,11 +80,19 @@ public class SignupFragment extends Fragment {
             }
         });
 
-        signUpViewModel.PasswordValidaton.observe(getViewLifecycleOwner(), validationResult -> {
+        signUpViewModel.PasswordValidation.observe(getViewLifecycleOwner(), validationResult -> {
             if(!validationResult.isSuccess()){
                 textPassword.setError(getContext().getResources().getString(validationResult.getMessage()));
             }else {
                 textPassword.setErrorEnabled(false);
+            }
+        });
+
+        signUpViewModel.EULAValidation.observe(getViewLifecycleOwner(), validationResult -> {
+            if(!validationResult.isSuccess()){
+                checkBoxEula.setError(getContext().getResources().getString(validationResult.getMessage()));
+            }else {
+                checkBoxEula.setError(null);
             }
         });
 
@@ -106,8 +111,6 @@ public class SignupFragment extends Fragment {
         textPassword.setErrorEnabled(true);
 
         buttonLogin.setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_signupFragment_to_loginFragment));
-
-        checkBoxEula.setOnCheckedChangeListener((buttonView, isChecked) -> new EULA(checkBoxEula).show(getChildFragmentManager(), "EULAConfirmationDialog"));
 
         return view;
     }
