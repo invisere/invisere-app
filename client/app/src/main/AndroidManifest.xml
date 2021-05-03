@@ -23,7 +23,8 @@
         <activity android:name=".MainActivity" />
         <activity
             android:name=".EntryActivity"
-            android:theme="@style/SplashTheme">
+            android:theme="@style/SplashTheme"
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
