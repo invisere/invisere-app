@@ -149,7 +149,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout"
         android:focusableInTouchMode="true"
-        android:focusable="true"/>
+        android:focusable="true"
+        android:checked="@={viewModel.EULA}"
+        android:onClick="@{ (v) -> viewModel.onCheckEULA(v) }"/>
 
     <Button
         android:id="@+id/Button_register"

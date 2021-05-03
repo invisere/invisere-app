@@ -32,7 +32,7 @@ public class LoginFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        loginViewModel = new ViewModelProvider(this).get(LoginViewModel.class);
+        loginViewModel = new ViewModelProvider(requireActivity()).get(LoginViewModel.class);
         FragmentLoginBinding fragmentLoginBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_login, container, false);
         View view = fragmentLoginBinding.getRoot();
         fragmentLoginBinding.setLifecycleOwner(this);
@@ -42,7 +42,7 @@ public class LoginFragment extends Fragment {
 
         buttonSignup.setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_signupFragment));
 
-        loginViewModel.accountRepo.mReturnCode.observe(getViewLifecycleOwner(), returnCode -> {
+        loginViewModel.getLoginResponse().observe(getViewLifecycleOwner(), returnCode -> {
             if(returnCode.getReturnCode() == 200) {
                 Intent intent = new Intent(getContext(), MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
