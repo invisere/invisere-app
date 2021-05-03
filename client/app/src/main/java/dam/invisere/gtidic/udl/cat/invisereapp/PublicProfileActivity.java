@@ -18,7 +18,7 @@ import dam.invisere.gtidic.udl.cat.invisereapp.repo.AccountRepo;
 
 import static android.content.ContentValues.TAG;
 
-public class UserActivity extends AppCompatActivity {
+public class PublicProfileActivity extends AppCompatActivity {
 
     public static TextInputLayout textName;
     public static TextInputLayout textUsername;
@@ -36,7 +36,7 @@ public class UserActivity extends AppCompatActivity {
     private Button btn;
 
 
-    public UserActivity() {
+    public PublicProfileActivity() {
 
     }
 
@@ -72,7 +72,7 @@ public class UserActivity extends AppCompatActivity {
         PublicProfile publicProfile = new PublicProfile();
         publicProfile.setFav(5);
         publicProfile.setName("David");
-        publicProfile.setPhoto("");
+        publicProfile.setPhoto("https://image.freepik.com/vector-gratis/perfil-avatar-hombre-icono-redondo_24640-14044.jpg");
         publicProfile.setUsername("DavidArt");
         updateFields(publicProfile);
     }

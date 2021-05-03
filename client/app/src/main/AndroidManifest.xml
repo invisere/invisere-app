@@ -19,6 +19,7 @@
         android:usesCleartextTraffic="true">
         <activity android:name=".RecoveryPasswordActivity"></activity>
         <activity android:name=".ChangeProfileActivity" />
+        <activity android:name=".PublicProfileActivity" />
         <activity android:name=".ProfileActivity" />
         <activity android:name=".MainActivity" />
         <activity

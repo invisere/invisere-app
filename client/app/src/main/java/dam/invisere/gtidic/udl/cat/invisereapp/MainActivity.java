@@ -16,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Button btn;
     private Button btn2;
+    private Button btn4;
     private AccountRepo accountRepo;
 
     @Override
@@ -25,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
         btn = findViewById(R.id.button);
         btn2 = findViewById(R.id.button2);
+        btn4 = findViewById(R.id.button4);
         accountRepo = new AccountRepo();
 
     }
@@ -51,6 +53,13 @@ public class MainActivity extends AppCompatActivity {
             Log.d(TAG, "onViewProfile()");
 
             Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+            startActivity(intent);
+        });
+
+        btn2.setOnClickListener(v -> {
+            Log.d(TAG, "onViewPublicProfile()");
+
+            Intent intent = new Intent(getApplicationContext(), PublicProfileActivity.class);
             startActivity(intent);
         });
     }
