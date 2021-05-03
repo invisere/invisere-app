@@ -5,12 +5,12 @@ import android.app.Dialog;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
-import android.widget.CheckBox;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.DialogFragment;
+import androidx.lifecycle.MutableLiveData;
 
 import dam.invisere.gtidic.udl.cat.invisereapp.R;
 
@@ -24,9 +24,9 @@ public class EULA extends DialogFragment {
      * so next time this will not show, until next upgrade.
      */
 
-    private CheckBox checkBox;
+    private MutableLiveData<Boolean> checkBox;
 
-    public EULA(CheckBox checkBox) {
+    public EULA(MutableLiveData<Boolean> checkBox) {
         this.checkBox = checkBox;
     }
 
@@ -40,10 +40,10 @@ public class EULA extends DialogFragment {
                 .setPositiveButton(R.string.accept,
                         (dialogInterface, i) -> {
                             dialogInterface.dismiss();
-                            checkBox.setChecked(true);
+                            checkBox.setValue(true);
                         })
                 .setNegativeButton(android.R.string.cancel,
-                        (dialog, which) -> checkBox.setChecked(false))
+                        (dialog, which) -> checkBox.setValue(false))
                 .create();
     }
     public static String TAG = "EULAConfirmationDialog";

@@ -1,7 +1,5 @@
 package dam.invisere.gtidic.udl.cat.invisereapp.validators;
 
-import android.widget.CheckBox;
-
 import dam.invisere.gtidic.udl.cat.invisereapp.EntryActivity;
 import dam.invisere.gtidic.udl.cat.invisereapp.R;
 
@@ -120,13 +118,14 @@ public class AccountValidator extends EntryActivity {
         }
     }
 
-    public static boolean checkEULA(CheckBox checkBox){
-        if(checkBox.isChecked())
-            return true;
-        else{
-            checkBox.setError(getContext().getResources().getString(R.string.Message_error_eula));
-            return false;
+    public static ValidationResultImpl checkEULA(Boolean checked) {
+        int msg = 0;
+        boolean success = true;
+        if(checked == null || !checked) {
+            success = false;
+            msg = R.string.Message_error_eula;
         }
+        return new ValidationResultImpl(success, msg);
     }
 
 }
