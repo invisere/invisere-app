@@ -4,20 +4,27 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.textfield.TextInputLayout;
 import com.squareup.picasso.Picasso;
 
+import dam.invisere.gtidic.udl.cat.invisereapp.databinding.ActivityProfileBinding;
 import dam.invisere.gtidic.udl.cat.invisereapp.models.AccountProfile;
 import dam.invisere.gtidic.udl.cat.invisereapp.preferences.Preferences;
 import dam.invisere.gtidic.udl.cat.invisereapp.repo.AccountRepo;
+import dam.invisere.gtidic.udl.cat.invisereapp.viewmodels.ProfileActivityViewModel;
 
 import static android.content.ContentValues.TAG;
 
 public class ProfileActivity extends AppCompatActivity {
+
+    private ProfileActivityViewModel profileActivityViewModel;
 
     public static TextInputLayout textName;
     public static TextInputLayout textUsername;
@@ -32,6 +39,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     private Button btn;
     private Button btnChangeProfile;
+    private ImageButton btnEdit;
 
     private AccountRepo accountRepo;
 
@@ -46,14 +54,18 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
+        profileActivityViewModel = new ViewModelProvider(this).get(ProfileActivityViewModel.class);
+        ActivityProfileBinding activityProfileBinding = DataBindingUtil.
+
         textName = findViewById(R.id.TextField_name_profile);
         textName.setEnabled(false);
         textUsername = findViewById(R.id.TextField_username_profile);
         textUsername.setEnabled(false);
         textEmail = findViewById(R.id.TextField_email_profile);
         textEmail.setEnabled(false);
-        btn = findViewById(R.id.button3);
+        btn = findViewById(R.id.buttonBack);
         btnChangeProfile = findViewById(R.id.btnChangeProfile);
+        btnEdit = findViewById(R.id.buttonEdit);
 
         photoImage = findViewById(R.id.photoProfile);
 
@@ -72,6 +84,12 @@ public class ProfileActivity extends AppCompatActivity {
             Intent intent = new Intent(getApplicationContext(), ChangeProfileActivity.class);
             startActivity(intent);
             finish();
+        });
+
+        btnEdit.setOnClickListener(v -> {
+            textName.setEnabled(true);
+            textUsername.setEnabled(true);
+            textEmail.setEnabled(true);
         });
 
     }
