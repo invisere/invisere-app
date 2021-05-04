@@ -7,12 +7,8 @@ import com.google.gson.Gson;
 
 import dam.invisere.gtidic.udl.cat.invisereapp.models.AccountProfile;
 import dam.invisere.gtidic.udl.cat.invisereapp.preferences.Preferences;
-import dam.invisere.gtidic.udl.cat.invisereapp.repo.AccountRepo;
 
 public class PrivateProfileActivityViewModel extends ViewModel {
-
-    private AccountRepo accountRepo;
-    private String token = Preferences.providePreferences().getString("token", "");
 
     private AccountProfile accountProfile = new AccountProfile();
 
