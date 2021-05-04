@@ -9,7 +9,6 @@ import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.textfield.TextInputLayout;
 import com.squareup.picasso.Picasso;
@@ -54,8 +53,10 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        profileActivityViewModel = new ViewModelProvider(this).get(ProfileActivityViewModel.class);
-        ActivityProfileBinding activityProfileBinding = DataBindingUtil.
+        profileActivityViewModel = new ProfileActivityViewModel();
+        ActivityProfileBinding activityProfileBinding = DataBindingUtil.setContentView(this, R.layout.activity_profile);
+        activityProfileBinding.setLifecycleOwner(this);
+        activityProfileBinding.setViewModel(profileActivityViewModel);
 
         textName = findViewById(R.id.TextField_name_profile);
         textName.setEnabled(false);
