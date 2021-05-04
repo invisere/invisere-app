@@ -23,7 +23,7 @@ public class PrivateProfileActivityViewModel extends ViewModel {
         Username.setValue(accountProfile.getUsername());
         Email.setValue(accountProfile.getEmail());
         if(accountProfile.getPhoto() != null){
-            Photo.setValue(accountProfile.getPhoto());
+            Photo.setValue(accountProfile.getPhoto().replace("http://127.0.0.1:8001","http://192.168.101.88:8001"));
         } else {
 //            Photo.setValue("https://previews.123rf.com/images/boxerx/boxerx1611/boxerx161100006/68882648-descargar-signo-en-fondo-blanco-cargar-icono-barra-de-carga-de-datos-ilustraci%C3%B3n-de-stock-vector.jpg");
             Photo.setValue("https://www.digitallearning.es/wp-content/uploads/2017/03/Test_cuadrado.jpg");
