@@ -18,15 +18,25 @@ public class AccountValidatorTest  {
     ValidationResultI validationResultI;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         this.account = new Account();
     }
 
+    //Name
     @Test
     public void isValidName()  {
         String name = "Juan";
         this.validationResultI = AccountValidator.checkName(name);
         Assert.assertTrue(validationResultI.isSuccess());
+    }
+
+    @Test
+    public void isNotValidNameIfIsNull()  {
+        String name = null;
+        this.validationResultI = AccountValidator.checkName(name);
+        assertFalse(validationResultI.isSuccess());
+        assertEquals((R.string.Message_error_name_empty),
+                validationResultI.getMessage());
     }
 
     @Test
@@ -57,11 +67,21 @@ public class AccountValidatorTest  {
     }
 
 
+    //Username
     @Test
     public void isValidUsername()  {
         String username = "JuanRa";
         this.validationResultI = AccountValidator.checkUsername(username);
         Assert.assertTrue(validationResultI.isSuccess());
+    }
+
+    @Test
+    public void isNotValidUsernameIfIsNull()  {
+        String username = null;
+        this.validationResultI = AccountValidator.checkUsername(username);
+        assertFalse(validationResultI.isSuccess());
+        assertEquals((R.string.Message_error_username_empty),
+                validationResultI.getMessage());
     }
 
     @Test
@@ -91,12 +111,57 @@ public class AccountValidatorTest  {
                 validationResultI.getMessage());
     }
 
+    //Email
+    @Test
+    public void isValidEmail()  {
+        String email = "ferfefefe@gmail.com";
+        this.validationResultI = AccountValidator.checkEmail(email);
+        Assert.assertTrue(validationResultI.isSuccess());
+    }
 
+    @Test
+    public void isNotValidEmailIfIsNull() {
+        String email = null;
+        this.validationResultI = AccountValidator.checkEmail(email);
+        assertFalse(validationResultI.isSuccess());
+        assertEquals((R.string.Message_error_email_empty),
+                validationResultI.getMessage());
+    }
+
+    @Test
+    public void isNotValidEmailIfNotContainsAt() {
+        String email = "notAnEmail.com";
+        this.validationResultI = AccountValidator.checkEmail(email);
+        assertFalse(validationResultI.isSuccess());
+        assertEquals((R.string.Message_error_email_invalid),
+                validationResultI.getMessage());
+    }
+
+    @Test
+    public void isNotValidEmailIfNotContainsDot() {
+        String email = "notAn@EmailCom";
+        this.validationResultI = AccountValidator.checkEmail(email);
+        assertFalse(validationResultI.isSuccess());
+        assertEquals((R.string.Message_error_email_invalid),
+                validationResultI.getMessage());
+    }
+
+
+    //Password
     @Test
     public void isValidPassword()  {
         String password = "Juan21%Rodri";
         this.validationResultI = AccountValidator.checkPassword(password);
         Assert.assertTrue(validationResultI.isSuccess());
+    }
+
+    @Test
+    public void isNotValidPasswordIfIsNull()  {
+        String password = null;
+        this.validationResultI = AccountValidator.checkPassword(password);
+        assertFalse(validationResultI.isSuccess());
+        assertEquals((R.string.Message_error_password_empty),
+                validationResultI.getMessage());
     }
 
     @Test
@@ -124,14 +189,6 @@ public class AccountValidatorTest  {
         assertFalse(validationResultI.isSuccess());
         assertEquals((R.string.Message_error_password_does_not_contain_special_characters),
                 validationResultI.getMessage());
-    }
-
-
-    @Test
-    public void isValidEmail()  {
-        String email = "ferfefefe@gmail.com";
-        this.validationResultI = AccountValidator.checkEmail(email);
-        Assert.assertTrue(validationResultI.isSuccess());
     }
 
 }
