@@ -37,7 +37,7 @@ public class AccountValidator extends EntryActivity {
         }
 
         else if(name.matches(NumbersRegex)){
-            return R.string.Message_error_name_cannot_contain_number;
+            return R.string.Message_error_name_cannot_contain_numbers;
         }
         else {
             return R.string.Message_error_name_has_invalid_length;
@@ -65,7 +65,7 @@ public class AccountValidator extends EntryActivity {
         }
 
         else if(username.matches(NumbersRegex)){
-            return R.string.Message_error_username_cannot_contain_number;
+            return R.string.Message_error_username_cannot_contain_numbers;
         }
         else {
             return R.string.Message_error_username_has_invalid_length;
@@ -108,7 +108,7 @@ public class AccountValidator extends EntryActivity {
             return R.string.Message_error_password_does_not_contain_capital_letters;
         }
         else if(!password.matches(NumbersRegex)){
-            return R.string.Message_error_password_does_not_contain_number;
+            return R.string.Message_error_password_does_not_contain_numbers;
         }
         else if(!password.matches(SpecialCharactersRegex)){
             return R.string.Message_error_password_does_not_contain_special_characters;

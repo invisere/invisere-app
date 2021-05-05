@@ -50,8 +50,48 @@ public class SignUpInstrumentedTest {
         context = InstrumentationRegistry.getInstrumentation().getTargetContext();
     }
 
+    //NAME
     @Test
-    public void showErrorMessageUser() {
+    public void showErrorMessageNameIfIsEmpty() {
+        scenario = FragmentScenario.launchInContainer(SignupFragment.class, new Bundle(), R.style.Theme_InvisereApp);
+
+//        onView(allOf(supportsInputMethods(), isDescendantOfA(withId(R.id.TextField_username_register)))).perform(typeText(""));
+//        closeSoftKeyboard();
+        onView(withId(R.id.Button_register)).perform(click());
+        onView(withId(R.id.TextField_name_register))
+                .check(matches(hasTextInputLayoutErrorText(
+                        context.getResources().getString(
+                                R.string.Message_error_name_empty))));
+    }
+
+    @Test
+    public void showErrorMessageNameIfContainsSpecialCharacters() {
+        scenario = FragmentScenario.launchInContainer(SignupFragment.class, new Bundle(), R.style.Theme_InvisereApp);
+
+        onView(allOf(supportsInputMethods(), isDescendantOfA(withId(R.id.TextField_name_register)))).perform(typeText("Alex_Perez"));
+        closeSoftKeyboard();
+        onView(withId(R.id.Button_register)).perform(click());
+        onView(withId(R.id.TextField_name_register))
+                .check(matches(hasTextInputLayoutErrorText(
+                        context.getResources().getString(
+                                R.string.Message_error_name_cannot_contain_special_characters))));
+    }
+
+    @Test
+    public void showErrorMessageNameIfInvalidLength() {
+        scenario = FragmentScenario.launchInContainer(SignupFragment.class, new Bundle(), R.style.Theme_InvisereApp);
+
+        onView(allOf(supportsInputMethods(), isDescendantOfA(withId(R.id.TextField_name_register)))).perform(typeText("Cayetana Alvarez De Toledo"));
+        closeSoftKeyboard();
+        onView(withId(R.id.Button_register)).perform(click());
+        onView(withId(R.id.TextField_name_register))
+                .check(matches(hasTextInputLayoutErrorText(
+                        context.getResources().getString(
+                                R.string.Message_error_name_has_invalid_length))));
+    }
+
+    @Test
+    public void showErrorMessageNameIfContainsNumbers() {
         scenario = FragmentScenario.launchInContainer(SignupFragment.class, new Bundle(), R.style.Theme_InvisereApp);
 
         onView(allOf(supportsInputMethods(), isDescendantOfA(withId(R.id.TextField_username_register)))).perform(typeText("3435"));
@@ -60,7 +100,21 @@ public class SignUpInstrumentedTest {
         onView(withId(R.id.TextField_username_register))
                 .check(matches(hasTextInputLayoutErrorText(
                         context.getResources().getString(
-                                R.string.Message_error_name_cannot_contain_number))));
+                                R.string.Message_error_username_cannot_contain_numbers))));
+    }
+
+    //USERNAME
+    @Test
+    public void showErrorMessageUsernameIfContainsNumbers() {
+        scenario = FragmentScenario.launchInContainer(SignupFragment.class, new Bundle(), R.style.Theme_InvisereApp);
+
+        onView(allOf(supportsInputMethods(), isDescendantOfA(withId(R.id.TextField_username_register)))).perform(typeText("3435"));
+        closeSoftKeyboard();
+        onView(withId(R.id.Button_register)).perform(click());
+        onView(withId(R.id.TextField_username_register))
+                .check(matches(hasTextInputLayoutErrorText(
+                        context.getResources().getString(
+                                R.string.Message_error_username_cannot_contain_numbers))));
     }
 
     public static Matcher<View> hasTextInputLayoutErrorText(final String expectedErrorText) {

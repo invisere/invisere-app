@@ -44,7 +44,7 @@ public class AccountValidatorTest  {
         String name = "5454Juan";
         this.validationResultI = AccountValidator.checkName(name);
         assertFalse(validationResultI.isSuccess());
-        assertEquals((R.string.Message_error_name_cannot_contain_number),
+        assertEquals((R.string.Message_error_name_cannot_contain_numbers),
                 validationResultI.getMessage());
     }
 
@@ -89,7 +89,7 @@ public class AccountValidatorTest  {
         String username = "JuanRa23";
         this.validationResultI = AccountValidator.checkUsername(username);
         assertFalse(validationResultI.isSuccess());
-        assertEquals((R.string.Message_error_username_cannot_contain_number),
+        assertEquals((R.string.Message_error_username_cannot_contain_numbers),
                 validationResultI.getMessage());
     }
 
@@ -178,7 +178,7 @@ public class AccountValidatorTest  {
         String password = "Juan%Rodri";
         this.validationResultI = AccountValidator.checkPassword(password);
         assertFalse(validationResultI.isSuccess());
-        assertEquals((R.string.Message_error_password_does_not_contain_number),
+        assertEquals((R.string.Message_error_password_does_not_contain_numbers),
                 validationResultI.getMessage());
     }
 

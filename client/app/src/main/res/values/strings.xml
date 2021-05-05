@@ -16,24 +16,26 @@
     <string name="Button_logout_text">Logout</string>
     <string name="Button_profile_text">Profile</string>
 
-    <string name="Message_error_password_empty">The password cannot be empty</string>
-    <string name="Message_error_password_does_not_contain_capital_letters">The password does not contain capital letters</string>
-    <string name="Message_error_password_does_not_contain_number">The password does not contain numbers</string>
-    <string name="Message_error_password_does_not_contain_special_characters">The password does not contain special characters</string>
-    <string name="Message_error_password_has_invalid_length">The Password has an invalid length</string>
-
     <string name="Message_error_name_empty">The name cannot be empty</string>
     <string name="Message_error_name_cannot_contain_special_characters">The name cannot contain special characters</string>
     <string name="Message_error_name_has_invalid_length">The name has an invalid length</string>
-    <string name="Message_error_name_cannot_contain_number">The name cannot contain numbers</string>
+    <string name="Message_error_name_cannot_contain_numbers">The name cannot contain numbers</string>
 
     <string name="Message_error_username_empty">The username cannot be empty</string>
     <string name="Message_error_username_cannot_contain_special_characters">The username cannot contain special characters</string>
     <string name="Message_error_username_has_invalid_length">The username has an invalid length</string>
-    <string name="Message_error_username_cannot_contain_number">The username cannot contain numbers</string>
+    <string name="Message_error_username_cannot_contain_numbers">The username cannot contain numbers</string>
 
     <string name="Message_error_email_empty">The email cannot be empty</string>
     <string name="Message_error_email_invalid">Enter a valid email</string>
+
+    <string name="Message_error_password_empty">The password cannot be empty</string>
+    <string name="Message_error_password_does_not_contain_capital_letters">The password does not contain capital letters</string>
+    <string name="Message_error_password_does_not_contain_numbers">The password does not contain numbers</string>
+    <string name="Message_error_password_does_not_contain_special_characters">The password does not contain special characters</string>
+    <string name="Message_error_password_has_invalid_length">The Password has an invalid length</string>
+
+    <string name="Message_error_eula">EULA must be accepted</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
@@ -84,7 +86,6 @@
 
 <p>This EULA agreement, and any dispute arising out of or in connection with this EULA agreement, shall be governed by and construed in accordance with the laws of <span class="country">es</span>.</p>]]></string>
     <string name="agreement_terms_and_conditions">Check here to indicate that you have read and agree to the terms of the service</string>
-    <string name="Message_error_eula">EULA must be accepted</string>
     <string name="forgot_password">Forgot password?</string>
     <string name="confirm">Confirm</string>
     <string name="code">Code</string>
