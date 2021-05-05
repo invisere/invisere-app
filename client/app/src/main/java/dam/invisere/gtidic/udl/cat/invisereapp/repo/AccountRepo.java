@@ -40,6 +40,7 @@ public class AccountRepo extends EntryActivity {
 
 
     public AccountRepo() {
+        this.token = Preferences.providePreferences().getString("token", "");
         this.accountService = new AccountServiceImpl();
         this.mResponseRegister = new MutableLiveData<>();
         this.mResponseLogin = new MutableLiveData<>();
@@ -188,7 +189,7 @@ public class AccountRepo extends EntryActivity {
     }
 
 
-    public void updateAccount(Account account, String token){
+    public void updateAccount(Account account){
         Log.d(TAG, "UpdateAccount() -> he rebut el header: " + token);
 
         accountService.updateAccount(account,token).enqueue(new Callback<ResponseBody>() {
