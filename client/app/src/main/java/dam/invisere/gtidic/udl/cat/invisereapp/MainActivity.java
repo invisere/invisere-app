@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         btn2.setOnClickListener(v -> {
             Log.d(TAG, "onViewProfile()");
 
-            Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+            Intent intent = new Intent(getApplicationContext(), PrivateProfileActivity.class);
             startActivity(intent);
         });
     }
