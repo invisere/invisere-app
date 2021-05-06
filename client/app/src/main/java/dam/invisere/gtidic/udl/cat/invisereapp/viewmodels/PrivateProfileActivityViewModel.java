@@ -1,7 +1,6 @@
 package dam.invisere.gtidic.udl.cat.invisereapp.viewmodels;
 
 import android.os.Build;
-import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.lifecycle.MutableLiveData;
@@ -9,7 +8,6 @@ import androidx.lifecycle.ViewModel;
 
 import com.google.gson.Gson;
 
-import dam.invisere.gtidic.udl.cat.invisereapp.PrivateProfileActivity;
 import dam.invisere.gtidic.udl.cat.invisereapp.models.Account;
 import dam.invisere.gtidic.udl.cat.invisereapp.models.AccountProfile;
 import dam.invisere.gtidic.udl.cat.invisereapp.preferences.Preferences;
@@ -19,16 +17,14 @@ public class PrivateProfileActivityViewModel extends ViewModel {
 
     private AccountRepo accountRepo;
     private AccountProfile accountProfile = new Gson().fromJson(Preferences.providePreferences().getString("account", ""), AccountProfile.class);
-    private PrivateProfileActivity activity;
 
     public MutableLiveData<String> Name = new MutableLiveData<>();
     public MutableLiveData<String> Username = new MutableLiveData<>();
     public MutableLiveData<String> Email = new MutableLiveData<>();
     public MutableLiveData<String> Photo = new MutableLiveData<>();
 
-    public PrivateProfileActivityViewModel(PrivateProfileActivity activity){
+    public PrivateProfileActivityViewModel(){
         this.accountRepo = new AccountRepo();
-        this.activity = activity;
         Name.setValue(accountProfile.getName());
         Username.setValue(accountProfile.getUsername());
         Email.setValue(accountProfile.getEmail());
@@ -37,14 +33,6 @@ public class PrivateProfileActivityViewModel extends ViewModel {
         } else {
             Photo.setValue("https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/480px-No_image_available.svg.png");
         }
-    }
-
-    public void onBack() {
-        activity.finish();
-    }
-
-    public void onEdit() {
-        activity.toggle();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -58,16 +46,6 @@ public class PrivateProfileActivityViewModel extends ViewModel {
         if(account.getName() != null || account.getUsername() != null || account.getEmail() != null) {
             accountRepo.updateAccount(account);
         }
-    }
-
-
-
-    private void permisoDeAlmacenamientoConcedido() {
-        Toast.makeText(activity.getContext(), "El permiso para el almacenamiento está concedido", Toast.LENGTH_SHORT).show();
-    }
-
-    private void permisoDeAlmacenamientoNoConcedido() {
-        Toast.makeText(activity.getContext(), "El permiso para el almacenamiento no está concedido", Toast.LENGTH_SHORT).show();
     }
 
 }

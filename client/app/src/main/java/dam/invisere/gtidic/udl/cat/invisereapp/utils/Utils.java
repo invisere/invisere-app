@@ -12,6 +12,8 @@ import org.bouncycastle.crypto.params.KeyParameter;
 import java.nio.charset.StandardCharsets;
 import java.util.Locale;
 
+import dam.invisere.gtidic.udl.cat.invisereapp.preferences.Preferences;
+
 public class Utils {
     @RequiresApi(api = Build.VERSION_CODES.O)
     private static String getEncodedHash(String password, String salt, int iterations) {
@@ -44,5 +46,9 @@ public class Utils {
         auth = Base64.encodeToString(data, Base64.DEFAULT);
         auth = ("Authentication: " + auth).trim();
         return auth;
+    }
+
+    public static String getToken() {
+        return Preferences.providePreferences().getString("token", "");
     }
 }
