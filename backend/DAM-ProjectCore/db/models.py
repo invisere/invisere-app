@@ -66,6 +66,32 @@ class UserToken(SQLAlchemyBase):
     user_id = Column(Integer, ForeignKey("users.id", onupdate="CASCADE", ondelete="CASCADE"), nullable=False)
     user = relationship("User", back_populates="tokens")
 
+class Routes(SQLAlchemyBase):
+    __tablename__ = "routes"
+
+    id = Column(Integer, primary_key=True)
+    routeName = Column(Unicode(50), nullable=False)
+    distance = Column(Numeric,nullable=False)
+    owner_id = Column(Integer, ForeignKey("users.id", onupdate="CASCADE", ondelete="CASCADE"), nullable=False)
+    owner = relationship("User", back_populates="routes_owner")
+    #point_id  = Column(Integer, ForeignKey("", onupdate="CASCADE", ondelete="CASCADE"), nullable=False)
+    point = relationship("Points", secondary=association_table)
+
+
+class Points(SQLAlchemyBase):
+    __tablename__ = "points"
+
+    id = Column(Integer, primary_key=True)
+    lat = Column(Numeric, nullable=False)
+    lon = Column(Numeric, nullable=False)
+    route_id = Column(Integer, nullable=False)
+
+association_table = Table("PointsRoutes", Base.metadata,
+    Column("routes_id", Integer, ForeignKey("routes.id")),
+    Column("points_id", Integer, ForeignKey("points.id"))
+)
+
+    
 
 class User(SQLAlchemyBase, JSONModel):
     __tablename__ = "users"
@@ -79,6 +105,7 @@ class User(SQLAlchemyBase, JSONModel):
     tokens = relationship("UserToken", back_populates="user", cascade="all, delete-orphan")
     photo = Column(Unicode(255))
     recovery_code = Column(Unicode(6), nullable=True)
+    routes_owner = relationship("Routes", back_populates="owner", cascade="all, delete-orphan")
 
     @hybrid_property
     def public_profile(self):
