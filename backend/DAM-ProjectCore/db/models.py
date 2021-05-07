@@ -72,26 +72,37 @@ class Routes(SQLAlchemyBase):
     id = Column(Integer, primary_key=True)
     routeName = Column(Unicode(50), nullable=False)
     distance = Column(Numeric,nullable=False)
+
     owner_id = Column(Integer, ForeignKey("users.id", onupdate="CASCADE", ondelete="CASCADE"), nullable=False)
     owner = relationship("User", back_populates="routes_owner")
-    #point_id  = Column(Integer, ForeignKey("", onupdate="CASCADE", ondelete="CASCADE"), nullable=False)
-    point = relationship("Points", secondary=association_table)
+
+    points = relationship("Places", secondary=association_table)
 
 
-class Points(SQLAlchemyBase):
-    __tablename__ = "points"
+class Places(SQLAlchemyBase):
+    __tablename__ = "places"
 
-    id = Column(Integer, primary_key=True)
-    lat = Column(Numeric, nullable=False)
-    lon = Column(Numeric, nullable=False)
-    route_id = Column(Integer, nullable=False)
+    id = Column(Integer, primary_key=True, nullable=False)
+    latitude = Column(Numeric, nullable=False)
+    longitude = Column(Numeric, nullable=False)
+    photo = Column(Unicode(255))
+    description = Column(Unicode(300))
 
-association_table = Table("PointsRoutes", Base.metadata,
+
+association_table = Table("PlacesRoutes", Base.metadata,
     Column("routes_id", Integer, ForeignKey("routes.id")),
-    Column("points_id", Integer, ForeignKey("points.id"))
+    Column("places_id", Integer, ForeignKey("places.id"))
 )
 
-    
+association_table2 = Table("UserRoutes", Base.metadata,
+    Column("routes_id", Integer, ForeignKey("routes.id")),
+    Column("user_id", Integer, ForeignKey("user.id")),
+    favourite = Column(Boolean),
+    valoracio = Column(Integer)
+)
+
+
+
 
 class User(SQLAlchemyBase, JSONModel):
     __tablename__ = "users"
@@ -105,14 +116,16 @@ class User(SQLAlchemyBase, JSONModel):
     tokens = relationship("UserToken", back_populates="user", cascade="all, delete-orphan")
     photo = Column(Unicode(255))
     recovery_code = Column(Unicode(6), nullable=True)
+
     routes_owner = relationship("Routes", back_populates="owner", cascade="all, delete-orphan")
+
+    user_routes = relationship("Routes", association_table2)
 
     @hybrid_property
     def public_profile(self):
         return {
-            "created_at": self.created_at.strftime(settings.DATETIME_DEFAULT_FORMAT),
             "username": self.username,
-            "photo": self.photo
+            "name": self.name
         }
 
     @hybrid_property
@@ -149,3 +162,4 @@ class User(SQLAlchemyBase, JSONModel):
             "email": self.email,
             "photo": self.photo_url
         }
+

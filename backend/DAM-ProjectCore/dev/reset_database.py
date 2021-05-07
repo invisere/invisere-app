@@ -75,5 +75,34 @@ if __name__ == "__main__":
     for user in users:
         db_session.add(user)
 
+
+    for i in range(1, 20):
+        aux_place = Places(
+            id = i,
+            latitude = i,
+            longitude = i,
+            photo = "",
+            description = ""
+        )
+
+    places.append(aux_place)
+
+
+    for i in range(1, 20):
+        aux_route = Routes(
+            id=i,
+            routeName = "route"+str(i),
+            distance = i,
+            owner_id = 3,
+            points = []
+        )
+
+    routes.append(aux_route)
+
+
+
+
     db_session.commit()
     db_session.close()
+
+
