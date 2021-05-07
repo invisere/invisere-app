@@ -71,7 +71,7 @@ class Routes(SQLAlchemyBase):
 
     id = Column(Integer, primary_key=True)
     routeName = Column(Unicode(50), nullable=False)
-    distance = Column(Numeric,nullable=False)
+    distance = Column(Decimal,nullable=False)
 
     owner_id = Column(Integer, ForeignKey("users.id", onupdate="CASCADE", ondelete="CASCADE"), nullable=False)
     owner = relationship("User", back_populates="routes_owner")

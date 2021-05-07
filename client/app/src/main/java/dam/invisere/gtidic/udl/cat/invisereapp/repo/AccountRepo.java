@@ -4,10 +4,11 @@ import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 
+import com.google.gson.Gson;
+
 import java.io.IOException;
 
 import dam.invisere.gtidic.udl.cat.invisereapp.EntryActivity;
-import dam.invisere.gtidic.udl.cat.invisereapp.ProfileActivity;
 import dam.invisere.gtidic.udl.cat.invisereapp.models.Account;
 import dam.invisere.gtidic.udl.cat.invisereapp.models.AccountProfile;
 import dam.invisere.gtidic.udl.cat.invisereapp.preferences.Preferences;
@@ -35,11 +36,11 @@ public class AccountRepo extends EntryActivity {
     private MutableLiveData<String> mResponseRecovery;
 
     String token = "";
-    public static String profile = "";
-    public static AccountProfile profile2;
+    public static AccountProfile profile;
 
 
     public AccountRepo() {
+        this.token = Preferences.providePreferences().getString("token", "");
         this.accountService = new AccountServiceImpl();
         this.mResponseRegister = new MutableLiveData<>();
         this.mResponseLogin = new MutableLiveData<>();
@@ -164,12 +165,9 @@ public class AccountRepo extends EntryActivity {
                 Log.d(TAG, "get_account() -> ha rebut el codi: " + return_code);
                 switch (return_code) {
                     case 200:
-                        Log.d(TAG, "Code 200 () -> get_account: " + profile2);
-                            profile2 = response.body();
-
-                            ProfileActivity.updateFields(profile2);
-
-
+                        profile = response.body();
+                        Log.d(TAG, "Code 200 () -> get_account: " + profile);
+                        Preferences.providePreferences().edit().putString("account" ,new Gson().toJson(profile)).apply();
 
                         mResponseGetAccount.setValue("Profile loaded successfully.");
                         break;
@@ -191,7 +189,7 @@ public class AccountRepo extends EntryActivity {
     }
 
 
-    public void updateAccount(Account account, String token){
+    public void updateAccount(Account account){
         Log.d(TAG, "UpdateAccount() -> he rebut el header: " + token);
 
         accountService.updateAccount(account,token).enqueue(new Callback<ResponseBody>() {

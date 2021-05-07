@@ -17,10 +17,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.InvisereApp"
         android:usesCleartextTraffic="true">
+<<<<<<< HEAD
         <activity android:name=".RecoveryPasswordActivity"></activity>
         <activity android:name=".ChangeProfileActivity" />
         <activity android:name=".PublicProfileActivity" />
         <activity android:name=".ProfileActivity" />
+=======
+        <activity android:name=".PrivateProfileActivity"></activity>
+        <activity android:name=".RecoveryPasswordActivity" />
+>>>>>>> 8cccd1ad093cdb0857b32d993275530679a20402
         <activity android:name=".MainActivity" />
         <activity
             android:name=".EntryActivity"
