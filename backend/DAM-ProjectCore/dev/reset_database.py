@@ -9,7 +9,7 @@ from sqlalchemy.sql import text
 
 import db
 import settings
-from db.models import SQLAlchemyBase, User, GenereEnum, RolEnum, UserToken
+from db.models import SQLAlchemyBase, User, GenereEnum, RolEnum, UserToken, Places, Routes
 from settings import DEFAULT_LANGUAGE
 
 import random
@@ -75,6 +75,7 @@ if __name__ == "__main__":
     for user in users:
         db_session.add(user)
 
+    listPlaces = []
 
     for i in range(1, 20):
         aux_place = Places(
@@ -84,9 +85,13 @@ if __name__ == "__main__":
             photo = "",
             description = ""
         )
+        listPlaces.append(aux_place)
 
-    places.append(aux_place)
+    for places in listPlaces:
+        db_session.add(places)
 
+
+    listRoutes = []
 
     for i in range(1, 20):
         aux_route = Routes(
@@ -97,10 +102,10 @@ if __name__ == "__main__":
             points = []
         )
 
-    routes.append(aux_route)
+        listRoutes.append(aux_route)
 
-
-
+    for route in listRoutes:
+        db_session.add(route)
 
     db_session.commit()
     db_session.close()

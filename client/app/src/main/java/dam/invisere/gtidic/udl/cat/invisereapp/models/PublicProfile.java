@@ -6,13 +6,12 @@ public class PublicProfile {
     private String username;
     private int rutes;
     private String photo;
-    private int fav;
+    //private int fav;
 
     public PublicProfile(){
         this.name = "";
         this.username = "";
         this.rutes = 0;
-        this.fav = 0;
     }
 
     public String getName() {
@@ -47,11 +46,4 @@ public class PublicProfile {
         this.photo = photo;
     }
 
-    public int getFav() {
-        return fav;
-    }
-
-    public void setFav(int fav) {
-        this.fav = fav;
-    }
 }

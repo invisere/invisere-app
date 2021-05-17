@@ -2,6 +2,7 @@ package dam.invisere.gtidic.udl.cat.invisereapp.services;
 
 import dam.invisere.gtidic.udl.cat.invisereapp.models.Account;
 import dam.invisere.gtidic.udl.cat.invisereapp.models.AccountProfile;
+import dam.invisere.gtidic.udl.cat.invisereapp.models.PublicProfile;
 import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -44,4 +45,7 @@ public interface AccountServiceI {
     @POST("/account/password_update")
     Call<ResponseBody> password_update(@Field("email") String email, @Field("password") String password, @Field("code") String code);
 
+
+    @GET("users/show/")
+    Call<PublicProfile> get_public_account(@Header("Authorization") String token, String username);
 }

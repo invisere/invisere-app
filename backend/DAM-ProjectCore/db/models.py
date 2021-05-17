@@ -6,6 +6,7 @@ import datetime
 import enum
 import logging
 import os
+
 from _operator import and_
 from builtins import getattr
 from urllib.parse import urljoin
@@ -13,7 +14,7 @@ from urllib.parse import urljoin
 import falcon
 from passlib.hash import pbkdf2_sha256
 from sqlalchemy import Column, Date, DateTime, Enum, ForeignKey, Integer, Unicode, \
-    UnicodeText, Table, type_coerce, case
+    UnicodeText, Table, type_coerce, case, Numeric, Boolean
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.ext.hybrid import hybrid_method, hybrid_property
 from sqlalchemy.orm import relationship
@@ -66,12 +67,25 @@ class UserToken(SQLAlchemyBase):
     user_id = Column(Integer, ForeignKey("users.id", onupdate="CASCADE", ondelete="CASCADE"), nullable=False)
     user = relationship("User", back_populates="tokens")
 
+
+association_table = Table("PlacesRoutes", SQLAlchemyBase.metadata,
+    Column("routes_id", Integer, ForeignKey("routes.id")),
+    Column("places_id", Integer, ForeignKey("places.id"))
+)
+
+association_table2 = Table("UserRoutes", SQLAlchemyBase.metadata,
+    Column("routes_id", Integer, ForeignKey("routes.id")),
+    Column("user_id", Integer, ForeignKey("users.id")),
+    #favourite = Column(Boolean),
+    #valoracio = Column(Integer)
+)
+
 class Routes(SQLAlchemyBase):
     __tablename__ = "routes"
 
     id = Column(Integer, primary_key=True)
     routeName = Column(Unicode(50), nullable=False)
-    distance = Column(Decimal,nullable=False)
+    distance = Column(Numeric,nullable=False)
 
     owner_id = Column(Integer, ForeignKey("users.id", onupdate="CASCADE", ondelete="CASCADE"), nullable=False)
     owner = relationship("User", back_populates="routes_owner")
@@ -87,20 +101,6 @@ class Places(SQLAlchemyBase):
     longitude = Column(Numeric, nullable=False)
     photo = Column(Unicode(255))
     description = Column(Unicode(300))
-
-
-association_table = Table("PlacesRoutes", Base.metadata,
-    Column("routes_id", Integer, ForeignKey("routes.id")),
-    Column("places_id", Integer, ForeignKey("places.id"))
-)
-
-association_table2 = Table("UserRoutes", Base.metadata,
-    Column("routes_id", Integer, ForeignKey("routes.id")),
-    Column("user_id", Integer, ForeignKey("user.id")),
-    favourite = Column(Boolean),
-    valoracio = Column(Integer)
-)
-
 
 
 
@@ -125,7 +125,9 @@ class User(SQLAlchemyBase, JSONModel):
     def public_profile(self):
         return {
             "username": self.username,
-            "name": self.name
+            "name": self.name,
+            "routes": [routes_owner.id for routes_owner in self.routes_owner],
+            "photo": self.photo_url
         }
 
     @hybrid_property

@@ -1,6 +1,5 @@
 package dam.invisere.gtidic.udl.cat.invisereapp;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -9,12 +8,14 @@ import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import dam.invisere.gtidic.udl.cat.invisereapp.models.AccountProfile;
 import dam.invisere.gtidic.udl.cat.invisereapp.models.PublicProfile;
 import dam.invisere.gtidic.udl.cat.invisereapp.preferences.Preferences;
 import dam.invisere.gtidic.udl.cat.invisereapp.repo.AccountRepo;
+import dam.invisere.gtidic.udl.cat.invisereapp.utils.Utils;
 
 import static android.content.ContentValues.TAG;
 
@@ -33,10 +34,19 @@ public class PublicProfileActivity extends AppCompatActivity {
     public static int fav;
     public static String UrlPhoto;
 
+    public static PublicProfile publicProfile;
+
+    String username2;
+
+    private AccountProfile accountProfile = new Gson().fromJson(Preferences.providePreferences().getString("account", ""), AccountProfile.class);
+
     private Button btn;
 
-    public PublicProfileActivity() {
+    private AccountRepo accountRepo;
 
+    public PublicProfileActivity() {
+        this.accountRepo = new AccountRepo();
+        username2 = accountProfile.getUsername();
     }
 
     @Override
@@ -56,6 +66,8 @@ public class PublicProfileActivity extends AppCompatActivity {
 
         photoImage = findViewById(R.id.PhotoPublicProfile);
 
+        accountRepo.get_public_account(username2,Utils.getToken());
+
         putProfile();
     }
 
@@ -68,23 +80,19 @@ public class PublicProfileActivity extends AppCompatActivity {
     }
 
     public void putProfile(){
-        PublicProfile publicProfile = new PublicProfile();
-        publicProfile.setRutes(10);
-        publicProfile.setFav(5);
-        publicProfile.setName("David");
-        publicProfile.setPhoto("https://image.freepik.com/vector-gratis/perfil-avatar-hombre-icono-redondo_24640-14044.jpg");
-        publicProfile.setUsername("DavidArt");
-        updateFields(publicProfile);
+        publicProfile = new Gson().fromJson(Preferences.providePreferences().getString("accountProfile", ""), PublicProfile.class);
+
+        updateFields();
     }
 
 
-    public static void updateFields(PublicProfile publicProfile){
+    public static void updateFields(){
 
         name = publicProfile.getName();
         username = publicProfile.getUsername();
-        rutes = publicProfile.getRutes();
         UrlPhoto = publicProfile.getPhoto();
-        fav = publicProfile.getFav();
+        rutes = publicProfile.getRutes();
+
 
         Log.d(TAG, "Name: " + name);
         Log.d(TAG, "Username: " + username);
