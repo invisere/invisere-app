@@ -14,6 +14,7 @@ import retrofit2.http.Header;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
+import retrofit2.http.Path;
 
 public interface AccountServiceI {
 
@@ -46,6 +47,6 @@ public interface AccountServiceI {
     Call<ResponseBody> password_update(@Field("email") String email, @Field("password") String password, @Field("code") String code);
 
 
-    @GET("users/show/")
-    Call<PublicProfile> get_public_account(@Header("Authorization") String token, String username);
+    @GET("users/show/{username}")
+    Call<PublicProfile> get_public_account(@Header("Authorization") String token,  @Path("username") String username);
 }

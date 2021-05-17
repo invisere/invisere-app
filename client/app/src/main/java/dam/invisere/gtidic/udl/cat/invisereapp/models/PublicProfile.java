@@ -4,14 +4,13 @@ public class PublicProfile {
 
     private String name;
     private String username;
-    private int rutes;
+    private int rutes[];
     private String photo;
     //private int fav;
 
     public PublicProfile(){
         this.name = "";
         this.username = "";
-        this.rutes = 0;
     }
 
     public String getName() {
@@ -30,14 +29,6 @@ public class PublicProfile {
         this.username = username;
     }
 
-    public int getRutes() {
-        return rutes;
-    }
-
-    public void setRutes(int rutes) {
-        this.rutes = rutes;
-    }
-
     public String getPhoto() {
         return photo;
     }
@@ -46,4 +37,11 @@ public class PublicProfile {
         this.photo = photo;
     }
 
+    public int[] getRutes() {
+        return rutes;
+    }
+
+    public void setRutes(int[] rutes) {
+        this.rutes = rutes;
+    }
 }
