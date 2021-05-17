@@ -3,51 +3,49 @@ package dam.invisere.gtidic.udl.cat.invisereapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import dam.invisere.gtidic.udl.cat.invisereapp.preferences.Preferences;
 import dam.invisere.gtidic.udl.cat.invisereapp.repo.AccountRepo;
 
 import static android.content.ContentValues.TAG;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AuthActivity {
 
-    private Button btn;
-    private Button btn2;
+    private Button btnLogout;
+    private Button btnProfile;
     private AccountRepo accountRepo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initView();
+    }
+
+    private void initView() {
+        setTheme(R.style.Theme_InvisereApp);
         setContentView(R.layout.activity_main);
-
-        btn = findViewById(R.id.button);
-        btn2 = findViewById(R.id.button2);
+        btnLogout = findViewById(R.id.button_logout);
+        btnProfile = findViewById(R.id.button_profile);
         accountRepo = new AccountRepo();
+    }
 
+    private void logout(View view) {
+        String token = Preferences.providePreferences().getString("token","");
+        accountRepo.deleteTokenUser(token);
+        Log.d(TAG, "Logout() -> he rebut el token: " + token);
+
+        Preferences.providePreferences().edit().clear().apply();
+
+        super.isLogged();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
 
-        btn.setOnClickListener(v -> {
-
-                String token = Preferences.providePreferences().getString("token","");
-                accountRepo.deleteTokenUser(token);
-                Log.d(TAG, "Logout() -> he rebut el token: " + token);
-
-                Preferences.providePreferences().edit().clear().apply();
-
-                Intent intent = new Intent(getApplicationContext(), EntryActivity.class);
-                startActivity(intent);
-
-        });
-
-
-        btn2.setOnClickListener(v -> {
+        btnProfile.setOnClickListener(v -> {
             Log.d(TAG, "onViewProfile()");
 
             Intent intent = new Intent(getApplicationContext(), PrivateProfileActivity.class);
