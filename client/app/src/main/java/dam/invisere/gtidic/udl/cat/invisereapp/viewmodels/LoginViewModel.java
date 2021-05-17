@@ -31,9 +31,6 @@ public class LoginViewModel extends ViewModel {
         Log.d(TAG, "onLogin()");
         String auth = Utils.createAuth(Username.getValue(), Password.getValue());
         this.accountRepo.createTokenUser(auth);
-//        Intent intent = new Intent(view.getContext(), MainActivity.class);
-//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-//        view.getContext().startActivity(intent);
     }
 
     public void forgotPassowrd(View view) {
