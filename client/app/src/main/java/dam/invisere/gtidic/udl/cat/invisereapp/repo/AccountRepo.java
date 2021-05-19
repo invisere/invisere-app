@@ -32,7 +32,7 @@ public class AccountRepo extends EntryActivity {
     public MutableLiveData<ReturnCodeI> mResponseRegister;
     public MutableLiveData<ReturnCodeI> mResponseLogin;
     private MutableLiveData<String> mResponseGetAccount;
-    private MutableLiveData<String> mResponseGetPublicAccount;
+    public MutableLiveData<ReturnCodeI> mResponseGetPublicAccount;
     private MutableLiveData<String> mResponseDeleteToken;
     private MutableLiveData<String> mResponseUpdate;
     private MutableLiveData<String> mResponseRecovery;
@@ -317,27 +317,31 @@ public class AccountRepo extends EntryActivity {
 
 
     public void get_public_account(String token, String username){
-        Log.d(TAG, "get_account() -> he rebut el header: " + token);
+        Log.d(TAG, "get_public_account() -> he rebut el token: " + token);
 
-        accountService.get_public_account(username,token).enqueue(new Callback<PublicProfile>() {
+        accountService.get_public_account(token,username).enqueue(new Callback<PublicProfile>() {
 
             @Override
             public void onResponse(Call<PublicProfile> call, Response<PublicProfile> response) {
 
                 int return_code = response.code();
-                Log.d(TAG, "get_account() -> ha rebut el codi: " + return_code);
+                Log.d(TAG, "get_public_account() -> ha rebut el codi: " + return_code);
                 switch (return_code) {
                     case 200:
                         Publicprofile = response.body();
-                        Log.d(TAG, "Code 200 () -> get_account: " + Publicprofile);
+                        Log.d(TAG, "Code 200 () -> get_public_account: " + Publicprofile);
+
                         Preferences.providePreferences().edit().putString("publicAccount" ,new Gson().toJson(Publicprofile)).apply();
 
-                        mResponseGetAccount.setValue("Profile loaded successfully.");
+                        mResponseGetPublicAccount.setValue(new ReturnCodeImpl(true, return_code, 0));
+
+                        //mResponseGetPublicAccount.setValue("Profile loaded successfully.");
                         break;
 
                     default:
                         String error_msg = "Error: " + response.errorBody();
-                        mResponseGetAccount.setValue(error_msg);
+                        mResponseGetPublicAccount.setValue(new ReturnCodeImpl(true, return_code, 0));
+                        //mResponseGetPublicAccount.setValue(error_msg);
                         break;
                 }
             }
@@ -345,7 +349,8 @@ public class AccountRepo extends EntryActivity {
             @Override
             public void onFailure(Call<PublicProfile> call, Throwable t) {
                 String error_msg = "Error: " + t.getMessage();
-                mResponseGetAccount.setValue(error_msg);
+                //mResponseGetPublicAccount.setValue(error_msg);
+                mResponseGetPublicAccount.setValue(new ReturnCodeImpl(false));
                 Log.d(TAG, error_msg);
             }
         });

@@ -13,38 +13,33 @@ import static android.content.ContentValues.TAG;
 
 public class MainActivity extends AuthActivity {
 
-<<<<<<< HEAD
     private Button btn;
     private Button btn2;
     private Button btn4;
-=======
     private Button btnLogout;
     private Button btnProfile;
->>>>>>> a834909826b0faa683a5e73ff179fb9319bab899
     private AccountRepo accountRepo;
+    public String token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initView();
+        token = Preferences.providePreferences().getString("token","");
     }
 
-<<<<<<< HEAD
-        btn = findViewById(R.id.button);
-        btn2 = findViewById(R.id.button2);
-        btn4 = findViewById(R.id.button4);
-=======
+
     private void initView() {
         setTheme(R.style.Theme_InvisereApp);
         setContentView(R.layout.activity_main);
+        btn4 = findViewById(R.id.button4);
         btnLogout = findViewById(R.id.button_logout);
         btnProfile = findViewById(R.id.button_profile);
->>>>>>> a834909826b0faa683a5e73ff179fb9319bab899
         accountRepo = new AccountRepo();
     }
 
     private void logout(View view) {
-        String token = Preferences.providePreferences().getString("token","");
+
         accountRepo.deleteTokenUser(token);
         Log.d(TAG, "Logout() -> he rebut el token: " + token);
 
@@ -66,7 +61,7 @@ public class MainActivity extends AuthActivity {
 
         btn4.setOnClickListener(v -> {
             Log.d(TAG, "onViewPublicProfile()");
-
+            accountRepo.get_public_account(token,"user2");
             Intent intent = new Intent(getApplicationContext(), PublicProfileActivity.class);
             startActivity(intent);
         });
