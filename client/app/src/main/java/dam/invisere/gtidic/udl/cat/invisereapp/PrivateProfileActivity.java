@@ -131,7 +131,7 @@ public class PrivateProfileActivity extends AppCompatActivity {
 
 
     public void checkPermitExternalMemory(){
-        if( ContextCompat.checkSelfPermission(EntryActivity.getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+        if( ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
             permisoDeAlmacenamientoConcedido();
             Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
             startActivityForResult(gallery, PICK_IMAGE);
@@ -165,13 +165,13 @@ public class PrivateProfileActivity extends AppCompatActivity {
 
     }
 
-    private static void permisoDeAlmacenamientoConcedido() {
-        Toast.makeText(EntryActivity.getContext(), "El permiso para el almacenamiento está concedido", Toast.LENGTH_SHORT).show();
+    private void permisoDeAlmacenamientoConcedido() {
+        Toast.makeText(this, "El permiso para el almacenamiento está concedido", Toast.LENGTH_SHORT).show();
 
     }
 
-    private static void permisoDeAlmacenamientoNoConcedido() {
-        Toast.makeText(EntryActivity.getContext(), "El permiso para el almacenamiento no está concedido", Toast.LENGTH_SHORT).show();
+    private void permisoDeAlmacenamientoNoConcedido() {
+        Toast.makeText(this, "El permiso para el almacenamiento no está concedido", Toast.LENGTH_SHORT).show();
     }
 
  }

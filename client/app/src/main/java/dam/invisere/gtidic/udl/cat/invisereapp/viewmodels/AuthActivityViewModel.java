@@ -7,22 +7,22 @@ import androidx.lifecycle.ViewModel;
 import dam.invisere.gtidic.udl.cat.invisereapp.preferences.Preferences;
 import dam.invisere.gtidic.udl.cat.invisereapp.repo.AccountRepo;
 
+public class AuthActivityViewModel extends ViewModel {
 
-public class EntryActivityViewModel extends ViewModel {
+    private static final String TAG = "AuthActivityViewModel";
 
-    private static final String TAG = "EntryActivityViewModel";
+    public AuthActivityViewModel(){}
 
-    public EntryActivityViewModel() {
-    }
-
+    //TODO: Fer un loading.
     public boolean isLogged() {
         String token = Preferences.providePreferences().getString("token", "");
-        Log.d(TAG, "isLogged() -> he trobat el token: " + token);
         if(!token.isEmpty()){
+            Log.d(TAG, "isLogged() -> he trobat el token: " + token);
             AccountRepo accountRepo = new AccountRepo();
             accountRepo.get_account(token);
             return true;
         }
+        Log.d(TAG, "isLogged() -> no he trobat cap token");
         return false;
     }
 
