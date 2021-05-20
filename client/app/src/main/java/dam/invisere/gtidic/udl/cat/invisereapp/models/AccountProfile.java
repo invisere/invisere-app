@@ -9,6 +9,11 @@ public class AccountProfile {
     private String email;
     private String photo;
 
+    public AccountProfile(String name, String email){
+        this.username = name;
+        this.email = email;
+    }
+
 
     public String getName() {
         return name;
