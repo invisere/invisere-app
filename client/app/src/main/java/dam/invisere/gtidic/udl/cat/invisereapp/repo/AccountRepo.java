@@ -330,6 +330,8 @@ public class AccountRepo extends EntryActivity {
                     case 200:
                         Publicprofile = response.body();
                         Log.d(TAG, "Code 200 () -> get_public_account: " + Publicprofile);
+                        Log.d(TAG, "Code 200 () -> RUTES LENGTH: " + Publicprofile.getRutes().length);
+
 
                         Preferences.providePreferences().edit().putString("publicAccount" ,new Gson().toJson(Publicprofile)).apply();
 

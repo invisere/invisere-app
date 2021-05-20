@@ -22,13 +22,12 @@ public class PublicProfileActivityViewModel extends ViewModel {
     public MutableLiveData<String> Username = new MutableLiveData<>();
     public MutableLiveData<String> Photo = new MutableLiveData<>();
     public MutableLiveData<String> NumeroRutes = new MutableLiveData<>();
-    public int[] numeroRutesArray;
     public int numeroRutesInteger;
-    public String numeroRutesString;
     public PublicProfile accountPublicProfile;
 
     public PublicProfileActivityViewModel(){
         this.accountRepo = new AccountRepo();
+
         accountPublicProfile = new Gson().fromJson(Preferences.providePreferences().getString("publicAccount", ""), PublicProfile.class);
         Username.setValue(accountPublicProfile.getUsername());
         Name.setValue(accountPublicProfile.getName());
@@ -37,13 +36,11 @@ public class PublicProfileActivityViewModel extends ViewModel {
         Log.d(TAG, "PublicAccount Name: " + accountPublicProfile.getName());
         Log.d(TAG, "PublicAccount username: " + accountPublicProfile.getUsername());
         Log.d(TAG, "PublicAccount photo: " + accountPublicProfile.getPhoto());
-        Log.d(TAG, "PublicAccount Rutes: " + accountPublicProfile.getRutes());
+        Log.d(TAG, "PublicAccount Rutes: " + accountPublicProfile.getRutes().length);
 
         if(accountPublicProfile.getRutes() != null){
-            numeroRutesArray = accountPublicProfile.getRutes();
-            numeroRutesInteger = numeroRutesArray.length;
-            numeroRutesString = NumeroRutes.toString();
-            NumeroRutes.setValue(numeroRutesString);
+            numeroRutesInteger = accountPublicProfile.getRutes().length;
+            NumeroRutes.setValue("" + numeroRutesInteger);
         }
         else{
             NumeroRutes.setValue("0");

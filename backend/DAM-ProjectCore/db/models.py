@@ -11,10 +11,12 @@ from _operator import and_
 from builtins import getattr
 from urllib.parse import urljoin
 
+from sqlalchemy.sql.sqltypes import Float
+
 import falcon
 from passlib.hash import pbkdf2_sha256
 from sqlalchemy import Column, Date, DateTime, Enum, ForeignKey, Integer, Unicode, \
-    UnicodeText, Table, type_coerce, case, Numeric, Boolean
+    UnicodeText, Table, type_coerce, case, Numeric, Boolean, Float
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.ext.hybrid import hybrid_method, hybrid_property
 from sqlalchemy.orm import relationship
@@ -73,35 +75,70 @@ association_table = Table("PlacesRoutes", SQLAlchemyBase.metadata,
     Column("places_id", Integer, ForeignKey("places.id"))
 )
 
-association_table2 = Table("UserRoutes", SQLAlchemyBase.metadata,
-    Column("routes_id", Integer, ForeignKey("routes.id")),
-    Column("user_id", Integer, ForeignKey("users.id")),
-    #favourite = Column(Boolean),
-    #valoracio = Column(Integer)
-)
 
-class Routes(SQLAlchemyBase):
+class UserRoutesAssociation(SQLAlchemyBase, JSONModel):
+
+    __tablename__ = "user-routes-association"
+    route_id =  Column(Integer, ForeignKey("routes.id",onupdate="CASCADE", ondelete="CASCADE"),nullable=False, primary_key=True)
+    user_id = Column(Integer, ForeignKey("users.id",onupdate="CASCADE", ondelete="CASCADE"), nullable=False, primary_key=True)
+    favourite = Column(Boolean)
+    valoracio = Column(Integer)
+    routes_assoc = relationship("Route", back_populates="route_users")
+    users_assoc = relationship("User", back_populates="user_routes") 
+
+    @hybrid_property
+    def json_model(self):
+        return {
+            "favourite": self.favourite,
+            "valoracio": self.valoracio,
+        }
+
+class Route(SQLAlchemyBase, JSONModel):
     __tablename__ = "routes"
 
     id = Column(Integer, primary_key=True)
-    routeName = Column(Unicode(50), nullable=False)
-    distance = Column(Numeric,nullable=False)
+    name = Column(Unicode(50), nullable=False)
+    distance = Column(Float,nullable=False)
 
     owner_id = Column(Integer, ForeignKey("users.id", onupdate="CASCADE", ondelete="CASCADE"), nullable=False)
     owner = relationship("User", back_populates="routes_owner")
 
-    points = relationship("Places", secondary=association_table)
+    route_users = relationship("UserRoutesAssociation", back_populates="routes_assoc")
+
+    points = relationship("Place", secondary=association_table)
+
+    @hybrid_property
+    def json_model(self):
+        return {
+            "name": self.name,
+            "distance": self.distance,
+            "points": [points.json_model for points in self.points]
+        }
 
 
-class Places(SQLAlchemyBase):
+class Place(SQLAlchemyBase, JSONModel):
     __tablename__ = "places"
 
     id = Column(Integer, primary_key=True, nullable=False)
-    latitude = Column(Numeric, nullable=False)
-    longitude = Column(Numeric, nullable=False)
+    name = Column(Unicode(200))
+    latitude = Column(Float, nullable=False)
+    longitude = Column(Float, nullable=False)
     photo = Column(Unicode(255))
     description = Column(Unicode(300))
 
+    @hybrid_property
+    def json_model(self):
+        return {
+            "name": self.name,
+            "latitude": self.latitude,
+            "longitude": self.longitude,
+            "photo": self.photo_url,
+            "description": self.description
+        }
+
+    @hybrid_property
+    def photo_url(self):
+        return _generate_media_url(self, "photo")
 
 
 class User(SQLAlchemyBase, JSONModel):
@@ -117,9 +154,9 @@ class User(SQLAlchemyBase, JSONModel):
     photo = Column(Unicode(255))
     recovery_code = Column(Unicode(6), nullable=True)
 
-    routes_owner = relationship("Routes", back_populates="owner", cascade="all, delete-orphan")
+    routes_owner = relationship("Route", back_populates="owner", cascade="all, delete-orphan")
 
-    user_routes = relationship("Routes", association_table2)
+    user_routes = relationship("UserRoutesAssociation", back_populates="users_assoc")
 
     @hybrid_property
     def public_profile(self):
