@@ -23,7 +23,6 @@ import dam.invisere.gtidic.udl.cat.invisereapp.utils.Utils;
 public class MainActivity extends AuthActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
-    private LinearLayout layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +51,7 @@ public class MainActivity extends AuthActivity {
         } else {
             Picasso.get().load(Utils.getAccountProfile().getPhoto().replace("http://127.0.0.1:8001","http://192.168.101.88:8001")).error(R.drawable.ic_launcher_background).placeholder(R.drawable.progress_animation).resize(200, 200).into((ImageView) findViewById(R.id.imageView));
         }
-        layout = findViewById(R.id.linearLayoutHeader);
+        LinearLayout layout = findViewById(R.id.linearLayoutHeader);
         layout.setOnClickListener(v -> {
             Intent intent = new Intent(getApplicationContext(), PrivateProfileActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

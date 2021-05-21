@@ -30,7 +30,7 @@ public class AccountRepo extends EntryActivity {
 
     public MutableLiveData<ReturnCodeI> mResponseRegister;
     public MutableLiveData<ReturnCodeI> mResponseLogin;
-    private MutableLiveData<String> mResponseGetAccount;
+    public MutableLiveData<ReturnCodeI> mResponseGetAccount;
     private MutableLiveData<String> mResponseDeleteToken;
     public MutableLiveData<ReturnCodeI> mResponseUpdate;
     private MutableLiveData<String> mResponseRecovery;
@@ -169,12 +169,12 @@ public class AccountRepo extends EntryActivity {
                         Log.d(TAG, "Code 200 () -> get_account: " + profile);
                         Preferences.providePreferences().edit().putString("account" ,new Gson().toJson(profile)).apply();
 
-                        mResponseGetAccount.setValue("Profile loaded successfully.");
+                        mResponseGetAccount.setValue(new ReturnCodeImpl(true, 200, 0));
                         break;
 
                     default:
                         String error_msg = "Error: " + response.errorBody();
-                        mResponseGetAccount.setValue(error_msg);
+                        mResponseGetAccount.setValue(new ReturnCodeImpl(false));
                         break;
                 }
             }
@@ -182,7 +182,7 @@ public class AccountRepo extends EntryActivity {
             @Override
             public void onFailure(Call<AccountProfile> call, Throwable t) {
                 String error_msg = "Error: " + t.getMessage();
-                mResponseGetAccount.setValue(error_msg);
+                mResponseGetAccount.setValue(new ReturnCodeImpl(false));
                 Log.d(TAG, error_msg);
             }
         });

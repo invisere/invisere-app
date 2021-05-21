@@ -56,6 +56,6 @@ public class Utils {
     }
 
     public static AccountProfile getAccountProfile() {
-        return new Gson().fromJson(Preferences.providePreferences().getString("account", ""), AccountProfile.class);
+        return new Gson().fromJson(Preferences.providePreferences().getString("account", new Gson().toJson(new AccountProfile())), AccountProfile.class);
     }
 }

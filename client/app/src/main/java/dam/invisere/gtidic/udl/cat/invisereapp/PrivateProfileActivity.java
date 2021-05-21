@@ -77,8 +77,14 @@ public class PrivateProfileActivity extends AuthActivity {
 
         privateProfileActivityViewModel.accountRepo.mResponseUpdate.observe(this, returnCodeI -> {
             if(returnCodeI.isSuccess() && returnCodeI.getReturnCode() == 200) {
+                accountRepo.get_account(Utils.getToken());
+            }
+        });
+
+        privateProfileActivityViewModel.accountRepo.mResponseGetAccount.observe(this, returnCodeI -> {
+            if (returnCodeI.getReturnCode() == 200) {
+                privateProfileActivityViewModel.setAccountProfile(Utils.getAccountProfile());
                 toggle(getWindow().getDecorView());
-                //TODO: Fer que s'actualitzi el accountProfile del PrivateProfileActivityViewModel
             }
         });
     }

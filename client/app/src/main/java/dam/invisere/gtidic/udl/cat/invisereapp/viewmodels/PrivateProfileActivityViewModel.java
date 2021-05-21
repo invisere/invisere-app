@@ -33,6 +33,10 @@ public class PrivateProfileActivityViewModel extends ViewModel {
         }
     }
 
+    public void setAccountProfile(AccountProfile accountProfile) {
+        this.accountProfile = accountProfile;
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void updateProfile() {
         Account account = new Account();
