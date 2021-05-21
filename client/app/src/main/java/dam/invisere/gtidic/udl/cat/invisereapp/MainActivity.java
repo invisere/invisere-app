@@ -41,9 +41,9 @@ public class MainActivity extends AuthActivity {
         super.isLogged();
     }
 
-    private void profile(View view) {
+    public void profile(View view) {
         Intent intent = new Intent(getApplicationContext(), PrivateProfileActivity.class);
-        startActivity(intent);
+        getApplication().startActivity(intent);
     }
 
 }

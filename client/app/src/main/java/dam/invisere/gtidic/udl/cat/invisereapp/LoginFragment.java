@@ -44,7 +44,7 @@ public class LoginFragment extends Fragment {
 
         loginViewModel.getLoginResponse().observe(getViewLifecycleOwner(), returnCode -> {
             if(returnCode.getReturnCode() == 200) {
-                Intent intent = new Intent(getContext(), MainActivity.class);
+                Intent intent = new Intent(getContext(), MainActivity2.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                 getContext().startActivity(intent);
             }

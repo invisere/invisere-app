@@ -1,9 +1,11 @@
 package dam.invisere.gtidic.udl.cat.invisereapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.databinding.DataBindingUtil;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -13,13 +15,15 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationView;
+import com.squareup.picasso.Picasso;
 
 import dam.invisere.gtidic.udl.cat.invisereapp.databinding.NavHeaderMainBinding;
-import dam.invisere.gtidic.udl.cat.invisereapp.models.AccountProfile;
+import dam.invisere.gtidic.udl.cat.invisereapp.utils.Utils;
 
-public class MainActivity2 extends AppCompatActivity {
+public class MainActivity2 extends AuthActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
+    private LinearLayout layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +37,7 @@ public class MainActivity2 extends AppCompatActivity {
         NavigationView navigationView = findViewById(R.id.nav_view);
 
         NavHeaderMainBinding navHeaderMainBinding = DataBindingUtil.inflate(getLayoutInflater(),R.layout.nav_header_main,navigationView,true);
-        navHeaderMainBinding.setAccount(new AccountProfile("monica","m@udl.cat"));
+        navHeaderMainBinding.setAccount(Utils.getAccountProfile());
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
@@ -43,6 +47,13 @@ public class MainActivity2 extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+        Picasso.get().load(Utils.getAccountProfile().getPhoto().replace("http://127.0.0.1:8001","http://192.168.101.88:8001")).error(R.drawable.ic_launcher_background).placeholder(R.drawable.progress_animation).resize(200, 200).into((ImageView) findViewById(R.id.imageView));
+        layout = findViewById(R.id.linearLayoutHeader);
+        layout.setOnClickListener(v -> {
+            Intent intent = new Intent(getApplicationContext(), PrivateProfileActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            getApplication().startActivity(intent);
+        });
     }
 
     @Override
