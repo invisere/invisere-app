@@ -9,9 +9,11 @@ public class AccountProfile {
     private String email;
     private String photo;
 
-    public AccountProfile(String name, String email){
-        this.username = name;
-        this.email = email;
+    public AccountProfile(){
+        this.name = "Name";
+        this.username = "username";
+        this.email = "email";
+        this.photo = "";
     }
 
 

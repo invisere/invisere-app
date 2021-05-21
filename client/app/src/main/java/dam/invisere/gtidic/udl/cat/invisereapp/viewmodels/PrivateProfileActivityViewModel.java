@@ -13,7 +13,7 @@ import dam.invisere.gtidic.udl.cat.invisereapp.utils.Utils;
 
 public class PrivateProfileActivityViewModel extends ViewModel {
 
-    private AccountRepo accountRepo;
+    public AccountRepo accountRepo;
     private AccountProfile accountProfile = Utils.getAccountProfile();
 
     public MutableLiveData<String> Name = new MutableLiveData<>();

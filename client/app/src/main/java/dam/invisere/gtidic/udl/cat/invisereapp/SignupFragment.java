@@ -104,7 +104,7 @@ public class SignupFragment extends Fragment {
 
         signUpViewModel.getCreateTokenResponse().observe(getViewLifecycleOwner(), returnCodeI -> {
             if(returnCodeI.getReturnCode() == 200) {
-                Intent intent = new Intent(getContext(), MainActivity2.class);
+                Intent intent = new Intent(getContext(), MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                 getContext().startActivity(intent);
             }
