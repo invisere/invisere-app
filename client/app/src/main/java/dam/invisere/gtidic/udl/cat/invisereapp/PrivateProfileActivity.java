@@ -29,7 +29,6 @@ import java.io.File;
 import dam.invisere.gtidic.udl.cat.invisereapp.databinding.ActivityPrivateProfileBinding;
 import dam.invisere.gtidic.udl.cat.invisereapp.models.AccountProfile;
 import dam.invisere.gtidic.udl.cat.invisereapp.preferences.Preferences;
-import dam.invisere.gtidic.udl.cat.invisereapp.repo.AccountRepo;
 import dam.invisere.gtidic.udl.cat.invisereapp.utils.Utils;
 import dam.invisere.gtidic.udl.cat.invisereapp.viewmodels.PrivateProfileActivityViewModel;
 import okhttp3.MediaType;
@@ -51,7 +50,6 @@ public class PrivateProfileActivity extends AuthActivity {
     private static final int PICK_IMAGE = 100;
     private Uri imageUri;
     private static final int EXTERNAL_STORAGE_PERMISSION_CODE = 1;
-    private AccountRepo accountRepo = new AccountRepo();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,7 +107,7 @@ public class PrivateProfileActivity extends AuthActivity {
     }
 
     public void logout(View view) {
-        accountRepo.deleteTokenUser(Utils.getToken());
+        privateProfileActivityViewModel.accountRepo.deleteTokenUser(Utils.getToken());
 
 //        Preferences.providePreferences().edit().clear().apply();
         Preferences.providePreferences().edit().putString("token", "").apply();
@@ -135,8 +133,8 @@ public class PrivateProfileActivity extends AuthActivity {
 
             Log.d(TAG, "updatePhoto -> he rebut la url: " + accountProfile.getPhoto());
 
-            accountRepo.updatePhoto(body2, Utils.getToken());
-            accountRepo.get_account(Utils.getToken());
+            privateProfileActivityViewModel.accountRepo.updatePhoto(body2, Utils.getToken());
+            privateProfileActivityViewModel.accountRepo.get_account(Utils.getToken());
         }
     }
 
