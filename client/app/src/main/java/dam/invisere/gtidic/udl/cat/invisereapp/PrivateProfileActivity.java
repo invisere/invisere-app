@@ -16,7 +16,6 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
@@ -37,7 +36,7 @@ import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 
-public class PrivateProfileActivity extends AppCompatActivity {
+public class PrivateProfileActivity extends AuthActivity {
 
     private String TAG = "PrivateProfileActivity()";
     private PrivateProfileActivityViewModel privateProfileActivityViewModel;
@@ -68,7 +67,26 @@ public class PrivateProfileActivity extends AppCompatActivity {
         toggle(getWindow().getDecorView());
 
         btnChangePhoto.setOnClickListener(v -> checkPermitExternalMemory());
-        privateProfileActivityViewModel.Photo.observe(this, s -> Picasso.get().load(s).error(R.drawable.ic_launcher_background).placeholder(R.drawable.progress_animation).resize(350, 350).into(ivProfilePhoto));
+        privateProfileActivityViewModel.Photo.observe(this, s -> {
+            if(s.isEmpty()) {
+                Picasso.get().load(R.drawable.ic_launcher_background).placeholder(R.drawable.progress_animation).resize(350, 350).into(ivProfilePhoto);
+            } else {
+                Picasso.get().load(s).error(R.drawable.ic_launcher_background).placeholder(R.drawable.progress_animation).resize(350, 350).into(ivProfilePhoto);
+            }
+        });
+
+        privateProfileActivityViewModel.accountRepo.mResponseUpdate.observe(this, returnCodeI -> {
+            if(returnCodeI.isSuccess() && returnCodeI.getReturnCode() == 200) {
+                privateProfileActivityViewModel.accountRepo.get_account(Utils.getToken());
+            }
+        });
+
+        privateProfileActivityViewModel.accountRepo.mResponseGetAccount.observe(this, returnCodeI -> {
+            if (returnCodeI.getReturnCode() == 200) {
+                privateProfileActivityViewModel.setAccountProfile(Utils.getAccountProfile());
+                toggle(getWindow().getDecorView());
+            }
+        });
     }
 
     private void initViewModel() {
@@ -88,6 +106,16 @@ public class PrivateProfileActivity extends AppCompatActivity {
         txtUsername.setEnabled(!txtUsername.isEnabled());
         txtEmail.setEnabled(!txtEmail.isEnabled());
         btnSubmitChanges.setVisibility((btnSubmitChanges.getVisibility() == View.GONE) ? View.VISIBLE : View.GONE);
+    }
+
+    public void logout(View view) {
+        accountRepo.deleteTokenUser(Utils.getToken());
+
+//        Preferences.providePreferences().edit().clear().apply();
+        Preferences.providePreferences().edit().putString("token", "").apply();
+        Preferences.providePreferences().edit().putString("account" ,new Gson().toJson(new AccountProfile())).apply();
+
+        super.isLogged();
     }
 
     @Override
@@ -173,5 +201,4 @@ public class PrivateProfileActivity extends AppCompatActivity {
     private void permisoDeAlmacenamientoNoConcedido() {
         Toast.makeText(this, "El permiso para el almacenamiento no está concedido", Toast.LENGTH_SHORT).show();
     }
-
- }
+}

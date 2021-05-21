@@ -5,6 +5,8 @@ import android.util.Base64;
 
 import androidx.annotation.RequiresApi;
 
+import com.google.gson.Gson;
+
 import org.bouncycastle.crypto.digests.SHA256Digest;
 import org.bouncycastle.crypto.generators.PKCS5S2ParametersGenerator;
 import org.bouncycastle.crypto.params.KeyParameter;
@@ -12,6 +14,7 @@ import org.bouncycastle.crypto.params.KeyParameter;
 import java.nio.charset.StandardCharsets;
 import java.util.Locale;
 
+import dam.invisere.gtidic.udl.cat.invisereapp.models.AccountProfile;
 import dam.invisere.gtidic.udl.cat.invisereapp.preferences.Preferences;
 
 public class Utils {
@@ -50,5 +53,9 @@ public class Utils {
 
     public static String getToken() {
         return Preferences.providePreferences().getString("token", "");
+    }
+
+    public static AccountProfile getAccountProfile() {
+        return new Gson().fromJson(Preferences.providePreferences().getString("account", new Gson().toJson(new AccountProfile())), AccountProfile.class);
     }
 }

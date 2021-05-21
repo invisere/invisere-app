@@ -42,4 +42,10 @@ public class LoginViewModel extends ViewModel {
         return accountRepo.mResponseLogin;
     }
 
+    public MutableLiveData<ReturnCodeI> getAccountResponse() {
+        return accountRepo.mResponseGetAccount;
+    }
+
+
+
 }

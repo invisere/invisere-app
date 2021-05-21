@@ -30,9 +30,9 @@ public class AccountRepo extends EntryActivity {
 
     public MutableLiveData<ReturnCodeI> mResponseRegister;
     public MutableLiveData<ReturnCodeI> mResponseLogin;
-    private MutableLiveData<String> mResponseGetAccount;
+    public MutableLiveData<ReturnCodeI> mResponseGetAccount;
     private MutableLiveData<String> mResponseDeleteToken;
-    private MutableLiveData<String> mResponseUpdate;
+    public MutableLiveData<ReturnCodeI> mResponseUpdate;
     private MutableLiveData<String> mResponseRecovery;
 
     String token = "";
@@ -169,12 +169,12 @@ public class AccountRepo extends EntryActivity {
                         Log.d(TAG, "Code 200 () -> get_account: " + profile);
                         Preferences.providePreferences().edit().putString("account" ,new Gson().toJson(profile)).apply();
 
-                        mResponseGetAccount.setValue("Profile loaded successfully.");
+                        mResponseGetAccount.setValue(new ReturnCodeImpl(true, 200, 0));
                         break;
 
                     default:
                         String error_msg = "Error: " + response.errorBody();
-                        mResponseGetAccount.setValue(error_msg);
+                        mResponseGetAccount.setValue(new ReturnCodeImpl(false));
                         break;
                 }
             }
@@ -182,7 +182,7 @@ public class AccountRepo extends EntryActivity {
             @Override
             public void onFailure(Call<AccountProfile> call, Throwable t) {
                 String error_msg = "Error: " + t.getMessage();
-                mResponseGetAccount.setValue(error_msg);
+                mResponseGetAccount.setValue(new ReturnCodeImpl(false));
                 Log.d(TAG, error_msg);
             }
         });
@@ -201,12 +201,12 @@ public class AccountRepo extends EntryActivity {
                 switch (return_code) {
                     case 200:
                         Log.d(TAG, "Code 200 () -> Updated: ");
-                        mResponseUpdate.setValue("Profile updated successfully.");
+                        mResponseUpdate.setValue(new ReturnCodeImpl(true, return_code, 0));
                         break;
 
                     default:
                         String error_msg = "Error: " + response.errorBody();
-                        mResponseUpdate.setValue(error_msg);
+                        mResponseUpdate.setValue(new ReturnCodeImpl(true, return_code, 0));
                         break;
                 }
             }
@@ -214,7 +214,7 @@ public class AccountRepo extends EntryActivity {
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 String error_msg = "Error: " + t.getMessage();
-                mResponseUpdate.setValue(error_msg);
+                mResponseUpdate.setValue(new ReturnCodeImpl(false));
                 Log.d(TAG, error_msg);
             }
         });
@@ -235,12 +235,12 @@ public class AccountRepo extends EntryActivity {
                 switch (return_code) {
                     case 200:
                         Log.d(TAG, "Code 200 () -> Updated: ");
-                        mResponseUpdate.setValue("Profile updated successfully.");
+                        mResponseUpdate.setValue(new ReturnCodeImpl(true, return_code, 0));
                         break;
 
                     default:
                         String error_msg = "Error: " + response.errorBody();
-                        mResponseUpdate.setValue(error_msg);
+                        mResponseUpdate.setValue(new ReturnCodeImpl(true, return_code, 0));
                         break;
                 }
 
@@ -249,7 +249,7 @@ public class AccountRepo extends EntryActivity {
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 String error_msg = "Error: " + t.getMessage();
-                mResponseUpdate.setValue(error_msg);
+                mResponseUpdate.setValue(new ReturnCodeImpl(false));
                 Log.d(TAG, error_msg);
             }
         });
