@@ -97,3 +97,5 @@ class ResourceDeleteFromFavourites(DAMCoreResource):
                 raise falcon.HTTPNotFound(description="Route id not found in DB.")
 
         resp.status = falcon.HTTP_200
+
+
