@@ -40,11 +40,13 @@ public class AccountRepo extends EntryActivity {
     private MutableLiveData<String> mResponseUpdate;
     private MutableLiveData<String> mResponseRecovery;
     private final MutableLiveData<List<Route>> routesList;
+    private final MutableLiveData<List<Route>> ownRoutesList;
 
     String token = "";
     public static AccountProfile profile;
     public static PublicProfile Publicprofile;
     public static List routes;
+    public static List ownRoutes;
 
     public AccountRepo() {
         this.token = Preferences.providePreferences().getString("token", "");
@@ -57,10 +59,14 @@ public class AccountRepo extends EntryActivity {
         this.mResponseRecovery = new MutableLiveData<>();
         this.mResponseGetPublicAccount = new MutableLiveData<>();
         this.routesList = new MutableLiveData<>();
+        this.ownRoutesList = new MutableLiveData<>();
     }
 
     public MutableLiveData<List<Route>> getRoutesList() {
         return routesList;
+    }
+    public MutableLiveData<List<Route>> getOwnRoutesList() {
+        return ownRoutesList;
     }
 
     public void registerAccount(Account account) {
@@ -408,6 +414,56 @@ public class AccountRepo extends EntryActivity {
                 String error_msg = "Error: " + t.getMessage();
                 //mResponseGetPublicAccount.setValue(error_msg);
                ;
+                Log.d(TAG, error_msg);
+            }
+        });
+    }
+
+
+    public void get_own_routes(String token){
+        Log.d(TAG, "get_routes() -> he rebut el token: " + token);
+
+        accountService.get_own_routes(token).enqueue(new Callback<List<Route>>() {
+
+            @Override
+            public void onResponse(Call<List<Route>> call, Response<List<Route>> response) {
+
+                int return_code = response.code();
+                Log.d(TAG, "get_own_routes -> ha rebut el codi: " + return_code);
+                switch (return_code) {
+                    case 200:
+                        ownRoutes = response.body();
+                        Log.d(TAG, "Code 200 () -> get_own_routes: " + ownRoutes);
+
+                        Log.d(TAG, "Code 200 () -> get_own_routes lenght: " + ownRoutes.size());
+
+                        Route route = (Route) ownRoutes.get(0);
+
+                        Log.d(TAG, "Code 200 () -> get_own_routes nom: " + route.getName());
+                        Log.d(TAG, "Code 200 () -> get_own_routes distance: " + route.getDistance());
+                        Log.d(TAG, "Code 200 () -> get_own_routes points: " + route.getPoints());
+                        Place[] place = route.getPoints();
+
+                        Log.d(TAG, "Code 200 () -> get_own_routes name point: " +  place[1].getName());
+
+                        ownRoutesList.setValue(ownRoutes);
+                        Log.d(TAG, "Code 200 () -> get_own_routes name point: " + ownRoutesList);
+                        //mResponseGetPublicAccount.setValue("Profile loaded successfully.");
+                        break;
+
+                    default:
+                        String error_msg = "Error: " + response.errorBody();
+
+                        //mResponseGetPublicAccount.setValue(error_msg);
+                        break;
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Route>> call, Throwable t) {
+                String error_msg = "Error: " + t.getMessage();
+                //mResponseGetPublicAccount.setValue(error_msg);
+                ;
                 Log.d(TAG, error_msg);
             }
         });
