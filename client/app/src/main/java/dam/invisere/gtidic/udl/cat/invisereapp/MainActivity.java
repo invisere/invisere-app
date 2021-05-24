@@ -20,7 +20,7 @@ import com.squareup.picasso.Picasso;
 import dam.invisere.gtidic.udl.cat.invisereapp.databinding.NavHeaderMainBinding;
 import dam.invisere.gtidic.udl.cat.invisereapp.utils.Utils;
 
-public class MainActivity extends AuthActivity {
+public class MainActivity extends AuthActivity{
 
     private AppBarConfiguration mAppBarConfiguration;
 

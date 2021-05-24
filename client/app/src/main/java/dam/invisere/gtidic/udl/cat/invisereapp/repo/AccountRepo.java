@@ -330,7 +330,6 @@ public class AccountRepo extends EntryActivity {
         });
     }
 
-
     public void get_public_account(String token, String username){
         Log.d(TAG, "get_public_account() -> he rebut el token: " + token);
 
@@ -468,5 +467,4 @@ public class AccountRepo extends EntryActivity {
             }
         });
     }
-
 }
