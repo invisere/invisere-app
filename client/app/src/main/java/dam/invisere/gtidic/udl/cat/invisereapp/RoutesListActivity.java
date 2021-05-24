@@ -1,17 +1,13 @@
 package dam.invisere.gtidic.udl.cat.invisereapp;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 
-import java.util.List;
-
 import dam.invisere.gtidic.udl.cat.invisereapp.adapter.RouteAdapter;
 import dam.invisere.gtidic.udl.cat.invisereapp.adapter.RouteDiffCallback;
-import dam.invisere.gtidic.udl.cat.invisereapp.models.Route;
 import dam.invisere.gtidic.udl.cat.invisereapp.viewmodels.ListRoutesViewModel;
 
 public class RoutesListActivity extends AppCompatActivity {
@@ -26,7 +22,7 @@ public class RoutesListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_routes_list);
 
         routeAdapter = new RouteAdapter(new RouteDiffCallback());
-        recyclerView = findViewById(R.id.activityMainRcyMain);
+        recyclerView = findViewById(R.id.activityMainRcyMain2);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(routeAdapter);
 

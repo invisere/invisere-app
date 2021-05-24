@@ -66,7 +66,7 @@ public class MainActivity extends AuthActivity {
 
         btnRecomendRoutes.setOnClickListener(v -> {
             Log.d(TAG, "onViewPublicProfile()");
-            Intent intent = new Intent(getApplicationContext(), RoutesListActivity.class);
+            Intent intent = new Intent(getApplicationContext(), RoutesListFragment.class);
             startActivity(intent);
         });
     }
