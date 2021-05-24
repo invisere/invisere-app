@@ -371,7 +371,6 @@ public class AccountRepo extends EntryActivity {
 
     public void get_routes(String token){
         Log.d(TAG, "get_routes() -> he rebut el token: " + token);
-
         accountService.get_routes(token).enqueue(new Callback<List<Route>>() {
 
             @Override
