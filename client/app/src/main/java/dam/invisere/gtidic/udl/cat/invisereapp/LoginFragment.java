@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
 import dam.invisere.gtidic.udl.cat.invisereapp.databinding.FragmentLoginBinding;
+import dam.invisere.gtidic.udl.cat.invisereapp.utils.Utils;
 import dam.invisere.gtidic.udl.cat.invisereapp.viewmodels.LoginViewModel;
 
 public class LoginFragment extends Fragment {
@@ -44,6 +45,12 @@ public class LoginFragment extends Fragment {
 
         loginViewModel.getLoginResponse().observe(getViewLifecycleOwner(), returnCode -> {
             if(returnCode.getReturnCode() == 200) {
+                loginViewModel.accountRepo.get_account(Utils.getToken());
+            }
+        });
+
+        loginViewModel.getAccountResponse().observe(getViewLifecycleOwner(), returnCodeI -> {
+            if(returnCodeI.getReturnCode() == 200) {
                 Intent intent = new Intent(getContext(), MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                 getContext().startActivity(intent);

@@ -6,17 +6,15 @@ import androidx.annotation.RequiresApi;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.google.gson.Gson;
-
 import dam.invisere.gtidic.udl.cat.invisereapp.models.Account;
 import dam.invisere.gtidic.udl.cat.invisereapp.models.AccountProfile;
-import dam.invisere.gtidic.udl.cat.invisereapp.preferences.Preferences;
 import dam.invisere.gtidic.udl.cat.invisereapp.repo.AccountRepo;
+import dam.invisere.gtidic.udl.cat.invisereapp.utils.Utils;
 
 public class PrivateProfileActivityViewModel extends ViewModel {
 
-    private AccountRepo accountRepo;
-    private AccountProfile accountProfile = new Gson().fromJson(Preferences.providePreferences().getString("account", ""), AccountProfile.class);
+    public AccountRepo accountRepo;
+    private AccountProfile accountProfile = Utils.getAccountProfile();
 
     public MutableLiveData<String> Name = new MutableLiveData<>();
     public MutableLiveData<String> Username = new MutableLiveData<>();
@@ -33,6 +31,10 @@ public class PrivateProfileActivityViewModel extends ViewModel {
         } else {
             Photo.setValue("https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/480px-No_image_available.svg.png");
         }
+    }
+
+    public void setAccountProfile(AccountProfile accountProfile) {
+        this.accountProfile = accountProfile;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)

@@ -19,12 +19,12 @@
             android:layout_marginLeft="24dp"
             android:layout_marginEnd="295dp"
             android:layout_marginRight="295dp"
+            android:onClick="onBack"
             android:text="@string/Button_back_text"
             app:layout_constraintBottom_toTopOf="@+id/photoProfile"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:onClick="onBack"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
             android:id="@+id/buttonEdit"
@@ -43,11 +43,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="88dp"
+            android:src="@drawable/ic_launcher_background"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:shapeAppearanceOverlay="@style/circleImageViewStyle"
-            android:src="@drawable/ic_launcher_background"
             tools:ignore="VectorDrawableCompat" />
 
         <Button
@@ -90,7 +90,7 @@
                     android:layout_height="wrap_content"
                     android:inputType="textPersonName"
                     android:maxLines="1"
-                    android:text="@={viewModel.Name}"/>
+                    android:text="@={viewModel.Name}" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -111,7 +111,7 @@
                     android:layout_height="wrap_content"
                     android:inputType="text"
                     android:maxLines="1"
-                    android:text="@={viewModel.Username}"/>
+                    android:text="@={viewModel.Username}" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -132,7 +132,7 @@
                     android:layout_height="wrap_content"
                     android:inputType="textWebEmailAddress"
                     android:maxLines="1"
-                    android:text="@={viewModel.Email}"/>
+                    android:text="@={viewModel.Email}" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -142,13 +142,25 @@
             android:id="@+id/buttonSubmitChanges"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="@{ () -> viewModel.updateProfile() }"
             android:text="Submit Changes"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout3"
-            android:onClick="@{ () -> viewModel.updateProfile() }"/>
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
+
+        <Button
+            android:id="@+id/buttonLogout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="@string/Button_logout_text"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            android:onClick="logout"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
