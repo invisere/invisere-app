@@ -13,9 +13,9 @@
 
     <fragment
         android:id="@+id/nav_punts"
-        android:name="dam.invisere.gtidic.udl.cat.invisereapp.PuntsFragment"
+        android:name="dam.invisere.gtidic.udl.cat.invisereapp.DetallsPuntsFragment"
         android:label="Punts d'Interès"
-        tools:layout="@layout/fragment_punts" />
+        tools:layout="@layout/fragment_detalls_punts" />
 
     <fragment
         android:id="@+id/nav_gimcanes"
