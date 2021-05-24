@@ -1,7 +1,12 @@
 package dam.invisere.gtidic.udl.cat.invisereapp.services;
 
+import java.util.List;
+
 import dam.invisere.gtidic.udl.cat.invisereapp.models.Account;
 import dam.invisere.gtidic.udl.cat.invisereapp.models.AccountProfile;
+import dam.invisere.gtidic.udl.cat.invisereapp.models.Place;
+import dam.invisere.gtidic.udl.cat.invisereapp.models.PublicProfile;
+import dam.invisere.gtidic.udl.cat.invisereapp.models.Route;
 import dam.invisere.gtidic.udl.cat.invisereapp.network.RetrofitClientInstance;
 import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
@@ -50,6 +55,16 @@ public class AccountServiceImpl implements AccountServiceI {
     @Override
     public Call<ResponseBody> password_update(String email, String password, String code) {
         return retrofit.create(AccountServiceI.class).password_update(email, password, code);
+    }
+
+    @Override
+    public Call<PublicProfile> get_public_account(String token, String username){
+        return retrofit.create(AccountServiceI.class).get_public_account(token,username);
+    }
+
+    @Override
+    public Call<List<Route>> get_routes(String token){
+        return retrofit.create(AccountServiceI.class).get_routes(token);
     }
 
 }
