@@ -6,14 +6,17 @@ import datetime
 import enum
 import logging
 import os
+
 from _operator import and_
 from builtins import getattr
 from urllib.parse import urljoin
 
+from sqlalchemy.sql.sqltypes import Float
+
 import falcon
 from passlib.hash import pbkdf2_sha256
 from sqlalchemy import Column, Date, DateTime, Enum, ForeignKey, Integer, Unicode, \
-    UnicodeText, Table, type_coerce, case
+    UnicodeText, Table, type_coerce, case, Numeric, Boolean, Float
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.ext.hybrid import hybrid_method, hybrid_property
 from sqlalchemy.orm import relationship
@@ -67,6 +70,79 @@ class UserToken(SQLAlchemyBase):
     user = relationship("User", back_populates="tokens")
 
 
+association_table = Table("PlacesRoutes", SQLAlchemyBase.metadata,
+    Column("routes_id", Integer, ForeignKey("routes.id")),
+    Column("places_id", Integer, ForeignKey("places.id"))
+)
+
+
+class UserRoutesAssociation(SQLAlchemyBase, JSONModel):
+
+    __tablename__ = "user-routes-association"
+    route_id =  Column(Integer, ForeignKey("routes.id",onupdate="CASCADE", ondelete="CASCADE"),nullable=False, primary_key=True)
+    user_id = Column(Integer, ForeignKey("users.id",onupdate="CASCADE", ondelete="CASCADE"), nullable=False, primary_key=True)
+    favourite = Column(Boolean)
+    valoracio = Column(Integer)
+    routes_assoc = relationship("Route", back_populates="route_users")
+    users_assoc = relationship("User", back_populates="user_routes") 
+
+    @hybrid_property
+    def json_model(self):
+        return {
+            "favourite": self.favourite,
+            "valoracio": self.valoracio,
+        }
+
+class Route(SQLAlchemyBase, JSONModel):
+    __tablename__ = "routes"
+
+    id = Column(Integer, primary_key=True)
+    name = Column(Unicode(50), nullable=False)
+    distance = Column(Float,nullable=False)
+    difficulty = Column(Unicode(50), nullable=False)
+
+    owner_id = Column(Integer, ForeignKey("users.id", onupdate="CASCADE", ondelete="CASCADE"), nullable=False)
+    owner = relationship("User", back_populates="routes_owner")
+
+    route_users = relationship("UserRoutesAssociation", back_populates="routes_assoc")
+
+    points = relationship("Place", secondary=association_table)
+
+    @hybrid_property
+    def json_model(self):
+        return {
+            "name": self.name,
+            "distance": self.distance,
+            "difficulty": self.difficulty,
+            "points": [points.json_model for points in self.points]
+        }
+
+
+class Place(SQLAlchemyBase, JSONModel):
+    __tablename__ = "places"
+
+    id = Column(Integer, primary_key=True, nullable=False)
+    name = Column(Unicode(200))
+    latitude = Column(Float, nullable=False)
+    longitude = Column(Float, nullable=False)
+    photo = Column(Unicode(255))
+    description = Column(Unicode(300))
+
+    @hybrid_property
+    def json_model(self):
+        return {
+            "name": self.name,
+            "latitude": self.latitude,
+            "longitude": self.longitude,
+            "photo": self.photo_url,
+            "description": self.description
+        }
+
+    @hybrid_property
+    def photo_url(self):
+        return _generate_media_url(self, "photo")
+
+
 class User(SQLAlchemyBase, JSONModel):
     __tablename__ = "users"
 
@@ -80,12 +156,17 @@ class User(SQLAlchemyBase, JSONModel):
     photo = Column(Unicode(255))
     recovery_code = Column(Unicode(6), nullable=True)
 
+    routes_owner = relationship("Route", back_populates="owner", cascade="all, delete-orphan")
+
+    user_routes = relationship("UserRoutesAssociation", back_populates="users_assoc")
+
     @hybrid_property
     def public_profile(self):
         return {
-            "created_at": self.created_at.strftime(settings.DATETIME_DEFAULT_FORMAT),
             "username": self.username,
-            "photo": self.photo
+            "name": self.name,
+            "routes": [routes_owner.id for routes_owner in self.routes_owner],
+            "photo": self.photo_url
         }
 
     @hybrid_property
@@ -122,3 +203,4 @@ class User(SQLAlchemyBase, JSONModel):
             "email": self.email,
             "photo": self.photo_url
         }
+

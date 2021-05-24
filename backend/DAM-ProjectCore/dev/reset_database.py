@@ -9,7 +9,7 @@ from sqlalchemy.sql import text
 
 import db
 import settings
-from db.models import SQLAlchemyBase, User, GenereEnum, RolEnum, UserToken
+from db.models import SQLAlchemyBase, User, GenereEnum, RolEnum, UserToken, Place, Route, Place, UserRoutesAssociation
 from settings import DEFAULT_LANGUAGE
 
 import random
@@ -75,5 +75,67 @@ if __name__ == "__main__":
     for user in users:
         db_session.add(user)
 
+      # -------------------- CREATE Places --------------------
+
+    mylogger.info("Creating default places...")
+
+    listPlaces = []
+
+    for i in range(1, 20):
+        aux_place = Place(
+            id = i,
+            name="place"+str(i),
+            latitude = round(random.uniform(41.60990,  41.47613), 5),
+            longitude = round(random.uniform(1.36508,  1.80063), 5),
+            photo = "",
+            description = ""
+        )
+
+        listPlaces.append(aux_place)
+        db_session.add(aux_place)
+
+
+    # -------------------- CREATE ROUTES --------------------
+
+    mylogger.info("Creating default routes...")
+    listRoutes = []
+
+    for i in range(1, 20):
+
+        aux_route = Route(
+            id=i,
+            name = "route"+str(i),
+            distance = i,
+            difficulty = "moderate",
+            owner_id = random.randint(1,20),
+            points = random.sample(listPlaces, random.randint(3,6))
+        )
+
+        listRoutes.append(aux_route)
+
+        db_session.add(aux_route)
+
+    # -------------------- CREATE UserRouteAssociation --------------------
+
+    mylogger.info("Creating default user-route-association...")
+
+    for i in range(1, 10): 
+        aux = UserRoutesAssociation(
+                favourite=bool(random.getrandbits(1)),
+                valoracio=random.randint(1,5),
+                route_id=random.randint(1,19),
+                user_id=random.randint(1,19),
+            )
+
+        try:
+            db_session.add(aux)
+
+        except:
+            print(aux.json_model)
+
+
+
     db_session.commit()
     db_session.close()
+
+

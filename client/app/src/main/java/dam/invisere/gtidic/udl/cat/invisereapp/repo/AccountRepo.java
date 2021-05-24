@@ -7,10 +7,14 @@ import androidx.lifecycle.MutableLiveData;
 import com.google.gson.Gson;
 
 import java.io.IOException;
+import java.util.List;
 
 import dam.invisere.gtidic.udl.cat.invisereapp.EntryActivity;
 import dam.invisere.gtidic.udl.cat.invisereapp.models.Account;
 import dam.invisere.gtidic.udl.cat.invisereapp.models.AccountProfile;
+import dam.invisere.gtidic.udl.cat.invisereapp.models.Place;
+import dam.invisere.gtidic.udl.cat.invisereapp.models.PublicProfile;
+import dam.invisere.gtidic.udl.cat.invisereapp.models.Route;
 import dam.invisere.gtidic.udl.cat.invisereapp.preferences.Preferences;
 import dam.invisere.gtidic.udl.cat.invisereapp.services.AccountServiceI;
 import dam.invisere.gtidic.udl.cat.invisereapp.services.AccountServiceImpl;
@@ -30,14 +34,19 @@ public class AccountRepo extends EntryActivity {
 
     public MutableLiveData<ReturnCodeI> mResponseRegister;
     public MutableLiveData<ReturnCodeI> mResponseLogin;
+    public MutableLiveData<ReturnCodeI> mResponseGetPublicAccount;
     public MutableLiveData<ReturnCodeI> mResponseGetAccount;
     private MutableLiveData<String> mResponseDeleteToken;
     public MutableLiveData<ReturnCodeI> mResponseUpdate;
     private MutableLiveData<String> mResponseRecovery;
+    private final MutableLiveData<List<Route>> routesList;
+    private final MutableLiveData<List<Route>> ownRoutesList;
 
     String token = "";
     public static AccountProfile profile;
-
+    public static PublicProfile Publicprofile;
+    public static List routes;
+    public static List ownRoutes;
 
     public AccountRepo() {
         this.token = Preferences.providePreferences().getString("token", "");
@@ -48,6 +57,16 @@ public class AccountRepo extends EntryActivity {
         this.mResponseDeleteToken = new MutableLiveData<>();
         this.mResponseUpdate = new MutableLiveData<>();
         this.mResponseRecovery = new MutableLiveData<>();
+        this.mResponseGetPublicAccount = new MutableLiveData<>();
+        this.routesList = new MutableLiveData<>();
+        this.ownRoutesList = new MutableLiveData<>();
+    }
+
+    public MutableLiveData<List<Route>> getRoutesList() {
+        return routesList;
+    }
+    public MutableLiveData<List<Route>> getOwnRoutesList() {
+        return ownRoutesList;
     }
 
     public void registerAccount(Account account) {
@@ -306,6 +325,145 @@ public class AccountRepo extends EntryActivity {
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 String error_msg = "Error: " + t.getMessage();
                 mResponseRecovery.setValue(error_msg);
+                Log.d(TAG, error_msg);
+            }
+        });
+    }
+
+
+    public void get_public_account(String token, String username){
+        Log.d(TAG, "get_public_account() -> he rebut el token: " + token);
+
+        accountService.get_public_account(token,username).enqueue(new Callback<PublicProfile>() {
+
+            @Override
+            public void onResponse(Call<PublicProfile> call, Response<PublicProfile> response) {
+
+                int return_code = response.code();
+                Log.d(TAG, "get_public_account() -> ha rebut el codi: " + return_code);
+                switch (return_code) {
+                    case 200:
+                        Publicprofile = response.body();
+                        Log.d(TAG, "Code 200 () -> get_public_account: " + Publicprofile);
+
+                        Preferences.providePreferences().edit().putString("publicAccount" ,new Gson().toJson(Publicprofile)).apply();
+                        mResponseGetPublicAccount.setValue(new ReturnCodeImpl(true, return_code, 0));
+                        //mResponseGetPublicAccount.setValue("Profile loaded successfully.");
+                        break;
+
+                    default:
+                        String error_msg = "Error: " + response.errorBody();
+                        mResponseGetPublicAccount.setValue(new ReturnCodeImpl(true, return_code, 0));
+                        //mResponseGetPublicAccount.setValue(error_msg);
+                        break;
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PublicProfile> call, Throwable t) {
+                String error_msg = "Error: " + t.getMessage();
+                //mResponseGetPublicAccount.setValue(error_msg);
+                mResponseGetPublicAccount.setValue(new ReturnCodeImpl(false));
+                Log.d(TAG, error_msg);
+            }
+        });
+    }
+
+
+    public void get_routes(String token){
+        Log.d(TAG, "get_routes() -> he rebut el token: " + token);
+
+        accountService.get_routes(token).enqueue(new Callback<List<Route>>() {
+
+            @Override
+            public void onResponse(Call<List<Route>> call, Response<List<Route>> response) {
+
+                int return_code = response.code();
+                Log.d(TAG, "get_routes() -> ha rebut el codi: " + return_code);
+                switch (return_code) {
+                    case 200:
+                        routes = response.body();
+                        Log.d(TAG, "Code 200 () -> get_routes: " + routes);
+
+                        Log.d(TAG, "Code 200 () -> get_routes lenght: " + routes.size());
+
+                        Route route = (Route) routes.get(0);
+
+                        Log.d(TAG, "Code 200 () -> get_routes nom: " + route.getName());
+                        Log.d(TAG, "Code 200 () -> get_routes distance: " + route.getDistance());
+                        Log.d(TAG, "Code 200 () -> get_routes points: " + route.getPoints());
+                        Place[] place = route.getPoints();
+
+                        Log.d(TAG, "Code 200 () -> get_routes name point: " +  place[1].getName());
+
+                        routesList.setValue(routes);
+                        Log.d(TAG, "Code 200 () -> get_routes name point: " + routesList);
+                        //mResponseGetPublicAccount.setValue("Profile loaded successfully.");
+                        break;
+
+                    default:
+                        String error_msg = "Error: " + response.errorBody();
+
+                        //mResponseGetPublicAccount.setValue(error_msg);
+                        break;
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Route>> call, Throwable t) {
+                String error_msg = "Error: " + t.getMessage();
+                //mResponseGetPublicAccount.setValue(error_msg);
+               ;
+                Log.d(TAG, error_msg);
+            }
+        });
+    }
+
+
+    public void get_own_routes(String token){
+        Log.d(TAG, "get_routes() -> he rebut el token: " + token);
+
+        accountService.get_own_routes(token).enqueue(new Callback<List<Route>>() {
+
+            @Override
+            public void onResponse(Call<List<Route>> call, Response<List<Route>> response) {
+
+                int return_code = response.code();
+                Log.d(TAG, "get_own_routes -> ha rebut el codi: " + return_code);
+                switch (return_code) {
+                    case 200:
+                        ownRoutes = response.body();
+                        Log.d(TAG, "Code 200 () -> get_own_routes: " + ownRoutes);
+
+                        Log.d(TAG, "Code 200 () -> get_own_routes lenght: " + ownRoutes.size());
+
+                        Route route = (Route) ownRoutes.get(0);
+
+                        Log.d(TAG, "Code 200 () -> get_own_routes nom: " + route.getName());
+                        Log.d(TAG, "Code 200 () -> get_own_routes distance: " + route.getDistance());
+                        Log.d(TAG, "Code 200 () -> get_own_routes points: " + route.getPoints());
+                        Place[] place = route.getPoints();
+
+                        Log.d(TAG, "Code 200 () -> get_own_routes name point: " +  place[1].getName());
+
+                        ownRoutesList.setValue(ownRoutes);
+                        Log.d(TAG, "Code 200 () -> get_own_routes name point: " + ownRoutesList);
+                        //mResponseGetPublicAccount.setValue("Profile loaded successfully.");
+                        break;
+
+                    default:
+                        String error_msg = "Error: " + response.errorBody();
+
+                        //mResponseGetPublicAccount.setValue(error_msg);
+                        break;
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Route>> call, Throwable t) {
+                String error_msg = "Error: " + t.getMessage();
+                //mResponseGetPublicAccount.setValue(error_msg);
+                ;
                 Log.d(TAG, error_msg);
             }
         });
