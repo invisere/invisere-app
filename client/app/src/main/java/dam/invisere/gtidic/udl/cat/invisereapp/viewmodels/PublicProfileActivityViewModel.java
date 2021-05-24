@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel;
 import com.google.gson.Gson;
 
 import dam.invisere.gtidic.udl.cat.invisereapp.models.PublicProfile;
+import dam.invisere.gtidic.udl.cat.invisereapp.models.Route;
 import dam.invisere.gtidic.udl.cat.invisereapp.preferences.Preferences;
 import dam.invisere.gtidic.udl.cat.invisereapp.repo.AccountRepo;
 import dam.invisere.gtidic.udl.cat.invisereapp.validators.ReturnCodeI;

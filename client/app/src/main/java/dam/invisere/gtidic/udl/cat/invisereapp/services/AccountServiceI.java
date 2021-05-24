@@ -56,4 +56,7 @@ public interface AccountServiceI {
 
     @GET("/routes")
     Call<List<Route>> get_routes(@Header("Authorization") String token);
+
+    @GET("/routes/own")
+    Call<List<Route>> get_own_routes(@Header("Authorization") String token);
 }

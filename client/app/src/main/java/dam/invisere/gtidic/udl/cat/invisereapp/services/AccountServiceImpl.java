@@ -67,4 +67,10 @@ public class AccountServiceImpl implements AccountServiceI {
         return retrofit.create(AccountServiceI.class).get_routes(token);
     }
 
+    @Override
+    public Call<List<Route>> get_own_routes(String token){
+        return retrofit.create(AccountServiceI.class).get_own_routes(token);
+    }
+
+
 }

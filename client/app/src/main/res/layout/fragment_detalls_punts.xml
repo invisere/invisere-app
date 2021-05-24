@@ -4,6 +4,7 @@
     <data>
         <variable name="place" type="dam.invisere.gtidic.udl.cat.invisereapp.models.Place"/>
     </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
@@ -50,7 +51,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+            app:layout_constraintTop_toBottomOf="@+id/imageView2"
+            android:text="@{place.getName()}"/>
 
         <TextView
             android:id="@+id/web_punt"
@@ -60,7 +62,8 @@
             app:layout_constraintBottom_toTopOf="@+id/telefon_punt"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/adreça_punt" />
+            app:layout_constraintTop_toBottomOf="@+id/adreça_punt"
+            android:text="@{place.getDescription()}"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

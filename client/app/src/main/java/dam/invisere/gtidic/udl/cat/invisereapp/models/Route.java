@@ -8,8 +8,18 @@ public class Route {
     private String name;
     @SerializedName("distance")
     private Float distance;
+    @SerializedName("difficulty")
+    private String difficulty;
     @SerializedName("points")
     private Place[] points;
+
+    public String getDifficulty() {
+        return difficulty;
+    }
+
+    public void setDifficulty(String difficulty) {
+        this.difficulty = difficulty;
+    }
 
     public Place[] getPoints() {
         return points;
@@ -55,6 +65,7 @@ public class Route {
 
         // Compare the data members and return accordingly
         return this.name == r.getName()
-                && this.getDistance() == r.getDistance();
+                && this.getDistance() == r.getDistance()
+                && this.difficulty == r.getDifficulty();
     }
 }

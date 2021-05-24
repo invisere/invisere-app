@@ -1,29 +1,34 @@
 package dam.invisere.gtidic.udl.cat.invisereapp;
 
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
 import dam.invisere.gtidic.udl.cat.invisereapp.adapter.RouteAdapter;
 import dam.invisere.gtidic.udl.cat.invisereapp.adapter.RouteDiffCallback;
-import dam.invisere.gtidic.udl.cat.invisereapp.preferences.Preferences;
-import dam.invisere.gtidic.udl.cat.invisereapp.repo.AccountRepo;
 import dam.invisere.gtidic.udl.cat.invisereapp.viewmodels.ListRoutesViewModel;
 
-import static android.content.ContentValues.TAG;
-
-public class RutesFragment extends Fragment {
+/**
+ * A simple {@link Fragment} subclass.
+ * Use the {@link RoutesListFragment#newInstance} factory method to
+ * create an instance of this fragment.
+ */
+public class RoutesListFragment extends Fragment {
 
     public RecyclerView recyclerView;
     public ListRoutesViewModel listRoutesViewModel;
     public RouteAdapter routeAdapter;
+
+    public RoutesListFragment() {
+        // Required empty public constructor
+    }
 
     // TODO: Rename and change types and number of parameters
     public static RoutesListFragment newInstance() {
@@ -48,7 +53,7 @@ public class RutesFragment extends Fragment {
         recyclerView.setAdapter(routeAdapter);
 
         initView();
-        return inflater.inflate(R.layout.fragment_rutes, container, false);
+        return inflater.inflate(R.layout.fragment_routes_list, container, false);
     }
 
     public void initView(){

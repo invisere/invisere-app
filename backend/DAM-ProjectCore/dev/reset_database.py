@@ -106,6 +106,7 @@ if __name__ == "__main__":
             id=i,
             name = "route"+str(i),
             distance = i,
+            difficulty = "moderate",
             owner_id = random.randint(1,20),
             points = random.sample(listPlaces, random.randint(3,6))
         )

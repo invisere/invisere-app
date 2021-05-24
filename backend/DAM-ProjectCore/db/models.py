@@ -99,6 +99,7 @@ class Route(SQLAlchemyBase, JSONModel):
     id = Column(Integer, primary_key=True)
     name = Column(Unicode(50), nullable=False)
     distance = Column(Float,nullable=False)
+    difficulty = Column(Unicode(50), nullable=False)
 
     owner_id = Column(Integer, ForeignKey("users.id", onupdate="CASCADE", ondelete="CASCADE"), nullable=False)
     owner = relationship("User", back_populates="routes_owner")
@@ -112,6 +113,7 @@ class Route(SQLAlchemyBase, JSONModel):
         return {
             "name": self.name,
             "distance": self.distance,
+            "difficulty": self.difficulty,
             "points": [points.json_model for points in self.points]
         }
 
