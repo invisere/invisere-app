@@ -4,6 +4,7 @@ import java.util.List;
 
 import dam.invisere.gtidic.udl.cat.invisereapp.models.Account;
 import dam.invisere.gtidic.udl.cat.invisereapp.models.AccountProfile;
+import dam.invisere.gtidic.udl.cat.invisereapp.models.Place;
 import dam.invisere.gtidic.udl.cat.invisereapp.models.PublicProfile;
 import dam.invisere.gtidic.udl.cat.invisereapp.models.Route;
 import okhttp3.MultipartBody;
@@ -58,4 +59,7 @@ public interface AccountServiceI {
 
     @GET("/routes/own")
     Call<List<Route>> get_own_routes(@Header("Authorization") String token);
+
+    @GET("/places")
+    Call<List<Place>> get_places(@Header("Authorization") String token);
 }
