@@ -47,7 +47,7 @@ public class AccountRepo extends EntryActivity {
     public static AccountProfile profile;
     public static PublicProfile Publicprofile;
     public static List routes;
-    public static List places;
+    public static List<Place> places;
     public static List ownRoutes;
 
     public AccountRepo() {
@@ -457,7 +457,6 @@ public class AccountRepo extends EntryActivity {
 
                     default:
                         String error_msg = "Error: " + response.errorBody();
-
                         //mResponseGetPublicAccount.setValue(error_msg);
                         break;
                 }
@@ -467,7 +466,6 @@ public class AccountRepo extends EntryActivity {
             public void onFailure(Call<List<Route>> call, Throwable t) {
                 String error_msg = "Error: " + t.getMessage();
                 //mResponseGetPublicAccount.setValue(error_msg);
-                ;
                 Log.d(TAG, error_msg);
             }
         });
@@ -487,11 +485,7 @@ public class AccountRepo extends EntryActivity {
 
                         Log.d(TAG, "Code 200 () -> get_places lenght: " + places.size());
 
-                        Place place = (Place) places.get(0);
-
-                        Log.d(TAG, "Code 200 () -> get_places nom: " + place.getName());
-
-                        routesList.setValue(routes);
+                        placesList.setValue(places);
                         Log.d(TAG, "Code 200 () -> get_routes name point: " + routesList);
                         //mResponseGetPublicAccount.setValue("Profile loaded successfully.");
                         break;

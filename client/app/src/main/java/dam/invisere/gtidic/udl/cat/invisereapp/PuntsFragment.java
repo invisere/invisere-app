@@ -41,16 +41,6 @@ public class PuntsFragment extends Fragment implements OnMapReadyCallback {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_punts, container, false);
 
-        accountRepo.getPlacesList().observe(getViewLifecycleOwner(), places -> {
-            for (Place place :places) {
-                this.mMap.addMarker(new MarkerOptions()
-                        .position(new LatLng(place.getLatitude(), place.getLongitude()))
-                        .title(place.getName())
-                );
-                Log.d(TAG, place.getName());
-            }
-        });
-
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
@@ -59,13 +49,16 @@ public class PuntsFragment extends Fragment implements OnMapReadyCallback {
 
     @Override
     public void onMapReady(@NonNull @NotNull GoogleMap googleMap) {
-        this.mMap = googleMap;
-
-        this.mMap.addMarker(new MarkerOptions()
-                .position(new LatLng(41.5809800, 1.6172000))
-                .title("Igualada")
-        );
         accountRepo.get_places(Utils.getToken());
+        this.mMap = googleMap;
+        accountRepo.getPlacesList().observe(getViewLifecycleOwner(), places -> {
+            for (Place place :places) {
+                this.mMap.addMarker(new MarkerOptions()
+                        .position(new LatLng(place.getLatitude(), place.getLongitude()))
+                        .title(place.getName())
+                );
+            }
+        });
 
     }
 
