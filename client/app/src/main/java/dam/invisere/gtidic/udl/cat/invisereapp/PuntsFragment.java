@@ -1,6 +1,7 @@
 package dam.invisere.gtidic.udl.cat.invisereapp;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,15 +17,22 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.jetbrains.annotations.NotNull;
 
+import dam.invisere.gtidic.udl.cat.invisereapp.models.Place;
+import dam.invisere.gtidic.udl.cat.invisereapp.repo.AccountRepo;
+import dam.invisere.gtidic.udl.cat.invisereapp.utils.Utils;
+
 public class PuntsFragment extends Fragment implements OnMapReadyCallback {
 
+    private static final String TAG = "PuntsFragment";
     private GoogleMap mMap;
+    private AccountRepo accountRepo;
 
     public PuntsFragment() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        accountRepo = new AccountRepo();
     }
 
     @Override
@@ -32,6 +40,16 @@ public class PuntsFragment extends Fragment implements OnMapReadyCallback {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_punts, container, false);
+
+        accountRepo.getPlacesList().observe(getViewLifecycleOwner(), places -> {
+            for (Place place :places) {
+                this.mMap.addMarker(new MarkerOptions()
+                        .position(new LatLng(place.getLatitude(), place.getLongitude()))
+                        .title(place.getName())
+                );
+                Log.d(TAG, place.getName());
+            }
+        });
 
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -47,6 +65,7 @@ public class PuntsFragment extends Fragment implements OnMapReadyCallback {
                 .position(new LatLng(41.5809800, 1.6172000))
                 .title("Igualada")
         );
+        accountRepo.get_places(Utils.getToken());
 
     }
 

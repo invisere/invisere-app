@@ -8,7 +8,7 @@ import falcon
 import messages
 import middlewares
 from falcon_multipart.middleware import MultipartMiddleware
-from resources import account_resources, common_resources, user_resources, routes_resources
+from resources import account_resources, common_resources, user_resources, routes_resources, places_resources
 from settings import configure_logging
 
 # LOGGING
@@ -45,10 +45,11 @@ application.add_route("/account/password_update", account_resources.ResourceAcco
 application.add_route("/users/register", user_resources.ResourceRegisterUser())
 application.add_route("/users/show/{username}", user_resources.ResourceGetUserProfile())
 
-application.add_route("/routes/", routes_resources.ResourceGetRoutes())
+application.add_route("/routes", routes_resources.ResourceGetRoutes())
 application.add_route("/routes/own", routes_resources.ResourceGetOwnRoutes())
 application.add_route("/routes/favorites/add/{id:int}", routes_resources.ResourceAddToFavourites())
 application.add_route("/routes/favorites/delete/{id:int}", routes_resources.ResourceDeleteFromFavourites())
 
+application.add_route("/places", places_resources.ResourceGetPlaces())
 
 application.add_sink(handle_404, "")

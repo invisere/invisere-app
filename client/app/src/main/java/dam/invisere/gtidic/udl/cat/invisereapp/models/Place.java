@@ -6,7 +6,9 @@ public class Place {
     private Float latitude;
     private Float longitude;
     private String photo;
-    private String description;
+    private String adress;
+    private String web;
+    private String phone;
 
     public String getName() {
         return name;
@@ -40,11 +42,26 @@ public class Place {
         this.photo = photo;
     }
 
-    public String getDescription() {
-        return description;
+    public String getAdress() {
+        return adress;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setAdress(String adress) {
+        this.adress = adress;
+    }
+
+    public String getWeb() {
+        return web;
+    }
+
+    public void setWeb(String web) {
+        this.web = web;
+    }
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }

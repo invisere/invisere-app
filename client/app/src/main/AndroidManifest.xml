@@ -18,9 +18,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.InvisereApp"
         android:usesCleartextTraffic="true">
-        <activity android:name=".AuthActivity" />
-        <activity android:name=".PrivateProfileActivity" />
         <activity android:name=".RecoveryPasswordActivity" />
+        <activity android:name=".PublicProfileActivity" />
+        <activity android:name=".PrivateProfileActivity" />
+        <activity android:name=".AuthActivity" />
         <activity android:name=".EntryActivity" />
         <activity
             android:name=".MainActivity"

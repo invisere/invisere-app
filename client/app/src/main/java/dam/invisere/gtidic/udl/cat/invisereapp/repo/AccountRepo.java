@@ -40,12 +40,14 @@ public class AccountRepo extends EntryActivity {
     public MutableLiveData<ReturnCodeI> mResponseUpdate;
     private MutableLiveData<String> mResponseRecovery;
     private final MutableLiveData<List<Route>> routesList;
+    private final MutableLiveData<List<Place>> placesList;
     private final MutableLiveData<List<Route>> ownRoutesList;
 
     String token = "";
     public static AccountProfile profile;
     public static PublicProfile Publicprofile;
     public static List routes;
+    public static List places;
     public static List ownRoutes;
 
     public AccountRepo() {
@@ -59,11 +61,15 @@ public class AccountRepo extends EntryActivity {
         this.mResponseRecovery = new MutableLiveData<>();
         this.mResponseGetPublicAccount = new MutableLiveData<>();
         this.routesList = new MutableLiveData<>();
+        this.placesList = new MutableLiveData<>();
         this.ownRoutesList = new MutableLiveData<>();
     }
 
     public MutableLiveData<List<Route>> getRoutesList() {
         return routesList;
+    }
+    public MutableLiveData<List<Place>> getPlacesList() {
+        return placesList;
     }
     public MutableLiveData<List<Route>> getOwnRoutesList() {
         return ownRoutesList;
@@ -371,7 +377,6 @@ public class AccountRepo extends EntryActivity {
 
     public void get_routes(String token){
         Log.d(TAG, "get_routes() -> he rebut el token: " + token);
-
         accountService.get_routes(token).enqueue(new Callback<List<Route>>() {
 
             @Override
@@ -392,8 +397,6 @@ public class AccountRepo extends EntryActivity {
                         Log.d(TAG, "Code 200 () -> get_routes distance: " + route.getDistance());
                         Log.d(TAG, "Code 200 () -> get_routes points: " + route.getPoints());
                         Place[] place = route.getPoints();
-
-                        Log.d(TAG, "Code 200 () -> get_routes name point: " +  place[1].getName());
 
                         routesList.setValue(routes);
                         Log.d(TAG, "Code 200 () -> get_routes name point: " + routesList);
@@ -460,6 +463,47 @@ public class AccountRepo extends EntryActivity {
 
             @Override
             public void onFailure(Call<List<Route>> call, Throwable t) {
+                String error_msg = "Error: " + t.getMessage();
+                //mResponseGetPublicAccount.setValue(error_msg);
+                ;
+                Log.d(TAG, error_msg);
+            }
+        });
+    }
+
+    public void get_places(String token){
+        Log.d(TAG, "get_places() -> he rebut el token: " + token);
+        accountService.get_places(token).enqueue(new Callback<List<Place>>() {
+            @Override
+            public void onResponse(Call<List<Place>> call, Response<List<Place>> response) {
+                int return_code = response.code();
+                Log.d(TAG, "get_places() -> ha rebut el codi: " + return_code);
+                switch (return_code) {
+                    case 200:
+                        places = response.body();
+                        Log.d(TAG, "Code 200 () -> get_places: " + places);
+
+                        Log.d(TAG, "Code 200 () -> get_places lenght: " + places.size());
+
+                        Place place = (Place) places.get(0);
+
+                        Log.d(TAG, "Code 200 () -> get_places nom: " + place.getName());
+
+                        placesList.setValue(places);
+                        Log.d(TAG, "Code 200 () -> get_routes name point: " + routesList);
+                        //mResponseGetPublicAccount.setValue("Profile loaded successfully.");
+                        break;
+
+                    default:
+                        String error_msg = "Error: " + response.errorBody();
+
+                        //mResponseGetPublicAccount.setValue(error_msg);
+                        break;
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Place>> call, Throwable t) {
                 String error_msg = "Error: " + t.getMessage();
                 //mResponseGetPublicAccount.setValue(error_msg);
                 ;

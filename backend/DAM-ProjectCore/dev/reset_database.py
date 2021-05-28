@@ -82,7 +82,7 @@ if __name__ == "__main__":
     listPlaces = []
 
     aux_place = Place(
-        id = 0,
+        id = 1,
         name = "Museu de la pell",
         latitude = 41.57715,
         longitude = 1.61390,
@@ -91,18 +91,18 @@ if __name__ == "__main__":
         web = "museudelapell.cat",
         phone = "78123231"
     )
-    
-#  for i in range(1, 20):
-#    aux_place = Place(
-#        id = i,
-#        name="place"+str(i),
-#        latitude = round(random.uniform(41.60990,  41.47613), 5),
-#        longitude = round(random.uniform(1.36508,  1.80063), 5),
-#        photo = "",
-#        description = ""
-#    )
-
     listPlaces.append(aux_place)
+    
+    for i in range(2, 21):
+      aux_place = Place(
+          id = i,
+          name="place"+str(i),
+          latitude = round(random.uniform(41.60990,  41.47613), 5),
+          longitude = round(random.uniform(1.36508,  1.80063), 5),
+          photo = "",
+      )
+      listPlaces.append(aux_place)
+
     db_session.add(aux_place)
 
 
@@ -119,8 +119,8 @@ if __name__ == "__main__":
             distance = i,
             difficulty = "moderate",
             owner_id = random.randint(1,20),
-            # points = random.sample(listPlaces, random.randint(3,6))
-            
+            points = random.sample(listPlaces, random.randint(3,6))
+            # points = [listPlaces[0]]
         )
 
         listRoutes.append(aux_route)

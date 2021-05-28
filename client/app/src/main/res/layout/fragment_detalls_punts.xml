@@ -40,7 +40,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.494"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/adreça_punt" />
+            app:layout_constraintTop_toBottomOf="@+id/adreça_punt"
+            android:text="@{place.getPhone()}"/>
 
         <TextView
             android:id="@+id/adreça_punt"
@@ -63,7 +64,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/adreça_punt"
-            android:text="@{place.getDescription()}"/>
+            android:text="@{place.getAdress()}"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
