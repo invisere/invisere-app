@@ -126,7 +126,9 @@ class Place(SQLAlchemyBase, JSONModel):
     latitude = Column(Float, nullable=False)
     longitude = Column(Float, nullable=False)
     photo = Column(Unicode(255))
-    description = Column(Unicode(300))
+    adress = Column(Unicode(300))
+    web = Column(Unicode(300))
+    phone = Column(Unicode(300))
 
     @hybrid_property
     def json_model(self):
@@ -135,7 +137,9 @@ class Place(SQLAlchemyBase, JSONModel):
             "latitude": self.latitude,
             "longitude": self.longitude,
             "photo": self.photo_url,
-            "description": self.description
+            "adress": self.adress,
+            "web":self.web,
+            "phone":self.phone
         }
 
     @hybrid_property

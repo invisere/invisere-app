@@ -24,7 +24,6 @@ public class DetallsPuntsFragment extends Fragment {
         super.onCreate(savedInstanceState);
         accountRepo = new AccountRepo();
         accountRepo.get_routes(Utils.getToken());
-
     }
 
     @Override
