@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel;
 
 import java.util.List;
 
-import dam.invisere.gtidic.udl.cat.invisereapp.models.Account;
 import dam.invisere.gtidic.udl.cat.invisereapp.models.Route;
 import dam.invisere.gtidic.udl.cat.invisereapp.repo.AccountRepo;
 import dam.invisere.gtidic.udl.cat.invisereapp.utils.Utils;
