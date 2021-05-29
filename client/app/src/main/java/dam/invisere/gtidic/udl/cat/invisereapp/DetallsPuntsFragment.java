@@ -13,18 +13,14 @@ import com.squareup.picasso.Picasso;
 
 import dam.invisere.gtidic.udl.cat.invisereapp.databinding.FragmentDetallsPuntsBinding;
 import dam.invisere.gtidic.udl.cat.invisereapp.models.Place;
-import dam.invisere.gtidic.udl.cat.invisereapp.repo.AccountRepo;
 
 public class DetallsPuntsFragment extends Fragment {
-
-    private AccountRepo accountRepo;
 
     public DetallsPuntsFragment() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        accountRepo = new AccountRepo();
     }
 
     @Override
@@ -36,7 +32,7 @@ public class DetallsPuntsFragment extends Fragment {
         View view = binding.getRoot();
 
         ImageView imageView = view.findViewById(R.id.imageView2);
-        Picasso.get().load(place.getPhoto().replace("127.0.0.1", "192.168.1.157")).error(R.drawable.ic_launcher_background).resize(500, 500).into(imageView);
+        Picasso.get().load(place.getPhoto().replace("127.0.0.1", "192.168.101.88")).error(R.drawable.ic_launcher_background).resize(500, 500).into(imageView);
         binding.setPlace(place);
 //        accountRepo.getPlacesList().observe(getViewLifecycleOwner(), places -> {
 //            Picasso.get().load(places.get(0).getPhoto().replace("127.0.0.1", "192.168.1.157")).error(R.drawable.ic_launcher_background).resize(500, 500).into(imageView);
