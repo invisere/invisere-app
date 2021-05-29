@@ -57,6 +57,7 @@ public class Place {
     public void setWeb(String web) {
         this.web = web;
     }
+
     public String getPhone() {
         return phone;
     }

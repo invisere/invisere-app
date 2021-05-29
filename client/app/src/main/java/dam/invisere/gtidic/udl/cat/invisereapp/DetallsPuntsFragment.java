@@ -1,7 +1,6 @@
 package dam.invisere.gtidic.udl.cat.invisereapp;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +12,6 @@ import androidx.fragment.app.Fragment;
 import com.squareup.picasso.Picasso;
 
 import dam.invisere.gtidic.udl.cat.invisereapp.databinding.FragmentDetallsPuntsBinding;
-import dam.invisere.gtidic.udl.cat.invisereapp.models.Place;
 import dam.invisere.gtidic.udl.cat.invisereapp.repo.AccountRepo;
 import dam.invisere.gtidic.udl.cat.invisereapp.utils.Utils;
 
@@ -35,7 +33,6 @@ public class DetallsPuntsFragment extends Fragment {
         // Inflate the layout for this fragment
         FragmentDetallsPuntsBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_detalls_punts, container, false);
         View view = binding.getRoot();
-        accountRepo.get_places(Utils.getToken());
 
         ImageView imageView = view.findViewById(R.id.imageView2);
         accountRepo.getPlacesList().observe(getViewLifecycleOwner(), places -> {
@@ -43,7 +40,7 @@ public class DetallsPuntsFragment extends Fragment {
             binding.setPlace(places.get(0));
         });
 
-
+        accountRepo.get_places(Utils.getToken());
         return view;
     }
 }
