@@ -398,8 +398,6 @@ public class AccountRepo extends EntryActivity {
                         Log.d(TAG, "Code 200 () -> get_routes points: " + route.getPoints());
                         Place[] place = route.getPoints();
 
-                        Log.d(TAG, "Code 200 () -> get_routes name point: " +  place[1].getName());
-
                         routesList.setValue(routes);
                         Log.d(TAG, "Code 200 () -> get_routes name point: " + routesList);
                         //mResponseGetPublicAccount.setValue("Profile loaded successfully.");
@@ -486,7 +484,6 @@ public class AccountRepo extends EntryActivity {
                         Log.d(TAG, "Code 200 () -> get_places lenght: " + places.size());
 
                         placesList.setValue(places);
-                        Log.d(TAG, "Code 200 () -> get_routes name point: " + routesList);
                         //mResponseGetPublicAccount.setValue("Profile loaded successfully.");
                         break;
 
