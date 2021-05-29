@@ -34,12 +34,7 @@ public class DetallsPuntsFragment extends Fragment {
         ImageView imageView = view.findViewById(R.id.imageView2);
         Picasso.get().load(place.getPhoto().replace("127.0.0.1", "192.168.101.88")).error(R.drawable.ic_launcher_background).resize(500, 500).into(imageView);
         binding.setPlace(place);
-//        accountRepo.getPlacesList().observe(getViewLifecycleOwner(), places -> {
-//            Picasso.get().load(places.get(0).getPhoto().replace("127.0.0.1", "192.168.1.157")).error(R.drawable.ic_launcher_background).resize(500, 500).into(imageView);
-//            binding.setPlace(places.get(0));
-//        });
 
-//        accountRepo.get_places(Utils.getToken());
         return view;
     }
 }

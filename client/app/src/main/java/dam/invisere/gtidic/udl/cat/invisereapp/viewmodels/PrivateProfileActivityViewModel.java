@@ -1,6 +1,7 @@
 package dam.invisere.gtidic.udl.cat.invisereapp.viewmodels;
 
 import android.os.Build;
+import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 import androidx.lifecycle.MutableLiveData;
@@ -26,11 +27,7 @@ public class PrivateProfileActivityViewModel extends ViewModel {
         Name.setValue(accountProfile.getName());
         Username.setValue(accountProfile.getUsername());
         Email.setValue(accountProfile.getEmail());
-        if(accountProfile.getPhoto() != null){
-            Photo.setValue(accountProfile.getPhoto().replace("http://127.0.0.1:8001","http://192.168.101.88:8001"));
-        } else {
-            Photo.setValue("https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/480px-No_image_available.svg.png");
-        }
+        Photo.setValue(accountProfile.getPhoto().replace("127.0.0.1","192.168.101.88"));
     }
 
     public void setAccountProfile(AccountProfile accountProfile) {

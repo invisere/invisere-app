@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -41,7 +42,6 @@ public class PrivateProfileActivity extends AuthActivity {
     private PrivateProfileActivityViewModel privateProfileActivityViewModel;
 
     private ImageView ivProfilePhoto;
-    private Button btnChangePhoto;
     private TextInputLayout txtName;
     private TextInputLayout txtUsername;
     private TextInputLayout txtEmail;
@@ -57,15 +57,15 @@ public class PrivateProfileActivity extends AuthActivity {
         setContentView(R.layout.activity_private_profile);
         initViewModel();
         ivProfilePhoto = findViewById(R.id.photoProfile);
-        btnChangePhoto = findViewById(R.id.buttonChangePhoto);
         txtName = findViewById(R.id.TextField_name_profile);
         txtUsername = findViewById(R.id.TextField_username_profile);
         txtEmail = findViewById(R.id.TextField_email_profile);
         btnSubmitChanges = findViewById(R.id.buttonSubmitChanges);
         toggle(getWindow().getDecorView());
 
-        btnChangePhoto.setOnClickListener(v -> checkPermitExternalMemory());
+        ivProfilePhoto.setOnClickListener(v -> checkPermitExternalMemory());
         privateProfileActivityViewModel.Photo.observe(this, s -> {
+            Log.d(TAG, s);
             if(s.isEmpty()) {
                 Picasso.get().load(R.drawable.ic_launcher_background).placeholder(R.drawable.progress_animation).resize(350, 350).into(ivProfilePhoto);
             } else {
@@ -99,7 +99,8 @@ public class PrivateProfileActivity extends AuthActivity {
     }
 
     public void toggle(View view) {
-        btnChangePhoto.setVisibility((btnChangePhoto.getVisibility() == View.GONE) ? View.VISIBLE : View.GONE);
+        ivProfilePhoto.setEnabled(!ivProfilePhoto.isEnabled());
+        ivProfilePhoto.setColorFilter(Color.argb((ivProfilePhoto.isEnabled()) ? 0 : 100, 0, 0, 0));
         txtName.setEnabled(!txtName.isEnabled());
         txtUsername.setEnabled(!txtUsername.isEnabled());
         txtEmail.setEnabled(!txtEmail.isEnabled());
