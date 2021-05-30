@@ -11,12 +11,14 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
@@ -55,6 +57,8 @@ public class PrivateProfileActivity extends AuthActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_private_profile);
+        Toolbar private_profile_toolbar = findViewById(R.id.private_profile_toolbar);
+        setSupportActionBar(private_profile_toolbar);
         initViewModel();
         ivProfilePhoto = findViewById(R.id.photoProfile);
         txtName = findViewById(R.id.TextField_name_profile);
@@ -85,6 +89,16 @@ public class PrivateProfileActivity extends AuthActivity {
                 toggle(getWindow().getDecorView());
             }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        Log.d(TAG, "clicked" + item);
+        if(item.getItemId() == R.id.editProfile) {
+            toggle(getWindow().getDecorView());
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void initViewModel() {

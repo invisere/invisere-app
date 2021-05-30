@@ -16,7 +16,7 @@
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.InvisereApp"
+        android:theme="@style/Theme.InvisereApp.NoActionBar"
         android:usesCleartextTraffic="true">
         <activity android:name=".RecoveryPasswordActivity" />
         <activity android:name=".PublicProfileActivity" />
