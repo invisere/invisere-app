@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Invisere App</string>
+    <string name="app_name">Invisere</string>
     <string name="TextField_name_hint">Name</string>
     <string name="TextField_username_hint">Username</string>
     <string name="TextField_email_hint">Email</string>
