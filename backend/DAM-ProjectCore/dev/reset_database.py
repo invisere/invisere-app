@@ -6,6 +6,7 @@ import logging
 import os
 
 from sqlalchemy.sql import text
+from sqlalchemy.sql.elements import Null
 
 import db
 import settings
@@ -87,9 +88,49 @@ if __name__ == "__main__":
         latitude = 41.57715,
         longitude = 1.61390,
         photo = "museu_de_la_pell.png",
-        adress = "Carrer Museu de la Pell",
-        web = "museudelapell.cat",
-        phone = "78123231"
+        adress = "Carrer del Dr. Joan Mercader, 1, 08700 Igualada, Barcelona",
+        web = "www.museupelligualada.cat",
+        phone = "938046752"
+    )
+    aux_place = Place(
+        id = 2,
+        name = "Parc central d'Igualada",
+        latitude = 41.58566,
+        longitude = 1.62577,
+        photo = "parc_central.png",
+        adress = "08700 Igualada, Barcelona",
+        web = Null,
+        phone = Null
+    )
+    aux_place = Place(
+        id = 3,
+        name = "RailHome",
+        latitude = 41.58584,
+        longitude = 1.63235,
+        photo = "rail_home.png",
+        adress = "Carrer d'Alemanya, 43, 08700 Igualada, Barcelona",
+        web = "www.railhome.com",
+        phone = "676959431"
+    )
+    aux_place = Place(
+        id = 4,
+        name = "La Tossa de Montbui",
+        latitude = 41.55570,
+        longitude = 1.58008,
+        photo = "la_tossa_de_montbui.png",
+        adress = "Refugi de l'Ermità, s/n La, 08710 Santa Margarida de Montbui, Barcelona",
+        web = "latossa.cat",
+        phone = "646728984"
+    )
+    aux_place = Place(
+        id = 5,
+        name = "Mare de Déu de Collbàs",
+        latitude = 41.54488,
+        longitude = 1.60841,
+        photo = "collbas.png",
+        adress = "08787 Carme, Barcelona",
+        web = Null,
+        phone = Null
     )
     listPlaces.append(aux_place)
     
