@@ -58,6 +58,7 @@ public class PrivateProfileActivity extends AuthActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_private_profile);
+        getSupportActionBar().setTitle("Your Profile");
         initViewModel();
         ivProfilePhoto = findViewById(R.id.photoProfile);
         txtName = findViewById(R.id.TextField_name_profile);
