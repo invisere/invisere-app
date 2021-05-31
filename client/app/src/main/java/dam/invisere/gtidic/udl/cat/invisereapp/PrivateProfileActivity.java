@@ -3,6 +3,7 @@ package dam.invisere.gtidic.udl.cat.invisereapp;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.TaskStackBuilder;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -11,6 +12,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -85,6 +88,28 @@ public class PrivateProfileActivity extends AuthActivity {
                 toggle(getWindow().getDecorView());
             }
         });
+    }
+
+    @Override
+    public void onCreateNavigateUpTaskStack(TaskStackBuilder builder) {
+        super.onCreateNavigateUpTaskStack(builder);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        Log.d(TAG, "created" + menu);
+        getMenuInflater().inflate(R.menu.activity_private_profile_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        Log.d(TAG, "clicked" + item);
+        if(item.getItemId() == R.id.editProfile) {
+            toggle(getWindow().getDecorView());
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void initViewModel() {
