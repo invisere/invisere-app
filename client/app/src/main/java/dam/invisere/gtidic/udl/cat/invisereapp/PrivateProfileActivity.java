@@ -3,6 +3,7 @@ package dam.invisere.gtidic.udl.cat.invisereapp;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.TaskStackBuilder;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -11,6 +12,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -18,7 +20,6 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
@@ -57,8 +58,6 @@ public class PrivateProfileActivity extends AuthActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_private_profile);
-        Toolbar private_profile_toolbar = findViewById(R.id.private_profile_toolbar);
-        setSupportActionBar(private_profile_toolbar);
         initViewModel();
         ivProfilePhoto = findViewById(R.id.photoProfile);
         txtName = findViewById(R.id.TextField_name_profile);
@@ -89,6 +88,18 @@ public class PrivateProfileActivity extends AuthActivity {
                 toggle(getWindow().getDecorView());
             }
         });
+    }
+
+    @Override
+    public void onCreateNavigateUpTaskStack(TaskStackBuilder builder) {
+        super.onCreateNavigateUpTaskStack(builder);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        Log.d(TAG, "created" + menu);
+        getMenuInflater().inflate(R.menu.activity_private_profile_menu, menu);
+        return true;
     }
 
     @Override
