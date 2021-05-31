@@ -98,7 +98,7 @@ if __name__ == "__main__":
         latitude = 41.58566,
         longitude = 1.62577,
         photo = "parc_central.png",
-        adress = "08700 Igualada, Barcelona",
+        adress = "Carrer d'Itàlia, S/N, 08700 Igualada, Barcelona",
         web = Null,
         phone = Null
     )
