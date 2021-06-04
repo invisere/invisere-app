@@ -13,6 +13,15 @@ public class Place implements Parcelable {
     private String web;
     private String phone;
 
+    public Place(){}
+
+    public Place(String name, String phote, String adress, String phone){
+        this.name = name;
+        this.photo = phote;
+        this.adress = adress;
+        this.phone = phone;
+    }
+
     public String getName() {
         return name;
     }
