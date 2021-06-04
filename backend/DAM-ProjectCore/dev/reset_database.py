@@ -92,6 +92,7 @@ if __name__ == "__main__":
         web = "www.museupelligualada.cat",
         phone = "938046752"
     )
+    listPlaces.append(aux_place)
     aux_place = Place(
         id = 2,
         name = "Parc central d'Igualada",
@@ -102,6 +103,7 @@ if __name__ == "__main__":
         web = Null,
         phone = Null
     )
+    listPlaces.append(aux_place)
     aux_place = Place(
         id = 3,
         name = "RailHome",
@@ -112,6 +114,7 @@ if __name__ == "__main__":
         web = "www.railhome.com",
         phone = "676959431"
     )
+    listPlaces.append(aux_place)
     aux_place = Place(
         id = 4,
         name = "La Tossa de Montbui",
@@ -122,6 +125,7 @@ if __name__ == "__main__":
         web = "latossa.cat",
         phone = "646728984"
     )
+    listPlaces.append(aux_place)
     aux_place = Place(
         id = 5,
         name = "Mare de Déu de Collbàs",
@@ -134,7 +138,7 @@ if __name__ == "__main__":
     )
     listPlaces.append(aux_place)
     
-    for i in range(2, 21):
+    for i in range(6, 21):
       aux_place = Place(
           id = i,
           name="place"+str(i),
