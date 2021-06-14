@@ -4,6 +4,9 @@ import com.google.gson.annotations.SerializedName;
 
 public class Route {
 
+
+    @SerializedName("id")
+    private int id;
     @SerializedName("name")
     private String name;
     @SerializedName("distance")
@@ -12,6 +15,22 @@ public class Route {
     private String difficulty;
     @SerializedName("points")
     private Place[] points;
+
+    public Route(int id, String name, Float distance, String difficulty, Place[] points) {
+        this.id = id;
+        this.name = name;
+        this.distance = distance;
+        this.difficulty = difficulty;
+        this.points = points;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getDifficulty() {
         return difficulty;

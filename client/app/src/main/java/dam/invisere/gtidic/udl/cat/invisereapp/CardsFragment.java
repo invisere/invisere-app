@@ -32,7 +32,7 @@ import java.util.List;
 
 import dam.invisere.gtidic.udl.cat.invisereapp.adapter.CardAdapter;
 import dam.invisere.gtidic.udl.cat.invisereapp.adapter.CardDiffCallback;
-import dam.invisere.gtidic.udl.cat.invisereapp.models.Place;
+import dam.invisere.gtidic.udl.cat.invisereapp.models.Route;
 import dam.invisere.gtidic.udl.cat.invisereapp.repo.AccountRepo;
 import dam.invisere.gtidic.udl.cat.invisereapp.utils.Utils;
 
@@ -58,8 +58,8 @@ public class CardsFragment extends Fragment {
         setHasOptionsMenu(true);
         view = inflater.inflate(R.layout.fragment_cards, container, false);
         accountRepo = new AccountRepo();
-        accountRepo.get_places(Utils.getToken());
-        accountRepo.getPlacesList().observe(getViewLifecycleOwner(), places -> init(view));
+        accountRepo.get_routes(Utils.getToken());
+        accountRepo.getRoutesList().observe(getViewLifecycleOwner(), routes -> init(view));
         return view;
     }
 
@@ -77,6 +77,7 @@ public class CardsFragment extends Fragment {
                 Log.d(TAG, "onCardSwiped: p=" + manager.getTopPosition() + " d=" + direction);
                 if (direction == Direction.Right){
                     Toast.makeText(getContext(), "Like", Toast.LENGTH_SHORT).show();
+                    accountRepo.add_route_favorite(Utils.getToken(), accountRepo.getRoutesList().getValue().get(manager.getTopPosition()).getId()-1);
                 }
                 if (direction == Direction.Left){
                     Toast.makeText(getContext(), "Dislike", Toast.LENGTH_SHORT).show();
@@ -127,20 +128,20 @@ public class CardsFragment extends Fragment {
     }
 
     private void paginate() {
-        List<Place> old = adapter.getItems();
-        List<Place> baru = new ArrayList<>(addCards());
+        List<Route> old = adapter.getItems();
+        List<Route> baru = new ArrayList<>(addCards());
         CardDiffCallback callback = new CardDiffCallback(old, baru);
         DiffUtil.DiffResult hasil = DiffUtil.calculateDiff(callback);
-        adapter.setPlaces(baru);
+        adapter.setRoutes(baru);
         hasil.dispatchUpdatesTo(adapter);
     }
 
-    private List<Place> addCards() {
-        List<Place> places = new ArrayList<>();
-        for (Place p : accountRepo.getPlacesList().getValue()) {
-            places.add(new Place(p.getName(), p.getPhoto().replace("127.0.0.1", "192.168.101.88"), p.getAdress(), p.getPhone()));
+    private List<Route> addCards() {
+        List<Route> routes = new ArrayList<>();
+        for (Route r : accountRepo.getRoutesList().getValue()) {
+            routes.add(new Route(r.getId(), r.getName(), r.getDistance(), r.getDifficulty(), r.getPoints()));
         }
-        return places;
+        return routes;
     }
 
     @Override

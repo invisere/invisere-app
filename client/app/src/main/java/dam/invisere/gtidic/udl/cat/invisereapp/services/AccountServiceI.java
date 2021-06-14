@@ -65,4 +65,7 @@ public interface AccountServiceI {
 
     @GET("/places")
     Call<List<Place>> get_places(@Header("Authorization") String token);
+
+    @POST("/routes/favorites/add/{id}")
+    Call<PublicProfile> add_route_favorite(@Header("Authorization") String token, @Path("id") int id);
 }

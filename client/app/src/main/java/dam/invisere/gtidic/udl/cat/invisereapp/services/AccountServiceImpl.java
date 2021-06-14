@@ -82,4 +82,9 @@ public class AccountServiceImpl implements AccountServiceI {
         return retrofit.create(AccountServiceI.class).get_places(token);
     }
 
+    @Override
+    public Call<PublicProfile> add_route_favorite(String token, int id) {
+        return retrofit.create(AccountServiceI.class).add_route_favorite(token, id);
+    }
+
 }

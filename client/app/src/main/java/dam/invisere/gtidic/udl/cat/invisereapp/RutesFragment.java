@@ -8,6 +8,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -47,14 +48,20 @@ public class RutesFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(routeAdapter);
 
-        initView();
+        initView(view);
         return view;
     }
 
-    public void initView(){
+    public void initView(View view){
         listRoutesViewModel.getFavoriteRoutes();
 
         listRoutesViewModel.returnFavoriteRoutes().observe((LifecycleOwner) getContext(), routes -> {
+            TextView rutes = view.findViewById(R.id.textViewRutesBuides);
+            if(routes.size() == 0) {
+                rutes.setText("Encara no has guardat cap ruta, \nquan ho facis les tindràs aquí!");
+            } else {
+                rutes.setVisibility(View.INVISIBLE);
+            }
             routeAdapter.submitList(routes);
             //listRoutesViewModel.getRoutes();
         });

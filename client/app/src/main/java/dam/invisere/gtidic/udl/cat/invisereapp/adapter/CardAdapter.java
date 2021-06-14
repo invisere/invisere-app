@@ -11,17 +11,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import dam.invisere.gtidic.udl.cat.invisereapp.R;
-import dam.invisere.gtidic.udl.cat.invisereapp.models.Place;
+import dam.invisere.gtidic.udl.cat.invisereapp.models.Route;
 
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
 
-    private List<Place> places;
+    private List<Route> routes;
 
-    public CardAdapter(List<Place> places) {
-        this.places = places;
+    public CardAdapter(List<Route> routes) {
+        this.routes = routes;
     }
 
     @NonNull
@@ -34,12 +35,12 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.setData(places.get(position));
+        holder.setData(routes.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return places.size();
+        return routes.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder{
@@ -53,23 +54,23 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
             kota = itemView.findViewById(R.id.place_phone);
         }
 
-        void setData(Place data) {
+        void setData(Route data) {
             Picasso.get()
-                    .load(data.getPhoto().replace("127.0.0.1", "192.168.101.88"))
+                    .load("http://127.0.0.1:8001/static/media/routes/route.png".replace("127.0.0.1", "192.168.1.157"))
                     .fit()
                     .centerCrop()
                     .into(image);
             nama.setText(data.getName());
-            usia.setText(data.getAdress());
-            kota.setText(data.getPhone());
+            usia.setText(new DecimalFormat("#.##").format(data.getDistance()) + " km");
+            kota.setText(data.getDifficulty());
         }
     }
 
-    public List<Place> getItems() {
-        return places;
+    public List<Route> getItems() {
+        return routes;
     }
 
-    public void setPlaces(List<Place> places) {
-        this.places = places;
+    public void setRoutes(List<Route> routes) {
+        this.routes = routes;
     }
 }

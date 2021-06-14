@@ -158,11 +158,19 @@ if __name__ == "__main__":
 
     for i in range(1, 20):
 
+        diff = random.randint(1,3)
+        if diff == 1:
+            difficulty = "Fàcil"
+        elif diff == 2:
+            difficulty = "Moderat"
+        elif diff == 3:
+            difficulty = "Difícil"
+
         aux_route = Route(
             id=i,
             name = "route"+str(i),
-            distance = i,
-            difficulty = "moderate",
+            distance = random.uniform(0.0,20.0),
+            difficulty = difficulty,
             owner_id = random.randint(1,20),
             points = random.sample(listPlaces, random.randint(3,6))
             # points = [listPlaces[0]]

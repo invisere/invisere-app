@@ -4,13 +4,13 @@ import androidx.recyclerview.widget.DiffUtil;
 
 import java.util.List;
 
-import dam.invisere.gtidic.udl.cat.invisereapp.models.Place;
+import dam.invisere.gtidic.udl.cat.invisereapp.models.Route;
 
 public class CardDiffCallback extends DiffUtil.Callback {
 
-    private List<Place> old, baru;
+    private List<Route> old, baru;
 
-    public CardDiffCallback(List<Place> old, List<Place> baru) {
+    public CardDiffCallback(List<Route> old, List<Route> baru) {
         this.old = old;
         this.baru = baru;
     }
@@ -27,7 +27,7 @@ public class CardDiffCallback extends DiffUtil.Callback {
 
     @Override
     public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-        return old.get(oldItemPosition).getPhoto().replace("127.0.0.1", "192.168.101.88").equals(baru.get(newItemPosition).getPhoto().replace("127.0.0.1", "192.168.101.88"));
+        return old.get(oldItemPosition).getName().equals(baru.get(newItemPosition).getName());
     }
 
     @Override

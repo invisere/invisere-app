@@ -492,15 +492,6 @@ public class AccountRepo extends EntryActivity {
 
                         Log.d(TAG, "Code 200 () -> get_favorite_routes lenght: " + favoriteRoutes.size());
 
-                        Route route = (Route) favoriteRoutes.get(0);
-
-                        Log.d(TAG, "Code 200 () -> get_favorite_routes nom: " + route.getName());
-                        Log.d(TAG, "Code 200 () -> get_favorite_routes distance: " + route.getDistance());
-                        Log.d(TAG, "Code 200 () -> get_favorite_routes points: " + route.getPoints());
-                        Place[] place = route.getPoints();
-
-                        Log.d(TAG, "Code 200 () -> get_favorite_routes name point: " +  place[1].getName());
-
                         favoriteRoutesList.setValue(favoriteRoutes);
                         Log.d(TAG, "Code 200 () -> get_favorite_routes name point: " + favoriteRoutes);
                         //mResponseGetPublicAccount.setValue("Profile loaded successfully.");
@@ -553,6 +544,40 @@ public class AccountRepo extends EntryActivity {
                 String error_msg = "Error: " + t.getMessage();
                 //mResponseGetPublicAccount.setValue(error_msg);
                 ;
+                Log.d(TAG, error_msg);
+            }
+        });
+    }
+
+    public void add_route_favorite(String token, int id){
+        Log.d(TAG, "add_route_favorite() -> he rebut el token: " + token);
+
+        accountService.add_route_favorite(token,id).enqueue(new Callback<PublicProfile>() {
+
+            @Override
+            public void onResponse(Call<PublicProfile> call, Response<PublicProfile> response) {
+
+                int return_code = response.code();
+                Log.d(TAG, "add_route_favorite() -> ha rebut el codi: " + return_code);
+                switch (return_code) {
+                    case 200:
+                        Log.d(TAG, "onResponse: Added id: " + id);
+                        //mResponseGetPublicAccount.setValue("Profile loaded successfully.");
+                        break;
+
+                    default:
+                        String error_msg = "Error: " + response.errorBody();
+                        mResponseGetPublicAccount.setValue(new ReturnCodeImpl(true, return_code, 0));
+                        //mResponseGetPublicAccount.setValue(error_msg);
+                        break;
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PublicProfile> call, Throwable t) {
+                String error_msg = "Error: " + t.getMessage();
+                //mResponseGetPublicAccount.setValue(error_msg);
+                mResponseGetPublicAccount.setValue(new ReturnCodeImpl(false));
                 Log.d(TAG, error_msg);
             }
         });

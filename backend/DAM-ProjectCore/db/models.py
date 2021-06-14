@@ -111,6 +111,7 @@ class Route(SQLAlchemyBase, JSONModel):
     @hybrid_property
     def json_model(self):
         return {
+            "id": self.id,
             "name": self.name,
             "distance": self.distance,
             "difficulty": self.difficulty,
