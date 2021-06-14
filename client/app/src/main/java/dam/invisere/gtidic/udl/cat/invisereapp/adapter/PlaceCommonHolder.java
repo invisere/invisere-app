@@ -30,7 +30,7 @@ public class PlaceCommonHolder {
 
     public void bindHolder(Place p, Location currentLocation) {
         Log.d(TAG, "bindHolder: Place: " + p);
-        Picasso.get().load(p.getPhoto().replace("127.0.0.1", "192.168.101.88")).error(R.drawable.ic_launcher_background).into(placeImage);
+        Picasso.get().load(p.getPhoto().replace("127.0.0.1", "192.168.101.88")).placeholder(R.drawable.progress_animation).error(R.drawable.ic_launcher_background).into(placeImage);
         this.placeName.setText(p.getName());
 
         if (currentLocation != null) {
