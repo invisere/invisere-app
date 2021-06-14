@@ -3,18 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@id/nav_rutes">
-
-<!--    <fragment-->
-<!--        android:id="@+id/nav_rutes"-->
-<!--        android:name="dam.invisere.gtidic.udl.cat.invisereapp.RutesFragment"-->
-<!--        android:label="Rutes"-->
-<!--        tools:layout="@layout/fragment_rutes" />-->
+    app:startDestination="@id/nav_rutes_cards">
 
     <fragment
-        android:id="@+id/nav_rutes"
+        android:id="@+id/nav_rutes_list"
+        android:name="dam.invisere.gtidic.udl.cat.invisereapp.RutesFragment"
+        android:label="Rutes"
+        tools:layout="@layout/fragment_rutes" />
+
+    <fragment
+        android:id="@id/nav_rutes_cards"
         android:name="dam.invisere.gtidic.udl.cat.invisereapp.CardsFragment"
-        android:label="Cards"
+        android:label="Rutes"
         tools:layout="@layout/fragment_cards" />
 
     <fragment

@@ -42,6 +42,7 @@ public class AccountRepo extends EntryActivity {
     private final MutableLiveData<List<Route>> routesList;
     private final MutableLiveData<List<Place>> placesList;
     private final MutableLiveData<List<Route>> ownRoutesList;
+    private final MutableLiveData<List<Route>> favoriteRoutesList;
 
     String token = "";
     public static AccountProfile profile;
@@ -49,6 +50,7 @@ public class AccountRepo extends EntryActivity {
     public static List routes;
     public static List<Place> places;
     public static List ownRoutes;
+    public static List favoriteRoutes;
 
     public AccountRepo() {
         this.token = Preferences.providePreferences().getString("token", "");
@@ -63,6 +65,7 @@ public class AccountRepo extends EntryActivity {
         this.routesList = new MutableLiveData<>();
         this.placesList = new MutableLiveData<>();
         this.ownRoutesList = new MutableLiveData<>();
+        this.favoriteRoutesList = new MutableLiveData<>();
     }
 
     public MutableLiveData<List<Route>> getRoutesList() {
@@ -73,6 +76,9 @@ public class AccountRepo extends EntryActivity {
     }
     public MutableLiveData<List<Route>> getOwnRoutesList() {
         return ownRoutesList;
+    }
+    public MutableLiveData<List<Route>> getFavoriteRoutesList() {
+        return favoriteRoutesList;
     }
 
     public void registerAccount(Account account) {
@@ -450,6 +456,53 @@ public class AccountRepo extends EntryActivity {
 
                         ownRoutesList.setValue(ownRoutes);
                         Log.d(TAG, "Code 200 () -> get_own_routes name point: " + ownRoutesList);
+                        //mResponseGetPublicAccount.setValue("Profile loaded successfully.");
+                        break;
+
+                    default:
+                        String error_msg = "Error: " + response.errorBody();
+                        //mResponseGetPublicAccount.setValue(error_msg);
+                        break;
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Route>> call, Throwable t) {
+                String error_msg = "Error: " + t.getMessage();
+                //mResponseGetPublicAccount.setValue(error_msg);
+                Log.d(TAG, error_msg);
+            }
+        });
+    }
+
+    public void get_favorite_routes(String token){
+        Log.d(TAG, "get_favorite_routes() -> he rebut el token: " + token);
+
+        accountService.get_favorite_routes(token).enqueue(new Callback<List<Route>>() {
+
+            @Override
+            public void onResponse(Call<List<Route>> call, Response<List<Route>> response) {
+
+                int return_code = response.code();
+                Log.d(TAG, "get_favorite_routes -> ha rebut el codi: " + return_code);
+                switch (return_code) {
+                    case 200:
+                        favoriteRoutes = response.body();
+                        Log.d(TAG, "Code 200 () -> get_favorite_routes: " + favoriteRoutes);
+
+                        Log.d(TAG, "Code 200 () -> get_favorite_routes lenght: " + favoriteRoutes.size());
+
+                        Route route = (Route) favoriteRoutes.get(0);
+
+                        Log.d(TAG, "Code 200 () -> get_favorite_routes nom: " + route.getName());
+                        Log.d(TAG, "Code 200 () -> get_favorite_routes distance: " + route.getDistance());
+                        Log.d(TAG, "Code 200 () -> get_favorite_routes points: " + route.getPoints());
+                        Place[] place = route.getPoints();
+
+                        Log.d(TAG, "Code 200 () -> get_favorite_routes name point: " +  place[1].getName());
+
+                        favoriteRoutesList.setValue(favoriteRoutes);
+                        Log.d(TAG, "Code 200 () -> get_favorite_routes name point: " + favoriteRoutes);
                         //mResponseGetPublicAccount.setValue("Profile loaded successfully.");
                         break;
 

@@ -73,6 +73,11 @@ public class AccountServiceImpl implements AccountServiceI {
     }
 
     @Override
+    public Call<List<Route>> get_favorite_routes(String token) {
+        return retrofit.create(AccountServiceI.class).get_favorite_routes(token);
+    }
+
+    @Override
     public Call<List<Place>> get_places(String token){
         return retrofit.create(AccountServiceI.class).get_places(token);
     }

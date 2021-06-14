@@ -3,13 +3,18 @@ package dam.invisere.gtidic.udl.cat.invisereapp;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DiffUtil;
 
@@ -19,6 +24,8 @@ import com.yuyakaido.android.cardstackview.CardStackView;
 import com.yuyakaido.android.cardstackview.Direction;
 import com.yuyakaido.android.cardstackview.StackFrom;
 import com.yuyakaido.android.cardstackview.SwipeableMethod;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +42,7 @@ public class CardsFragment extends Fragment {
     private CardStackLayoutManager manager;
     private CardAdapter adapter;
     private AccountRepo accountRepo;
+    private View view;
 
     public CardsFragment() {}
 
@@ -47,7 +55,8 @@ public class CardsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_cards, container, false);
+        setHasOptionsMenu(true);
+        view = inflater.inflate(R.layout.fragment_cards, container, false);
         accountRepo = new AccountRepo();
         accountRepo.get_places(Utils.getToken());
         accountRepo.getPlacesList().observe(getViewLifecycleOwner(), places -> init(view));
@@ -56,6 +65,7 @@ public class CardsFragment extends Fragment {
 
     private void init(View view) {
         CardStackView cardStackView = view.findViewById(R.id.card_stack_view);
+        adapter = new CardAdapter(addCards());
         manager = new CardStackLayoutManager(getContext(), new CardStackListener() {
             @Override
             public void onCardDragging(Direction direction, float ratio) {
@@ -111,10 +121,9 @@ public class CardsFragment extends Fragment {
         manager.setCanScrollHorizontal(true);
         manager.setSwipeableMethod(SwipeableMethod.Manual);
         manager.setOverlayInterpolator(new LinearInterpolator());
-        adapter = new CardAdapter(addCards());
         cardStackView.setLayoutManager(manager);
-        cardStackView.setAdapter(adapter);
         cardStackView.setItemAnimator(new DefaultItemAnimator());
+        cardStackView.setAdapter(adapter);
     }
 
     private void paginate() {
@@ -132,5 +141,20 @@ public class CardsFragment extends Fragment {
             places.add(new Place(p.getName(), p.getPhoto().replace("127.0.0.1", "192.168.101.88"), p.getAdress(), p.getPhone()));
         }
         return places;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull @NotNull Menu menu, @NonNull @NotNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.fragment_rutes_cards_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull @NotNull MenuItem item) {
+        if(item.getItemId() == R.id.favoriteRoutes) {
+            Log.d(TAG, "onOptionsItemSelected: going to list");
+            Navigation.findNavController(view).navigate(R.id.nav_rutes_list);
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

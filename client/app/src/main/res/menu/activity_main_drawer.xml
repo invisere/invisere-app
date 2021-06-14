@@ -5,7 +5,7 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_rutes"
+            android:id="@+id/nav_rutes_cards"
             android:icon="@android:drawable/ic_dialog_map"
             android:title="Rutes" />
         <item

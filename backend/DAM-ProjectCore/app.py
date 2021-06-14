@@ -47,6 +47,7 @@ application.add_route("/users/show/{username}", user_resources.ResourceGetUserPr
 
 application.add_route("/routes", routes_resources.ResourceGetRoutes())
 application.add_route("/routes/own", routes_resources.ResourceGetOwnRoutes())
+application.add_route("/routes/favorites", routes_resources.ResourceGetFavourites())
 application.add_route("/routes/favorites/add/{id:int}", routes_resources.ResourceAddToFavourites())
 application.add_route("/routes/favorites/delete/{id:int}", routes_resources.ResourceDeleteFromFavourites())
 

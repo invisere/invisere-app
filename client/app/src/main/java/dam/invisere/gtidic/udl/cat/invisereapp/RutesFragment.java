@@ -1,14 +1,22 @@
 package dam.invisere.gtidic.udl.cat.invisereapp;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import org.jetbrains.annotations.NotNull;
 
 import dam.invisere.gtidic.udl.cat.invisereapp.adapter.RouteAdapter;
 import dam.invisere.gtidic.udl.cat.invisereapp.adapter.RouteDiffCallback;
@@ -16,9 +24,11 @@ import dam.invisere.gtidic.udl.cat.invisereapp.viewmodels.ListRoutesViewModel;
 
 public class RutesFragment extends Fragment {
 
+    private static final String TAG = "RutesFragment";
     public RecyclerView recyclerView;
     public ListRoutesViewModel listRoutesViewModel;
     public RouteAdapter routeAdapter;
+    private View view;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -28,7 +38,8 @@ public class RutesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_rutes, container, false);
+        view = inflater.inflate(R.layout.fragment_rutes, container, false);
+        setHasOptionsMenu(true);
 
         listRoutesViewModel = new ListRoutesViewModel();
         routeAdapter = new RouteAdapter(new RouteDiffCallback());
@@ -41,11 +52,26 @@ public class RutesFragment extends Fragment {
     }
 
     public void initView(){
-        listRoutesViewModel.getRoutes();
+        listRoutesViewModel.getFavoriteRoutes();
 
-        listRoutesViewModel.returnRoutes().observe((LifecycleOwner) getContext(), routes -> {
+        listRoutesViewModel.returnFavoriteRoutes().observe((LifecycleOwner) getContext(), routes -> {
             routeAdapter.submitList(routes);
             //listRoutesViewModel.getRoutes();
         });
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull @NotNull Menu menu, @NonNull @NotNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.fragment_rutes_list_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull @NotNull MenuItem item) {
+        if(item.getItemId() == R.id.cardsRoutes) {
+            Log.d(TAG, "onOptionsItemSelected: going to cards");
+            Navigation.findNavController(view).navigate(R.id.nav_rutes_cards);
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

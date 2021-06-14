@@ -40,7 +40,7 @@ public class MainActivity extends AuthActivity{
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_rutes, R.id.nav_punts, R.id.nav_gimcanes, R.id.nav_escapes)
+                R.id.nav_rutes_cards, R.id.nav_punts, R.id.nav_gimcanes, R.id.nav_escapes)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);

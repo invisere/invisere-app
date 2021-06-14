@@ -60,6 +60,9 @@ public interface AccountServiceI {
     @GET("/routes/own")
     Call<List<Route>> get_own_routes(@Header("Authorization") String token);
 
+    @GET("/routes/favorites")
+    Call<List<Route>> get_favorite_routes(@Header("Authorization") String token);
+
     @GET("/places")
     Call<List<Place>> get_places(@Header("Authorization") String token);
 }

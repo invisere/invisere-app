@@ -58,6 +58,28 @@ class ResourceGetOwnRoutes(DAMCoreResource):
 
 
 @falcon.before(requires_auth)
+class ResourceGetFavourites(DAMCoreResource):
+
+    def on_get(self, req, resp, *args, **kwargs):
+        super(ResourceGetFavourites, self).on_get(req, resp, *args, **kwargs)
+        # Filters
+    
+        routes = list()
+        current_user = req.context["auth_user"]
+        query = self.db_session.query(UserRoutesAssociation).filter(UserRoutesAssociation.user_id == current_user.id)
+        query = query.filter(UserRoutesAssociation.favourite == True)
+
+        if query is not None:
+            for route in query.all():
+                _route = self.db_session.query(Route).filter(Route.id == route.route_id).one_or_none()
+                if _route is not None:
+                    routes.append(_route.json_model)
+
+        resp.media = routes
+        resp.status = falcon.HTTP_200
+
+
+@falcon.before(requires_auth)
 class ResourceAddToFavourites(DAMCoreResource):
      def on_post(self, req, resp, *args, **kwargs):
         super(ResourceAddToFavourites, self).on_post(req, resp, *args, **kwargs)

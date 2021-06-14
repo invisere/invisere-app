@@ -21,8 +21,16 @@ public class ListRoutesViewModel extends ViewModel {
         accountRepo.get_routes(Utils.getToken());
     }
 
+    public void getFavoriteRoutes() {
+        accountRepo.get_favorite_routes(Utils.getToken());
+    }
+
     public MutableLiveData<List<Route>> returnRoutes() {
         return this.accountRepo.getRoutesList();
+    }
+
+    public MutableLiveData<List<Route>> returnFavoriteRoutes() {
+        return this.accountRepo.getFavoriteRoutesList();
     }
 
 }
