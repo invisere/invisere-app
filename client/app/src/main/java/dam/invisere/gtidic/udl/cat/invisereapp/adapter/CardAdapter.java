@@ -56,7 +56,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
 
         void setData(Route data) {
             Picasso.get()
-                    .load("http://127.0.0.1:8001/static/media/routes/route.png".replace("127.0.0.1", "192.168.1.157"))
+                    .load("http://127.0.0.1:8001/static/media/routes/route.png".replace("127.0.0.1", "192.168.101.88"))
                     .fit()
                     .centerCrop()
                     .into(image);
