@@ -1,6 +1,5 @@
-version: '3.7'
+version: "3.7"
 services:
-
   static-file-server:
     image: nginx:latest
     ports:
@@ -35,15 +34,11 @@ services:
     ports:
       - 3306:3306
     cap_add:
-      - SYS_NICE  # CAP_SYS_NIC
-
+      - SYS_NICE # CAP_SYS_NIC
 
   adminer_container:
-      image: adminer:latest
-      environment:
-        ADMINER_DEFAULT_SERVER: mysql_db_container
-      ports:
-        - 8080:8080
-
-
-
+    image: adminer:latest
+    environment:
+      ADMINER_DEFAULT_SERVER: mysql_db_container
+    ports:
+      - 8080:8080

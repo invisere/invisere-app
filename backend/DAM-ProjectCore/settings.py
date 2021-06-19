@@ -10,7 +10,7 @@ import sqlalchemy_utils
 if "DAMCore_DB_HOST" in os.environ:
     DB_HOST = os.environ["DAMCore_DB_HOST"]
 else:
-    DB_HOST = "127.0.0.1"
+    DB_HOST = "167.99.8.182"
 
 
 DB_PORT = "3306"
@@ -35,7 +35,7 @@ DATETIME_DEFAULT_FORMAT = "{date} {time}".format(date=DATE_DEFAULT_FORMAT, time=
 MAX_USER_TOKENS = 5
 
 # Static files settings
-STATIC_HOSTNAME = "127.0.0.1:8001"
+STATIC_HOSTNAME = "167.99.8.182:8001"
 STATIC_DIRECTORY = os.path.join(os.path.abspath(__file__), "../../static", )
 STATIC_URL = "static/"
 MEDIA_PREFIX = "media/"
